@@ -7,6 +7,7 @@ import  { dataCategories } from '../data/eventData';
 
 export function DemoApp() {
   const [openCreateForm, setOpenCreateForm] = useState(false);
+  const [eventInfo, setEventInfo] = useState({})
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const handleOpenCreateForm = () => {
@@ -51,7 +52,7 @@ export function DemoApp() {
       {...options}
         events={events}
       />
-     <CreateEventForm openCreateForm={openCreateForm} setOpenCreateForm={setOpenCreateForm} startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate}  />
+     <CreateEventForm eventInfo={eventInfo} setEventInfo={setEventInfo} openCreateForm={openCreateForm} setOpenCreateForm={setOpenCreateForm} startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate}  />
     </div>
   )
 }

@@ -7,7 +7,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
 import  { dataCategories } from '../data/eventData';
 
-const CreateEventForm = ({ openCreateForm, setOpenCreateForm, startDate, setStartDate, endDate, setEndDate}) => {
+const CreateEventForm = ({ eventInfo, setEventInfo, openCreateForm, setOpenCreateForm, startDate, setStartDate, endDate, setEndDate}) => {
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState('');
     const [mandatory, setMandatory] = useState(true);
@@ -46,8 +46,10 @@ const CreateEventForm = ({ openCreateForm, setOpenCreateForm, startDate, setStar
         setEndDate(event.target.value);
     };
     const handleSubmit = (event) => {
+        const info = { title, category, mandatory, startDate, endDate }
         event.preventDefault();
-        console.log(event.target.value)
+        console.log(info)
+        setEventInfo(info)
     }
 
     return (
@@ -93,15 +95,15 @@ const CreateEventForm = ({ openCreateForm, setOpenCreateForm, startDate, setStar
                     <DemoContainer components={['DateTimePicker', 'DateTimePicker']} >
                         <DateTimePicker
                         label="Start Date"
-                        value={dayjs(startDate)}
-                        onChange={handleChangeStartDate}
-                        
+                        defaultValue={dayjs(startDate)}
+                        onAccept={handleChangeStartDate}
+                        ampm={false}
                         />
                         <DateTimePicker
                         label="End Date"
-                        value={dayjs(endDate)}
-                        onChange={handleChangeEndDate}
-                        
+                        defaultValue={dayjs(endDate)}
+                        onAccept={handleChangeEndDate}
+                        ampm={false}
                         />
                     </DemoContainer>
                 </LocalizationProvider>
