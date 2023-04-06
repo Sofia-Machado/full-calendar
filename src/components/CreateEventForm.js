@@ -4,7 +4,7 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-
+import dayjs from 'dayjs';
 import  { dataCategories } from '../data/eventData';
 
 const CreateEventForm = ({ openCreateForm, setOpenCreateForm, startDate, setStartDate, endDate, setEndDate}) => {
@@ -51,7 +51,7 @@ const CreateEventForm = ({ openCreateForm, setOpenCreateForm, startDate, setStar
     }
 
     return (
-        <form action={() => handleSubmit()}>
+        <form onSubmit={handleSubmit}>
             <Modal
             open={openCreateForm}
             onClose={handleCloseCreateForm}
@@ -93,13 +93,13 @@ const CreateEventForm = ({ openCreateForm, setOpenCreateForm, startDate, setStar
                     <DemoContainer components={['DateTimePicker', 'DateTimePicker']} >
                         <DateTimePicker
                         label="Start Date"
-                        value={startDate}
+                        value={dayjs(startDate)}
                         onChange={handleChangeStartDate}
                         
                         />
                         <DateTimePicker
                         label="End Date"
-                        value={endDate}
+                        value={dayjs(endDate)}
                         onChange={handleChangeEndDate}
                         
                         />

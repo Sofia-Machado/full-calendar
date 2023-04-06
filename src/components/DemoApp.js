@@ -35,8 +35,7 @@ export function DemoApp() {
     select: function(start) {
       setStartDate(start.startStr.slice(0 , 16));
       setEndDate(start.endStr.slice(0 , 16));
-      console.log(startDate);
-      console.log(endDate);
+      handleOpenCreateForm();
     },
   }
 
