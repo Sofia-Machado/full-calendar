@@ -7,6 +7,8 @@ import  { dataCategories } from '../data/eventData';
 
 export function DemoApp() {
   const [openCreateForm, setOpenCreateForm] = useState(false);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const handleOpenCreateForm = () => {
     setOpenCreateForm(true);
   };
@@ -30,9 +32,11 @@ export function DemoApp() {
     },
     nowIndicator: true,
     selectable: true,
-    select: function(start, end) {
-      handleOpenCreateForm();
-     console.log(start.startStr)
+    select: function(start) {
+      setStartDate(start.startStr.slice(0 , 16));
+      setEndDate(start.endStr.slice(0 , 16));
+      console.log(startDate);
+      console.log(endDate);
     },
   }
 
@@ -48,7 +52,7 @@ export function DemoApp() {
       {...options}
         events={events}
       />
-     <CreateEventForm openCreateForm={openCreateForm} setOpenCreateForm={setOpenCreateForm} />
+     <CreateEventForm openCreateForm={openCreateForm} setOpenCreateForm={setOpenCreateForm} startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate}  />
     </div>
   )
 }
