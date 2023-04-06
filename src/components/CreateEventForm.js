@@ -54,7 +54,10 @@ const CreateEventForm = ({ handleEvents, calendar, events, eventInfo, setEventIn
             title,
             start: startDate, 
             end: endDate,
-
+            extendedProps: {
+                category,
+                mandatory
+            }
         });
         handleCloseCreateForm()
         console.log(calendar.current.props.events)
