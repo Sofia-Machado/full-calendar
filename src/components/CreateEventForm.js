@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Box, FormControl, InputLabel, MenuItem, Modal, Select, TextField } from '@mui/material';
+import { Box, FormControl, FormControlLabel, FormGroup, InputLabel, MenuItem, Modal, Select, Switch, TextField } from '@mui/material';
 import  { dataCategories } from '../data/eventData';
 
 const CreateEventForm = ({openCreateForm, setOpenCreateForm}) => {
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState('');
-    const [type, setType] = useState('');
+    const [mandatory, setMandatory] = useState(true);
 
     const style = {
         position: 'absolute',
@@ -28,6 +28,9 @@ const CreateEventForm = ({openCreateForm, setOpenCreateForm}) => {
     const handleChangeCategory = (event) => {
         setCategory(event.target.value);
     };
+    const handleChangeType = (event) => {
+        setMandatory(prevState => !prevState);
+    };
 
     return ( 
         <Modal
@@ -43,27 +46,28 @@ const CreateEventForm = ({openCreateForm, setOpenCreateForm}) => {
             <h2 id="create-event-title">CreateEvent</h2>
             <TextField
                 required
-                id="create-event-title"
+                id="create-event-title-textfield"
                 label="Insert Event"
                 placeholder="Insert event"
                 variant="standard"
             />
-            
-            <FormControl variant="standard" sx={{ display: 'grid', mt: 1, maxWidth: 120 }}>
-            <InputLabel id="demo-simple-select-standard-label">Category</InputLabel>
-            <Select
-                required
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                label="Choose category"
-                placeholder='Choose category'
-                onChange={handleChangeCategory}
-            >
-                {dataCategories.map(category => {
-                    return <MenuItem value={category}>{category}</MenuItem>
-                })}
-            </Select>
+            <FormControl variant="standard" sx={{ display: 'grid', mt: 2, maxWidth: 120 }}>
+                <InputLabel id="create-event-category">Category</InputLabel>
+                <Select
+                    required
+                    id="create-event-category-select"
+                    label="Choose category"
+                    placeholder='Choose category'
+                    onChange={handleChangeCategory}
+                >
+                    {dataCategories.map(category => {
+                        return <MenuItem key={category} value={category}>{category}</MenuItem>
+                    })}
+                </Select>
             </FormControl>
+            <FormGroup sx={{mt: 2}}>
+                <FormControlLabel control={<Switch color='error' checked={mandatory} onChange={handleChangeType} />} label="Obligatoire" />
+            </FormGroup>
         </Box>
         </Modal>
      );
