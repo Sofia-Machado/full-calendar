@@ -11,6 +11,7 @@ const CreateEventForm = ({ handleEvents, calendar, events, eventInfo, setEventIn
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState('');
     const [mandatory, setMandatory] = useState(true);
+    const [bgColor, seBgColor] = useState()
 
     const style = {
         position: 'absolute',
@@ -48,6 +49,7 @@ const CreateEventForm = ({ handleEvents, calendar, events, eventInfo, setEventIn
         setEndDate(event);
     };
     const handleSubmit = (event) => {
+
         event.preventDefault();
         calendar.current.calendar.addEvent({
             title,

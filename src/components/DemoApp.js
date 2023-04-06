@@ -16,6 +16,7 @@ export function DemoApp() {
   const [endDate, setEndDate] = useState(new Date());
   const [customEvents, setCustomEvents] = useState(events);
 
+  
   const handleOpenCreateForm = () => {
     setOpenCreateForm(true);
   };
@@ -72,11 +73,6 @@ export function DemoApp() {
   return (
     <div>
       <h1>Demo App</h1>
-      <ul id='draggable'>
-            {list.map(item => {
-                return <li key={item.id} data-event={item} className='draggable-item' draggable>{item.title}</li>
-            })}
-        </ul>
       <FullCalendar
         ref={calendar}
         {...options}
