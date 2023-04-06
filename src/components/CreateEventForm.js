@@ -7,7 +7,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
 import  { dataCategories } from '../data/eventData';
 
-const CreateEventForm = ({ eventInfo, setEventInfo, openCreateForm, setOpenCreateForm, startDate, setStartDate, endDate, setEndDate}) => {
+const CreateEventForm = ({ handleEvents, calendar, events, eventInfo, setEventInfo, openCreateForm, setOpenCreateForm, startDate, setStartDate, endDate, setEndDate}) => {
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState('');
     const [mandatory, setMandatory] = useState(true);
@@ -40,16 +40,24 @@ const CreateEventForm = ({ eventInfo, setEventInfo, openCreateForm, setOpenCreat
         setMandatory(prevState => !prevState);
     };
     const handleChangeStartDate = (event) => {
+        console.log(event.target.value)
         setStartDate(event.target.value);
     };
     const handleChangeEndDate = (event) => {
-        setEndDate(event.target.value);
+        console.log(event)
+        setEndDate(event);
     };
     const handleSubmit = (event) => {
-        const info = { title, category, mandatory, startDate, endDate }
         event.preventDefault();
-        console.log(info)
-        setEventInfo(info)
+        const info = { title, category, mandatory, startDate, endDate };
+        calendar.current.calendar.addEvent({
+            title,
+            start: startDate, 
+            end: endDate,
+
+        });
+        handleCloseCreateForm()
+        console.log(calendar.current.props.events)
     }
 
     return (
@@ -95,14 +103,15 @@ const CreateEventForm = ({ eventInfo, setEventInfo, openCreateForm, setOpenCreat
                     <DemoContainer components={['DateTimePicker', 'DateTimePicker']} >
                         <DateTimePicker
                         label="Start Date"
-                        defaultValue={dayjs(startDate)}
+                        value={dayjs(startDate)}
                         onAccept={handleChangeStartDate}
                         ampm={false}
                         />
                         <DateTimePicker
                         label="End Date"
-                        defaultValue={dayjs(endDate)}
+                        value={dayjs(endDate)}
                         onAccept={handleChangeEndDate}
+                        minTime={dayjs(startDate)}
                         ampm={false}
                         />
                     </DemoContainer>
