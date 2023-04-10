@@ -4,10 +4,11 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import DeleteIcon from '@mui/icons-material/Delete';
 import dayjs from 'dayjs';
 import  { dataCategories } from '../data/eventData';
 
-const CreateEventForm = ({ handleEvents, calendar, events, eventInfo, setEventInfo, openCreateForm, setOpenCreateForm, startDate, setStartDate, endDate, setEndDate}) => {
+const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateForm, setOpenCreateForm, startDate, setStartDate, endDate, setEndDate}) => {
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState('');
     const [mandatory, setMandatory] = useState(true);
@@ -100,6 +101,11 @@ const CreateEventForm = ({ handleEvents, calendar, events, eventInfo, setEventIn
         }
     }
 
+    const handleDelete = () => {
+        handleEventRemove(eventInfo.id);
+        handleCloseCreateForm();
+      };
+
     return (
         <form onSubmit={handleSubmit}>
             <Modal
@@ -159,6 +165,9 @@ const CreateEventForm = ({ handleEvents, calendar, events, eventInfo, setEventIn
                     </DemoContainer>
                 </LocalizationProvider>
                 <Button type="submit" variant="outlined" sx={{mt: 3}}>Submit</Button>
+                {eventInfo &&
+                <Button onClick={handleDelete}><svg data-testid="DeleteIcon"></svg></Button>
+                }
             </Box>
             </Modal>
         </form> 

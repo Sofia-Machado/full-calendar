@@ -1,13 +1,9 @@
 import FullCalendar from '@fullcalendar/react';
-import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
+import interactionPlugin, { Draggable, EventDropArg } from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import CreateEventForm from './CreateEventForm';
 import DraggableEvents from './DraggableEvents';
-
-const events = [
-  { title: 'Meeting', start: new Date() }
-]
 
 let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of today
   const list = [
@@ -37,6 +33,35 @@ export function DemoApp() {
   const [endDate, setEndDate] = useState(new Date());
   const [customEvents, setCustomEvents] = useState(list);
 
+  const draggableRef = useRef(null);
+
+  useEffect(() => {
+    console.log(draggableRef.current)
+    if (draggableRef.current) {
+      new Draggable(draggableRef.current, {
+        eventData: function(eventEl) {
+          const title = eventEl.getAttribute('data-title');
+          const category = eventEl.getAttribute('data-category');
+          const mandatory = eventEl.getAttribute('data-mandatory') === 'true';
+          return {
+            title: title,
+            startEditable: true,
+            extendedProps: {
+              category: category,
+              mandatory: mandatory
+            }
+          };
+        }
+      });
+    }
+  }, []);
+  
+  const handleEventRemove = (id) => {
+    setCustomEvents((events) => {
+      return events.filter((event) => event.id !== id);
+    });
+    setOpenCreateForm(false);
+  };
   
   const handleOpenCreateForm = () => {
     setOpenCreateForm(true);
@@ -50,6 +75,10 @@ export function DemoApp() {
       interactionPlugin 
     ],
     droppable: true,
+      eventReceive: function (info) {
+    const event = info.event.toPlainObject();
+    setCustomEvents([...customEvents, event]);
+  },
     initialView: 'timeGridDay',
     weekends: false,
     slotMinTime: "09:00:00", 
@@ -69,6 +98,7 @@ export function DemoApp() {
     nowIndicator: true,
     selectable: true,
     editable: true,
+    eventRemove: handleEventRemove,
     select: function(info) {
       if (info.start && !info.event) {
         setEventInfo(null);
@@ -82,6 +112,9 @@ export function DemoApp() {
   return (
     <div>
       <h1>Demo App</h1>
+      <div ref={draggableRef}>
+        <DraggableEvents />
+      </div>
       <FullCalendar
         ref={calendar}
         {...options}
@@ -92,7 +125,7 @@ export function DemoApp() {
           handleOpenCreateForm()
         }}
       />
-     <CreateEventForm customEvents={customEvents} calendar={calendar} eventInfo={eventInfo} setEventInfo={setEventInfo} openCreateForm={openCreateForm} setOpenCreateForm={setOpenCreateForm} startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate}  />
+     <CreateEventForm handleEventRemove={handleEventRemove} customEvents={customEvents} calendar={calendar} eventInfo={eventInfo} setEventInfo={setEventInfo} openCreateForm={openCreateForm} setOpenCreateForm={setOpenCreateForm} startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate}  />
     </div>
   )
 }
