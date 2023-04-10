@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Button, FormControl, FormControlLabel, FormGroup, InputLabel, MenuItem, Modal, Select, Switch, TextField } from '@mui/material';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -11,6 +11,21 @@ const CreateEventForm = ({ handleEvents, calendar, events, eventInfo, setEventIn
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState('');
     const [mandatory, setMandatory] = useState(true);
+
+    
+  useEffect(() => {
+    if (eventInfo) {
+        setTitle(eventInfo.title);
+        setCategory(eventInfo?.extendedProps?.category || '')
+        setMandatory(eventInfo?.extendedProps?.mandatory || true)
+        setStartDate(dayjs(eventInfo.start));
+        setEndDate(dayjs(eventInfo.end));
+    } else {
+        setTitle('');
+        setCategory('')
+        setMandatory(true);
+    }
+  }, [eventInfo]);
 
     const style = {
         position: 'absolute',
@@ -39,27 +54,50 @@ const CreateEventForm = ({ handleEvents, calendar, events, eventInfo, setEventIn
     const handleChangeType = () => {
         setMandatory(prevState => !prevState);
     };
-    const handleChangeStartDate = (event) => {
-        console.log(event.target.value)
-        setStartDate(event.target.value);
-    };
-    const handleChangeEndDate = (event) => {
-        console.log(event)
-        setEndDate(event);
-    };
+    const handleChangeStartDate = (date) => {
+        setStartDate(date);
+        // Check if start date is after end date
+        if (dayjs(date).isAfter(dayjs(endDate))) {
+          // If start date is after end date, set end date to start date + 1 hour
+          setTimeout(() => setEndDate(dayjs(date).add(1, 'hour').toDate()), 800);
+          
+        }
+      };
+      const handleChangeEndDate = (date) => {
+        setEndDate(date);
+        // Check if end date is before start date
+        if (dayjs(date).isBefore(dayjs(startDate))) {
+          // If end date is before start date, set start date to end date - 1 hour
+          setTimeout(() => setStartDate(dayjs(date).subtract(1, 'hour').toDate()), 800);
+        }
+      };
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        calendar.current.calendar.addEvent({
-            title,
-            start: startDate, 
-            end: endDate,
-            extendedProps: {
-                category,
-                mandatory
-            }
-        });
-        handleCloseCreateForm()
-        console.log(calendar.current.props.events)
+        if (!calendar.current.props.events.includes(event)) {
+            calendar.current.calendar.addEvent({
+                title,
+                start: startDate, 
+                end: endDate,
+                extendedProps: {
+                    category,
+                    mandatory
+                }
+            });
+            handleCloseCreateForm()
+        }
+        else {
+            calendar.current.calendar.eventChange({
+                title,
+                start: startDate, 
+                end: endDate,
+                extendedProps: {
+                    category,
+                    mandatory
+                }
+            });
+            handleCloseCreateForm()
+        }
     }
 
     return (
@@ -81,6 +119,7 @@ const CreateEventForm = ({ handleEvents, calendar, events, eventInfo, setEventIn
                     label="Insert Event"
                     placeholder="Insert event"
                     variant="standard"
+                    value={title}
                     onChange={handleChangeTitle}
                     sx={{ display: 'grid' }}
                 />
@@ -92,9 +131,10 @@ const CreateEventForm = ({ handleEvents, calendar, events, eventInfo, setEventIn
                         label="Choose category"
                         placeholder='Choose category'
                         onChange={handleChangeCategory}
+                        value={category}
                     >
-                        {dataCategories.map(category => {
-                            return <MenuItem key={category} value={category}>{category}</MenuItem>
+                        {dataCategories.map(dateCategory => {
+                            return <MenuItem key={dateCategory} value={dateCategory}>{dateCategory}</MenuItem>
                         })}
                     </Select>
                 </FormControl>
@@ -106,13 +146,13 @@ const CreateEventForm = ({ handleEvents, calendar, events, eventInfo, setEventIn
                         <DateTimePicker
                         label="Start Date"
                         value={dayjs(startDate)}
-                        onAccept={handleChangeStartDate}
+                        onChange={handleChangeStartDate}
                         ampm={false}
                         />
                         <DateTimePicker
                         label="End Date"
                         value={dayjs(endDate)}
-                        onAccept={handleChangeEndDate}
+                        onChange={handleChangeEndDate}
                         minTime={dayjs(startDate)}
                         ampm={false}
                         />

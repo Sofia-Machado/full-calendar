@@ -9,19 +9,7 @@ const events = [
   { title: 'Meeting', start: new Date() }
 ]
 
-export function DemoApp() {
-  const [openCreateForm, setOpenCreateForm] = useState(false);
-  const [eventInfo, setEventInfo] = useState({})
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-  const [customEvents, setCustomEvents] = useState(events);
-
-  
-  const handleOpenCreateForm = () => {
-    setOpenCreateForm(true);
-  };
-
-  let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of today
+let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of today
   const list = [
       {
           id: 1,
@@ -41,6 +29,18 @@ export function DemoApp() {
       }
   ]
 
+
+export function DemoApp() {
+  const [openCreateForm, setOpenCreateForm] = useState(false);
+  const [eventInfo, setEventInfo] = useState({})
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [customEvents, setCustomEvents] = useState(list);
+
+  
+  const handleOpenCreateForm = () => {
+    setOpenCreateForm(true);
+  };
   
   //calendar options
   const calendar = useRef();
@@ -60,12 +60,21 @@ export function DemoApp() {
       minute: '2-digit',
       hour12: false
     },
+    eventTimeFormat: {
+      hour: '2-digit',
+      minute: '2-digit',
+      meridiem: false,
+      hour12: false
+    },
     nowIndicator: true,
     selectable: true,
     editable: true,
-    select: function(start) {
-      setStartDate(start.startStr.slice(0 , 19));
-      setEndDate(start.endStr.slice(0 , 19));
+    select: function(info) {
+      if (info.start && !info.event) {
+        setEventInfo(null);
+      }
+      setStartDate(info.startStr.slice(0 , 19));
+      setEndDate(info.endStr.slice(0 , 19));
       handleOpenCreateForm();
     },
   }
@@ -76,10 +85,14 @@ export function DemoApp() {
       <FullCalendar
         ref={calendar}
         {...options}
-        events={events}
+        events={customEvents}
         eventContent={renderEventContent}
+        eventClick={(e) => {
+          setEventInfo(e.event);
+          handleOpenCreateForm()
+        }}
       />
-     <CreateEventForm events={events} calendar={calendar} eventInfo={eventInfo} setEventInfo={setEventInfo} openCreateForm={openCreateForm} setOpenCreateForm={setOpenCreateForm} startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate}  />
+     <CreateEventForm customEvents={customEvents} calendar={calendar} eventInfo={eventInfo} setEventInfo={setEventInfo} openCreateForm={openCreateForm} setOpenCreateForm={setOpenCreateForm} startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate}  />
     </div>
   )
 }
