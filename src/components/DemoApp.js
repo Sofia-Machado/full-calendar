@@ -100,7 +100,6 @@ export function DemoApp() {
     const icon = isMandatory ? <i className="fa-solid fa-lock"></i> : null;
     return (
       <>
-        
         <b>{eventInfo.timeText}</b>
         <span>{icon}</span><i>{eventInfo.event.title}</i>
       </>
