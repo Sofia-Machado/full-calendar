@@ -29,12 +29,12 @@ let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of tod
             category: 'Vie',
             mandatory: false,
             resourceEditable: true,
+            editable: true,
           },
           start: todayStr + 'T14:00:00',
           end: todayStr + 'T14:15:00',
           backgroundColor: '#44936c',
           borderColor: '#44936c',
-          editable: true,
           classNames: ''
       }
   ]

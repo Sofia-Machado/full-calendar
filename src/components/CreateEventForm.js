@@ -14,7 +14,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const [mandatory, setMandatory] = useState(true);
     const [backColor, setBackColor] = useState('#3788d8');
 
-
+    
   
   useEffect(() => {
       if (eventInfo) {
@@ -66,17 +66,22 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
         setMandatory(prevState => !prevState);
     };
     const handleChangeStartDate = (date) => {
+        let isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
+        dayjs.extend(isSameOrAfter);
         setStartDate(date);
+        
         // Check if start date is after end date
-        if (dayjs(date).isAfter(dayjs(endDate)) || dayjs(date).isSame(dayjs(endDate))) {
+        if (dayjs(date).isSameOrAfter(endDate)) {
           // If start date is after end date, set end date to start date + 1 hour
           setTimeout(() => setEndDate(dayjs(date).add(15, 'minutes')), 800); 
         }
       };
       const handleChangeEndDate = (date) => {
+        let isSameOrBefore = require('dayjs/plugin/isSameOrBefore');
+        dayjs.extend(isSameOrBefore);
         setEndDate(date);
         // Check if end date is before start date
-        if (dayjs(date).isBefore(dayjs(startDate)) || dayjs(date).isSame(dayjs(startDate))) {
+        if (dayjs(date).isSameOrBefore(startDate)) {
           // If end date is before start date, set start date to end date - 1 hour
           setTimeout(() => setStartDate(dayjs(date).subtract(15, 'minutes')), 800);
         }
@@ -170,13 +175,15 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                         value={dayjs(startDate)}
                         onChange={handleChangeStartDate}
                         ampm={false}
+                        minTime={dayjs().set('hour', 7)}
+                        maxTime={dayjs().set('hour', 18)}
                         />
                         <DateTimePicker
                         label="End Date"
                         value={dayjs(endDate)}
                         onChange={handleChangeEndDate}
-                        minTime={dayjs(startDate)}
                         ampm={false}
+                        maxTime={dayjs().set('hour', 18)}
                         />
                     </DemoContainer>
                 </LocalizationProvider>
