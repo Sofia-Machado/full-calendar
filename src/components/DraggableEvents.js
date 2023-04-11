@@ -32,7 +32,7 @@ const DraggableEvents = () => {
   };
 
   return (
-    <ul>
+    <ul className="draggable-list">
       {list.map((item) => {
         const isSelected = selectedItemId === item.id;
         return (

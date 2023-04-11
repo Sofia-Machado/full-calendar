@@ -13,8 +13,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const [category, setCategory] = useState('');
     const [mandatory, setMandatory] = useState(false);
     const [backColor, setBackColor] = useState('#3788d8');
-
-    
+    const [debounceTimeoutId, setDebounceTimeoutId] = useState(null);    
   
   useEffect(() => {
       if (eventInfo) {
@@ -73,7 +72,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
         // Check if start date is after end date
         if (dayjs(date).isSameOrAfter(endDate)) {
           // If start date is after end date, set end date to start date + 15 minutes
-          setTimeout(() => setEndDate(dayjs(date).add(15, 'minutes')), 800); 
+          setEndDate(dayjs(date).add(15, 'minutes')); 
         }
       };
       const handleChangeEndDate = (date) => {
@@ -84,7 +83,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
         // Check if end date is before start date
         if (dayjs(date).isSameOrBefore(startDate)) {
           // If end date is before start date, set start date to end date - 15 minutes
-          setTimeout(() => setStartDate(dayjs(date).subtract(15, 'minutes')), 800);
+          setStartDate(dayjs(date).subtract(15, 'minutes'));
         }
       };
 
@@ -174,7 +173,11 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                         <DateTimePicker
                         label="Start Date"
                         value={dayjs(startDate)}
-                        onChange={handleChangeStartDate}
+                        onChange={(e) => {
+                            clearTimeout(debounceTimeoutId);
+                            const newTimeoutId = setTimeout(() => handleChangeStartDate(e), 300);
+                            setDebounceTimeoutId(newTimeoutId);
+                        }}
                         ampm={false}
                         minTime={dayjs().set('hour', 7)}
                         maxTime={dayjs().set('hour', 18)}
@@ -182,7 +185,11 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                         <DateTimePicker
                         label="End Date"
                         value={dayjs(endDate)}
-                        onChange={handleChangeEndDate}
+                        onChange={(e) => {
+                            clearTimeout(debounceTimeoutId);
+                            const newTimeoutId = setTimeout(() => handleChangeEndDate(e), 300);
+                            setDebounceTimeoutId(newTimeoutId);
+                        }}
                         ampm={false}
                         minTime={dayjs(startDate)}
                         maxTime={dayjs().set('hour', 18)}

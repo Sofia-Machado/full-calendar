@@ -49,3 +49,26 @@
   text-align: right;
   color: darkslategrey;
 }
+
+.draggable-list {
+  display: flex;
+  list-style: none;
+}
+
+.draggable-item {
+  list-style: none;
+  width: 100px;
+  height: 100px;
+  background-color: #ccc;
+  margin: 10px;
+  cursor: move;
+  transition: transform 0.3s ease-in-out;
+}
+
+.draggable-item {
+  opacity: 0.5;
+}
+
+.draggable-item  {
+  transform: scale(1.1);
+}

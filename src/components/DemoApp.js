@@ -54,21 +54,30 @@ export function DemoApp() {
       new Draggable(draggableRef.current, {
         itemSelector: ".draggable-item",
         eventData: function(eventEl) {
-          let data = eventEl.getAttribute('data-event');
-          console.log(data['title'])
-          const title = eventEl.getAttribute('data-title');
-          const category = eventEl.getAttribute('extendedProps'[0]);
-          const mandatory = eventEl.getAttribute('extendedProps'[1]);
+          const dataString = eventEl.getAttribute('data-event');
+          const data = JSON.parse(dataString);
+          const title = data.title;
+          const category = data.extendedProps.category;
+          const mandatory = data.extendedProps.mandatory;
+          let backColor = '#3788d8';
+          if(category === 'Santé') {
+            backColor = '#e3ab9a';
+          } else if ((category === 'Vie')) {
+            backColor = '#188038';
+          }
           return {
             id: calendar.current.props.events.length + 1,
             title: title,
             startEditable: true,
+            duration: '00:15',
             extendedProps: {
               category: category,
               mandatory: mandatory
             },
             editable: !mandatory,
             resourceEditable: true,
+            backgroundColor: backColor,
+            borderColor: backColor,
           };
         }
       });
