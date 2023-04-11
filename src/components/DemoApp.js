@@ -33,7 +33,11 @@ export function DemoApp() {
   const [endDate, setEndDate] = useState(new Date());
   const [customEvents, setCustomEvents] = useState(list);
 
+  const calendar = useRef();
   const draggableRef = useRef(null);
+
+
+
 
   useEffect(() => {
     console.log(draggableRef.current)
@@ -57,9 +61,12 @@ export function DemoApp() {
   }, []);
   
   const handleEventRemove = (id) => {
-    setCustomEvents((events) => {
-      return events.filter((event) => event.id !== id);
-    });
+    let calendarApi = calendar.current.getApi()
+    let eventData = calendarApi.getEventById(id);
+    //check if id exists
+    if (eventData) {
+      eventData.remove();
+    }
     setOpenCreateForm(false);
   };
   
@@ -68,7 +75,6 @@ export function DemoApp() {
   };
   
   //calendar options
-  const calendar = useRef();
   const options = {
     plugins: [
       timeGridPlugin, 

@@ -166,7 +166,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                 </LocalizationProvider>
                 <Button type="submit" variant="outlined" sx={{mt: 3}}>Submit</Button>
                 {eventInfo &&
-                <Button onClick={handleDelete}><svg data-testid="DeleteIcon"></svg></Button>
+                <Button onClick={handleDelete} sx={{mt: 3}}><DeleteIcon /></Button>
                 }
             </Box>
             </Modal>
