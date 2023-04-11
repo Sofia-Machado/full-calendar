@@ -17,7 +17,9 @@ let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of tod
           start: todayStr + 'T12:00:00',
           end: todayStr + 'T13:00:00',
           backgroundColor: '#e3ab9a',
-          borderColor: '#e3ab9a'
+          borderColor: '#e3ab9a',
+          editable: false,
+          resourceEditable: true,
       },
       {
           id: 2,
@@ -29,8 +31,9 @@ let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of tod
           start: todayStr + 'T14:00:00',
           end: todayStr + 'T14:15:00',
           backgroundColor: '#188038',
-          borderColor: '#188038'
-
+          borderColor: '#188038',
+          editable: true,
+          resourceEditable: true,
       }
   ]
 
@@ -59,7 +62,9 @@ export function DemoApp() {
             extendedProps: {
               category: category,
               mandatory: mandatory
-            }
+            },
+            editable: !mandatory,
+            resourceEditable: true,
           };
         }
       });

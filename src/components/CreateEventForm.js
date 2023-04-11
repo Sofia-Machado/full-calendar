@@ -93,7 +93,9 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                     mandatory
                 },
                 backgroundColor: backColor,
-                borderColor: backColor
+                borderColor: backColor,
+                editable: !mandatory,
+                resourceEditable: true
             });
             handleCloseCreateForm()
         }
@@ -106,6 +108,8 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             eventInfo.setExtendedProp('mandatory', mandatory)
             eventInfo.setProp('backgroundColor', backColor)
             eventInfo.setProp('borderColor', backColor)
+            eventInfo.setProp('editable', !mandatory)
+            eventInfo.setProp('resourceEditable', true)
             console.log(eventInfo)
             handleCloseCreateForm()
         }
