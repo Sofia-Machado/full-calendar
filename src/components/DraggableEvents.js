@@ -3,13 +3,16 @@ import { useState } from 'react';
 const DraggableEvents = () => {
   const list = [
     {
+      id: 3,
       title: 'Call Pedro',
       extendedProps: {
         category: 'Santé',
         mandatory: true,
       },
+      
     },
     {
+      id: 4,
       title: 'Call Oscar',
       extendedProps: {
         category: 'Vie',
@@ -35,8 +38,8 @@ const DraggableEvents = () => {
         return (
           <li
             key={item.id}
-            eventData={item}
-            className={`draggable-item${isSelected ? ' selected' : ''}`}
+            data-event={JSON.stringify(item)}
+            className={`draggable-item ${isSelected ? 'selected' : ''}`}
             draggable={true}
             onClick={() => handleItemClick(item.id)}
           >
