@@ -11,7 +11,7 @@ import  { dataCategories } from '../data/eventData';
 const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateForm, setOpenCreateForm, startDate, setStartDate, endDate, setEndDate}) => {
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState('');
-    const [mandatory, setMandatory] = useState(true);
+    const [mandatory, setMandatory] = useState(false);
     const [backColor, setBackColor] = useState('#3788d8');
 
     
@@ -80,7 +80,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
         let isSameOrBefore = require('dayjs/plugin/isSameOrBefore');
         dayjs.extend(isSameOrBefore);
         setEndDate(dayjs(date));
-        console.log(endDate.format())
+        console.log(endDate)
         // Check if end date is before start date
         if (dayjs(date).isSameOrBefore(startDate)) {
           // If end date is before start date, set start date to end date - 15 minutes
