@@ -13,10 +13,11 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const [category, setCategory] = useState('');
     const [mandatory, setMandatory] = useState(true);
     const [backColor, setBackColor] = useState('#3788d8');
+
+
   
   useEffect(() => {
       if (eventInfo) {
-        
         setTitle(eventInfo.title);
         setCategory(eventInfo?.extendedProps?.category || '')
         setMandatory(eventInfo?.extendedProps?.mandatory || mandatory)
@@ -38,7 +39,6 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
         transform: 'translate(-50%, -50%)',
         width: 400,
         bgcolor: 'background.paper',
-        border: '2px solid #000',
         boxShadow: 24,
         pt: 2,
         px: 4,
@@ -86,6 +86,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
         event.preventDefault();
         if (!eventInfo || eventInfo.title === '') {
             calendar.current.calendar.addEvent({
+                id: calendar.current.props.events.length + 1,
                 title,
                 start: startDate, 
                 end: endDate,

@@ -37,6 +37,15 @@
   }
 }
 
-.fa-solid {
-  display: flex;
+.event-render > b {
+  margin-right: 10px;
+}
+.event-render > i {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.event-render > em {
+  text-align: right;
+  color: darkslategrey;
 }

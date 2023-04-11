@@ -32,8 +32,8 @@ let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of tod
           },
           start: todayStr + 'T14:00:00',
           end: todayStr + 'T14:15:00',
-          backgroundColor: '#188038',
-          borderColor: '#188038',
+          backgroundColor: '#44936c',
+          borderColor: '#44936c',
           editable: true,
           classNames: ''
       }
@@ -49,17 +49,8 @@ export function DemoApp() {
 
   const calendar = useRef();
   const draggableRef = useRef(null);
-
-/*    useEffect(() => {
-    let icon = document.createElement("i");
-    icon.classList.add('fa-solid', 'fa-lock');
-    let mandatoryEvent = document.querySelector(".mandatory .fc-event-main")
-    // Add icon before the title
-    mandatoryEvent.append(icon);
-  }, [eventInfo])
-  */
   useEffect(() => {
-
+    console.log(calendar)
     if (draggableRef.current) {
       new Draggable(draggableRef.current, {
         eventData: function(eventEl) {
@@ -99,10 +90,12 @@ export function DemoApp() {
     const isMandatory = eventInfo.event.extendedProps.mandatory;
     const icon = isMandatory ? <i className="fa-solid fa-lock"></i> : null;
     return (
-      <>
+      <div className="event-render">
         <b>{eventInfo.timeText}</b>
-        <span>{icon}</span><i>{eventInfo.event.title}</i>
-      </>
+        <span>{icon}</span>
+        <i>{eventInfo.event.title}</i>
+        <em>{eventInfo.event.extendedProps.category}</em>
+      </div>
     )}
        
   //calendar options
@@ -164,15 +157,5 @@ export function DemoApp() {
       />
      <CreateEventForm handleEventRemove={handleEventRemove} customEvents={customEvents} calendar={calendar} eventInfo={eventInfo} setEventInfo={setEventInfo} openCreateForm={openCreateForm} setOpenCreateForm={setOpenCreateForm} startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate}  />
     </div>
-  )
-}
-
-// a custom render function
-function renderEventContent(eventInfo) {
-  return (
-    <>
-      <b>{eventInfo.timeText}</b>
-      <i>{eventInfo.event.title}</i>
-    </>
   )
 }
