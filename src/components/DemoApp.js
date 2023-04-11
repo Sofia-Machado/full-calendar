@@ -50,21 +50,18 @@ export function DemoApp() {
   const calendar = useRef();
   const draggableRef = useRef(null);
   useEffect(() => {
-    console.log(calendar)
     if (draggableRef.current) {
       new Draggable(draggableRef.current, {
         eventData: function(eventEl) {
-          const title = eventEl.getAttribute('data-title');
-          const category = eventEl.getAttribute('data-category');
-          const mandatory = eventEl.getAttribute('data-mandatory') === 'true';
+          console.log(eventEl)
           return {
-            title: title,
+            title: eventEl.title,
             startEditable: true,
             extendedProps: {
-              category: category,
-              mandatory: mandatory
+              category: eventEl.category,
+              mandatory: eventEl.mandatory
             },
-            editable: !mandatory,
+            editable: !eventEl.mandatory,
             resourceEditable: true,
           };
         }
