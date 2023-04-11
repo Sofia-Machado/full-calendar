@@ -20,6 +20,7 @@ let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of tod
           borderColor: '#e3ab9a',
           editable: false,
           resourceEditable: true,
+          classNames: 'mandatory'
       },
       {
           id: 2,
@@ -34,6 +35,7 @@ let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of tod
           borderColor: '#188038',
           editable: true,
           resourceEditable: true,
+          classNames: ''
       }
   ]
 
@@ -49,6 +51,11 @@ export function DemoApp() {
   const draggableRef = useRef(null);
 
   useEffect(() => {
+    let icon = document.createElement("i");
+    icon.classList.add('fa-solid', 'fa-lock');
+    let mandatoryEvent = document.querySelector(".mandatory .fc-event-main")
+    // Add icon before the title
+    mandatoryEvent.append(icon);
 
     if (draggableRef.current) {
       new Draggable(draggableRef.current, {
@@ -133,7 +140,6 @@ export function DemoApp() {
         <DraggableEvents />
       </div>
       <FullCalendar
-        className="calendar"
         ref={calendar}
         {...options}
         events={customEvents}

@@ -13,6 +13,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const [category, setCategory] = useState('');
     const [mandatory, setMandatory] = useState(true);
     const [backColor, setBackColor] = useState('#3788d8');
+    const [classes, setClasses] = useState('')
   
   useEffect(() => {
     if (eventInfo) {
@@ -63,6 +64,11 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     };
     const handleChangeType = () => {
         setMandatory(prevState => !prevState);
+        if (mandatory) { 
+            setClasses('mandatory');
+        } else {
+            setClasses('')
+        }
     };
     const handleChangeStartDate = (date) => {
         setStartDate(date);
@@ -95,7 +101,8 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                 backgroundColor: backColor,
                 borderColor: backColor,
                 editable: !mandatory,
-                resourceEditable: true
+                resourceEditable: true,
+                classNames: classes
             });
             handleCloseCreateForm()
         }
@@ -110,6 +117,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             eventInfo.setProp('borderColor', backColor)
             eventInfo.setProp('editable', !mandatory)
             eventInfo.setProp('resourceEditable', true)
+            eventInfo.setProp('classNames', classes)
             console.log(eventInfo)
             handleCloseCreateForm()
         }
