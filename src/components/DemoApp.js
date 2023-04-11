@@ -10,18 +10,27 @@ let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of tod
       {
           id: 1,
           title: 'Call Julia',
-          category: 'Santé',
-          mandatory: true,
+          extendedProps: {
+            category: 'Santé',
+            mandatory: true,
+          },
           start: todayStr + 'T12:00:00',
-          end: todayStr + 'T13:00:00'
+          end: todayStr + 'T13:00:00',
+          backgroundColor: '#e3ab9a',
+          borderColor: '#e3ab9a'
       },
       {
           id: 2,
           title: 'Call Sandra',
-          category: 'Vie',
-          mandatory: false,
+          extendedProps: {
+            category: 'Vie',
+            mandatory: false,
+          },
           start: todayStr + 'T14:00:00',
-          end: todayStr + 'T14:15:00'
+          end: todayStr + 'T14:15:00',
+          backgroundColor: '#188038',
+          borderColor: '#188038'
+
       }
   ]
 
@@ -122,6 +131,7 @@ export function DemoApp() {
         <DraggableEvents />
       </div>
       <FullCalendar
+        className="calendar"
         ref={calendar}
         {...options}
         events={customEvents}

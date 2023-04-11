@@ -12,19 +12,23 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState('');
     const [mandatory, setMandatory] = useState(true);
-
-    
+    const [backColor, setBackColor] = useState(() => { if (category === 'Santé') {
+                                                        return '#e3ab9a';
+                                                    } else if ((category === 'Vie')) {
+                                                        return '#188038';
+                                                    }})
+  
   useEffect(() => {
     if (eventInfo) {
         setTitle(eventInfo.title);
         setCategory(eventInfo?.extendedProps?.category || '')
-        setMandatory(eventInfo?.extendedProps?.mandatory || true)
+        setMandatory(eventInfo?.extendedProps?.mandatory || mandatory)
         setStartDate(dayjs(eventInfo.start));
         setEndDate(dayjs(eventInfo.end));
     } else {
         setTitle('');
-        setCategory('')
-        setMandatory(true);
+        setCategory('');
+        setMandatory(mandatory);
     }
   }, [eventInfo]);
 
@@ -58,24 +62,23 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const handleChangeStartDate = (date) => {
         setStartDate(date);
         // Check if start date is after end date
-        if (dayjs(date).isAfter(dayjs(endDate))) {
+        if (dayjs(date).isAfter(dayjs(endDate)) || dayjs(date).isSame(dayjs(endDate))) {
           // If start date is after end date, set end date to start date + 1 hour
-          setTimeout(() => setEndDate(dayjs(date).add(1, 'hour').toDate()), 800);
-          
+          setTimeout(() => setEndDate(dayjs(date).add(15, 'minutes')), 800); 
         }
       };
       const handleChangeEndDate = (date) => {
         setEndDate(date);
         // Check if end date is before start date
-        if (dayjs(date).isBefore(dayjs(startDate))) {
+        if (dayjs(date).isBefore(dayjs(startDate)) || dayjs(date).isSame(dayjs(startDate))) {
           // If end date is before start date, set start date to end date - 1 hour
-          setTimeout(() => setStartDate(dayjs(date).subtract(1, 'hour').toDate()), 800);
+          setTimeout(() => setStartDate(dayjs(date).subtract(15, 'minutes')), 800);
         }
       };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (!calendar.current.props.events.includes(event)) {
+        if (!eventInfo || eventInfo.title === '') {
             calendar.current.calendar.addEvent({
                 title,
                 start: startDate, 
@@ -88,15 +91,13 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             handleCloseCreateForm()
         }
         else {
-            calendar.current.calendar.eventChange({
-                title,
-                start: startDate, 
-                end: endDate,
-                extendedProps: {
-                    category,
-                    mandatory
-                }
-            });
+            console.log(startDate)
+            eventInfo.setProp('title', title)
+            eventInfo.setStart(startDate)
+            eventInfo.setEnd(endDate)
+            eventInfo.setExtendedProp('category', category)
+            eventInfo.setExtendedProp('mandatory', mandatory)
+            console.log(eventInfo)
             handleCloseCreateForm()
         }
     }
