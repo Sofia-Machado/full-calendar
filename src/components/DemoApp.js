@@ -13,13 +13,13 @@ let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of tod
           extendedProps: {
             category: 'Santé',
             mandatory: true,
+            resourceEditable: true,
           },
           start: todayStr + 'T12:00:00',
           end: todayStr + 'T13:00:00',
           backgroundColor: '#e3ab9a',
           borderColor: '#e3ab9a',
           editable: false,
-          resourceEditable: true,
           classNames: 'mandatory'
       },
       {
@@ -28,13 +28,13 @@ let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of tod
           extendedProps: {
             category: 'Vie',
             mandatory: false,
+            resourceEditable: true,
           },
           start: todayStr + 'T14:00:00',
           end: todayStr + 'T14:15:00',
           backgroundColor: '#188038',
           borderColor: '#188038',
           editable: true,
-          resourceEditable: true,
           classNames: ''
       }
   ]
@@ -50,12 +50,15 @@ export function DemoApp() {
   const calendar = useRef();
   const draggableRef = useRef(null);
 
-  useEffect(() => {
+/*    useEffect(() => {
     let icon = document.createElement("i");
     icon.classList.add('fa-solid', 'fa-lock');
     let mandatoryEvent = document.querySelector(".mandatory .fc-event-main")
     // Add icon before the title
     mandatoryEvent.append(icon);
+  }, [eventInfo])
+  */
+  useEffect(() => {
 
     if (draggableRef.current) {
       new Draggable(draggableRef.current, {
@@ -91,7 +94,18 @@ export function DemoApp() {
   const handleOpenCreateForm = () => {
     setOpenCreateForm(true);
   };
-  
+
+  const eventContent = (eventInfo) => {
+    const isMandatory = eventInfo.event.extendedProps.mandatory;
+    const icon = isMandatory ? <i className="fa-solid fa-lock"></i> : null;
+    return (
+      <>
+        
+        <b>{eventInfo.timeText}</b>
+        <span>{icon}</span><i>{eventInfo.event.title}</i>
+      </>
+    )}
+       
   //calendar options
   const options = {
     plugins: [
@@ -143,7 +157,7 @@ export function DemoApp() {
         ref={calendar}
         {...options}
         events={customEvents}
-        eventContent={renderEventContent}
+        eventContent={eventContent}
         eventClick={(e) => {
           setEventInfo(e.event);
           handleOpenCreateForm()

@@ -13,10 +13,10 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const [category, setCategory] = useState('');
     const [mandatory, setMandatory] = useState(true);
     const [backColor, setBackColor] = useState('#3788d8');
-    const [classes, setClasses] = useState('')
   
   useEffect(() => {
-    if (eventInfo) {
+      if (eventInfo) {
+        
         setTitle(eventInfo.title);
         setCategory(eventInfo?.extendedProps?.category || '')
         setMandatory(eventInfo?.extendedProps?.mandatory || mandatory)
@@ -64,11 +64,6 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     };
     const handleChangeType = () => {
         setMandatory(prevState => !prevState);
-        if (mandatory) { 
-            setClasses('mandatory');
-        } else {
-            setClasses('')
-        }
     };
     const handleChangeStartDate = (date) => {
         setStartDate(date);
@@ -96,13 +91,12 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                 end: endDate,
                 extendedProps: {
                     category,
-                    mandatory
+                    mandatory,
+                    resourceEditable: true,
                 },
                 backgroundColor: backColor,
                 borderColor: backColor,
-                editable: !mandatory,
-                resourceEditable: true,
-                classNames: classes
+                editable: !mandatory
             });
             handleCloseCreateForm()
         }
@@ -113,11 +107,10 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             eventInfo.setEnd(endDate)
             eventInfo.setExtendedProp('category', category)
             eventInfo.setExtendedProp('mandatory', mandatory)
+            eventInfo.setExtendedProp('resourceEditable', true)
             eventInfo.setProp('backgroundColor', backColor)
             eventInfo.setProp('borderColor', backColor)
             eventInfo.setProp('editable', !mandatory)
-            eventInfo.setProp('resourceEditable', true)
-            eventInfo.setProp('classNames', classes)
             console.log(eventInfo)
             handleCloseCreateForm()
         }
