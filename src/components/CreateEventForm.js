@@ -12,11 +12,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState('');
     const [mandatory, setMandatory] = useState(true);
-    const [backColor, setBackColor] = useState(() => { if (category === 'Santé') {
-                                                        return '#e3ab9a';
-                                                    } else if ((category === 'Vie')) {
-                                                        return '#188038';
-                                                    }})
+    const [backColor, setBackColor] = useState('#3788d8');
   
   useEffect(() => {
     if (eventInfo) {
@@ -25,10 +21,12 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
         setMandatory(eventInfo?.extendedProps?.mandatory || mandatory)
         setStartDate(dayjs(eventInfo.start));
         setEndDate(dayjs(eventInfo.end));
+        setBackColor(eventInfo.backgroundColor);
     } else {
         setTitle('');
         setCategory('');
         setMandatory(mandatory);
+        setBackColor(backColor);
     }
   }, [eventInfo]);
 
@@ -55,6 +53,13 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     };
     const handleChangeCategory = (event) => {
         setCategory(event.target.value);
+        if (event.target.value === 'Santé') {
+            setBackColor('#e3ab9a');
+        } else if ((event.target.value === 'Vie')) {
+            setBackColor('#188038');
+        } else {
+            setBackColor('#3788d8');
+        }
     };
     const handleChangeType = () => {
         setMandatory(prevState => !prevState);
@@ -86,17 +91,21 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                 extendedProps: {
                     category,
                     mandatory
-                }
+                },
+                backgroundColor: backColor,
+                borderColor: backColor
             });
             handleCloseCreateForm()
         }
         else {
-            console.log(startDate)
+            console.log(backColor)
             eventInfo.setProp('title', title)
             eventInfo.setStart(startDate)
             eventInfo.setEnd(endDate)
             eventInfo.setExtendedProp('category', category)
             eventInfo.setExtendedProp('mandatory', mandatory)
+            eventInfo.setProp('backgroundColor', backColor)
+            eventInfo.setProp('borderColor', backColor)
             console.log(eventInfo)
             handleCloseCreateForm()
         }

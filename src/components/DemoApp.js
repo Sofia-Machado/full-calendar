@@ -45,11 +45,8 @@ export function DemoApp() {
   const calendar = useRef();
   const draggableRef = useRef(null);
 
-
-
-
   useEffect(() => {
-    console.log(draggableRef.current)
+
     if (draggableRef.current) {
       new Draggable(draggableRef.current, {
         eventData: function(eventEl) {
