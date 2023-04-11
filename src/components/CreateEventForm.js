@@ -68,21 +68,22 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const handleChangeStartDate = (date) => {
         let isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
         dayjs.extend(isSameOrAfter);
-        setStartDate(date);
+        setStartDate(dayjs(date));
         
         // Check if start date is after end date
         if (dayjs(date).isSameOrAfter(endDate)) {
-          // If start date is after end date, set end date to start date + 1 hour
+          // If start date is after end date, set end date to start date + 15 minutes
           setTimeout(() => setEndDate(dayjs(date).add(15, 'minutes')), 800); 
         }
       };
       const handleChangeEndDate = (date) => {
         let isSameOrBefore = require('dayjs/plugin/isSameOrBefore');
         dayjs.extend(isSameOrBefore);
-        setEndDate(date);
+        setEndDate(dayjs(date));
+        console.log(endDate.format())
         // Check if end date is before start date
         if (dayjs(date).isSameOrBefore(startDate)) {
-          // If end date is before start date, set start date to end date - 1 hour
+          // If end date is before start date, set start date to end date - 15 minutes
           setTimeout(() => setStartDate(dayjs(date).subtract(15, 'minutes')), 800);
         }
       };
@@ -93,8 +94,8 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             calendar.current.calendar.addEvent({
                 id: calendar.current.props.events.length + 1,
                 title,
-                start: startDate, 
-                end: endDate,
+                start: startDate.format(), 
+                end: endDate.format(),
                 extendedProps: {
                     category,
                     mandatory,
@@ -109,8 +110,8 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
         else {
             console.log(backColor)
             eventInfo.setProp('title', title)
-            eventInfo.setStart(startDate)
-            eventInfo.setEnd(endDate)
+            eventInfo.setStart(startDate.format())
+            eventInfo.setEnd(endDate.format())
             eventInfo.setExtendedProp('category', category)
             eventInfo.setExtendedProp('mandatory', mandatory)
             eventInfo.setExtendedProp('resourceEditable', true)
@@ -183,6 +184,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                         value={dayjs(endDate)}
                         onChange={handleChangeEndDate}
                         ampm={false}
+                        minTime={dayjs(startDate)}
                         maxTime={dayjs().set('hour', 18)}
                         />
                     </DemoContainer>
