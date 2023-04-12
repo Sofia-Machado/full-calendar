@@ -6,7 +6,7 @@ import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import CreateEventForm from './CreateEventForm';
 import DraggableEvents from './DraggableEvents';
-import { useUpdateEvent } from '../hooks/eventHook';
+import { useUpdateEvent, useAddEvent } from '../hooks/eventHook';
 import dayjs from 'dayjs';
 
 const fetchEvents = () => {
@@ -74,7 +74,8 @@ export function DemoApp() {
     }
   )
 
-  const { mutate:updateExistingEvent } = useUpdateEvent()
+  const { mutate:updateExistingEvent } = useUpdateEvent();
+  const { mutate:addNewEvent } = useAddEvent();
 
   /* drag events */
   const draggableRef = useRef(null);
@@ -161,7 +162,7 @@ export function DemoApp() {
     droppable: true,
       eventReceive: function (info) {
       const event = info.event.toPlainObject();
-      //setCustomEvents([...customEvents, event]);
+      addNewEvent(event)
     },
     initialView: 'timeGridDay',
     weekends: false,
