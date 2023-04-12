@@ -1,19 +1,25 @@
 import { useRef, useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, QueryClient, useQueryClient } from 'react-query';
 import axios from 'axios';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import CreateEventForm from './CreateEventForm';
 import DraggableEvents from './DraggableEvents';
-import { useUpdateEvent } from '../hooks/addAndUpdateEventHook';
+import { useUpdateEvent } from '../hooks/eventHook';
 import dayjs from 'dayjs';
 
 const fetchEvents = () => {
   return axios.get("http://localhost:8000/events")
 }
-const removeEvents = (id) => {
+const removeEvents = (id, options) => {
   return axios.delete(`http://localhost:8000/events/${id}`)
+    .then(response => {
+      if (options && options.onSuccess) {
+        options.onSuccess(response);
+      }
+      return response;
+    });
 }
 
 export function DemoApp() {
@@ -24,6 +30,8 @@ export function DemoApp() {
   const [customEvents, setCustomEvents] = useState([]);
   
   const calendar = useRef();
+
+  const queryClient = useQueryClient();
   
   const onSuccess = () => {
     console.log('success')
@@ -110,7 +118,11 @@ export function DemoApp() {
     let eventData = calendarApi.getEventById(id);
     //check if id exists
     if (eventData) {
-      removeEvents(eventData.id)
+      removeEvents(eventData.id, {
+        onSuccess: () => {
+          queryClient.invalidateQueries('events');
+        }
+      })
       //eventData.remove();
     }
     setOpenCreateForm(false);

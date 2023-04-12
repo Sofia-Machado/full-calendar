@@ -8,6 +8,7 @@ const addEvent = (event) => {
 const updateEvent = (event) => {
     return axios.put(`http://localhost:8000/events/${event.id}`, event)
 }
+
 export const useAddEvent = () => {
     return useMutation(addEvent)
 }

@@ -6,7 +6,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useAddEvent, useUpdateEvent } from '../hooks/addAndUpdateEventHook';
+import { useAddEvent, useUpdateEvent } from '../hooks/eventHook';
 import dayjs from 'dayjs';
 
 const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateForm, setOpenCreateForm, startDate, setStartDate, endDate, setEndDate}) => {
