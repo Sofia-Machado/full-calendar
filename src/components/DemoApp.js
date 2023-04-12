@@ -1,29 +1,66 @@
 import { useRef, useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
-import interactionPlugin, { Draggable, EventDropArg } from '@fullcalendar/interaction';
+import { useQuery, useMutation } from 'react-query';
+import axios from 'axios';
+import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import CreateEventForm from './CreateEventForm';
 import DraggableEvents from './DraggableEvents';
-import { list, dragList } from '../data/eventData'
+import { dragList } from '../data/eventData';
 import dayjs from 'dayjs';
+
+const fetchEvents = () => {
+  return axios.get("http://localhost:8000/events")
+}
 
 export function DemoApp() {
   const [openCreateForm, setOpenCreateForm] = useState(false);
   const [eventInfo, setEventInfo] = useState({})
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [customEvents, setCustomEvents] = useState(list);
-
+  const [customEvents, setCustomEvents] = useState([]);
+  
   const calendar = useRef();
+  
+  const onSuccess = () => {
+    console.log('success')
+  }
+  const onError = () => {
+    console.log('error')
+  }
+  const mutation = useMutation({
+    mutationFn: (newDragItem) => {
+      return axios.post("http://localhost:8000/dragItemList", newDragItem)
+    }
+  })
 
-  useEffect(() => {
-    let now = dayjs().format();
-    customEvents.forEach(event => {
-      if (event?.extendedProps?.mandatory && (now > event.end)) {
-        dragList.push(event);
-      }
-    })
-  }, [customEvents])
+  //fetch
+  const { isLoading, data: events, isError, error } = useQuery(
+    'events', 
+    fetchEvents,
+    {/* 
+      select: (data) => {
+        data?.data.forEach(event => {
+          let now = dayjs().format();
+          if (event?.extendedProps?.mandatory && (now > event.end)) {
+            mutation.mutate({event})
+          }
+        })
+      }, */
+      refetchInterval: 60000,
+      refetchIntervalInBackground: true,
+      onSuccess: (events) => {
+        events?.data.forEach(event => {
+          let now = dayjs().format();
+          if (event?.extendedProps?.mandatory && (now > event.end)) {
+            console.log(event)
+            mutation.mutate([event])
+          }
+        })
+      },
+      onError
+    }
+  )
 
   /* drag events */
   const draggableRef = useRef(null);
@@ -102,7 +139,7 @@ export function DemoApp() {
     droppable: true,
       eventReceive: function (info) {
       const event = info.event.toPlainObject();
-      setCustomEvents([...customEvents, event]);
+      //setCustomEvents([...customEvents, event]);
     },
     initialView: 'timeGridDay',
     weekends: false,
@@ -134,6 +171,13 @@ export function DemoApp() {
       handleOpenCreateForm();
     },
   }
+
+  if (isLoading) {
+    return <h2>Loading...</h2>
+  }
+  if (isError) {
+    return <h2>{error.message}</h2>
+  }
   
   return (
     <div>
@@ -144,7 +188,7 @@ export function DemoApp() {
       <FullCalendar
         ref={calendar}
         {...options}
-        events={customEvents}
+        events={events.data}
         eventContent={eventContent}
         eventClick={(e) => {
           setEventInfo(e.event);

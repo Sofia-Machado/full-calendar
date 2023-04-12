@@ -1,5 +1,3 @@
-export const dataCategories = ['Santé', 'Vie'];
-
 export const dragList = [
     {
         id: 1,

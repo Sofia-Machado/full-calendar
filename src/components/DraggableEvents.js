@@ -1,9 +1,18 @@
 import { useState } from 'react';
+import { useQuery } from 'react-query';
+import axios from 'axios';
 import { Card, CardContent, Typography } from '@mui/material';
 import { dragList } from '../data/eventData';
 
+const fecthDraggableItems = () => {
+  return axios.get("http://localhost:8000/dragItemList")
+}
+
 const DraggableEvents = () => {
   const [selectedItemId, setSelectedItemId] = useState(null);
+
+  /* fetch */
+  const { isLoading, data: draggableList, isError, error } = useQuery('dragItems', fecthDraggableItems)
 
   const handleItemClick = (itemId) => {
     if (selectedItemId === itemId) {
@@ -13,9 +22,16 @@ const DraggableEvents = () => {
     }
   };
 
+  if (isLoading) {
+    return <h2>Loading...</h2>
+  }
+  if (isError) {
+    return <h2>{error.message}</h2>
+  }
+
   return (
     <ul className="draggable-list">
-      {dragList.map((item, index) => {
+      {draggableList?.data.map((item, index) => {
         const isSelected = selectedItemId === item.id;
         return (
           <Card sx={{ minWidth: 120 }} key={index}>

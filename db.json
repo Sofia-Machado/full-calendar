@@ -1,0 +1,882 @@
+{
+  "events": [
+    {
+      "id": 1,
+      "title": "Call Julia",
+      "extendedProps": {
+        "category": "Santé",
+        "mandatory": true,
+        "resourceEditable": true
+      },
+      "start": "2023-04-12T12:00:00",
+      "end": "2023-04-12T13:00:00",
+      "backgroundColor": "#e3ab9a",
+      "borderColor": "#e3ab9a",
+      "editable": false
+    },
+    {
+      "id": 2,
+      "title": "Call Sandra",
+      "extendedProps": {
+        "category": "Vie",
+        "mandatory": false,
+        "resourceEditable": true
+      },
+      "start": "2023-04-12T14:00:00",
+      "end": "2023-04-12T14:15:00",
+      "backgroundColor": "#44936c",
+      "borderColor": "#44936c",
+      "editable": true
+    },
+    {
+      "id": 3,
+      "title": "Call Francisco",
+      "extendedProps": {
+        "category": "Vie",
+        "mandatory": true,
+        "resourceEditable": true
+      },
+      "start": "2023-04-12T09:00:00",
+      "end": "2023-04-12T09:15:00",
+      "backgroundColor": "#44936c",
+      "borderColor": "#44936c",
+      "editable": false
+    },
+    {
+      "id": 4,
+      "title": "Call Zeca",
+      "extendedProps": {
+        "category": "Vie",
+        "mandatory": true,
+        "resourceEditable": true
+      },
+      "start": "2023-04-12T10:00:00",
+      "end": "2023-04-12T10:15:00",
+      "backgroundColor": "#44936c",
+      "borderColor": "#44936c",
+      "editable": false
+    }
+  ],
+  "dragItemList": [
+    {
+      "id": 1,
+      "title": "Call Pedro",
+      "extendedProps": {
+        "category": "Santé",
+        "mandatory": true
+      }
+    },
+    {
+      "id": 2,
+      "title": "Call Oscar",
+      "extendedProps": {
+        "category": "Vie",
+        "mandatory": false
+      }
+    },
+    {
+      "event": {
+        "id": 1,
+        "title": "Call Julia",
+        "extendedProps": {
+          "category": "Santé",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T12:00:00",
+        "end": "2023-04-12T13:00:00",
+        "backgroundColor": "#e3ab9a",
+        "borderColor": "#e3ab9a",
+        "editable": false
+      },
+      "id": 3
+    },
+    {
+      "event": {
+        "id": 3,
+        "title": "Call Francisco",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T09:00:00",
+        "end": "2023-04-12T09:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 4
+    },
+    {
+      "event": {
+        "id": 4,
+        "title": "Call Zeca",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T10:00:00",
+        "end": "2023-04-12T10:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 5
+    },
+    {
+      "event": {
+        "id": 1,
+        "title": "Call Julia",
+        "extendedProps": {
+          "category": "Santé",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T12:00:00",
+        "end": "2023-04-12T13:00:00",
+        "backgroundColor": "#e3ab9a",
+        "borderColor": "#e3ab9a",
+        "editable": false
+      },
+      "id": 6
+    },
+    {
+      "event": {
+        "id": 3,
+        "title": "Call Francisco",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T09:00:00",
+        "end": "2023-04-12T09:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 7
+    },
+    {
+      "event": {
+        "id": 4,
+        "title": "Call Zeca",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T10:00:00",
+        "end": "2023-04-12T10:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 8
+    },
+    {
+      "event": {
+        "id": 1,
+        "title": "Call Julia",
+        "extendedProps": {
+          "category": "Santé",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T12:00:00",
+        "end": "2023-04-12T13:00:00",
+        "backgroundColor": "#e3ab9a",
+        "borderColor": "#e3ab9a",
+        "editable": false
+      },
+      "id": 9
+    },
+    {
+      "event": {
+        "id": 3,
+        "title": "Call Francisco",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T09:00:00",
+        "end": "2023-04-12T09:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 10
+    },
+    {
+      "event": {
+        "id": 4,
+        "title": "Call Zeca",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T10:00:00",
+        "end": "2023-04-12T10:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 11
+    },
+    {
+      "event": {
+        "id": 1,
+        "title": "Call Julia",
+        "extendedProps": {
+          "category": "Santé",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T12:00:00",
+        "end": "2023-04-12T13:00:00",
+        "backgroundColor": "#e3ab9a",
+        "borderColor": "#e3ab9a",
+        "editable": false
+      },
+      "id": 12
+    },
+    {
+      "event": {
+        "id": 4,
+        "title": "Call Zeca",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T10:00:00",
+        "end": "2023-04-12T10:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 13
+    },
+    {
+      "event": {
+        "id": 3,
+        "title": "Call Francisco",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T09:00:00",
+        "end": "2023-04-12T09:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 14
+    },
+    {
+      "event": {
+        "id": 1,
+        "title": "Call Julia",
+        "extendedProps": {
+          "category": "Santé",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T12:00:00",
+        "end": "2023-04-12T13:00:00",
+        "backgroundColor": "#e3ab9a",
+        "borderColor": "#e3ab9a",
+        "editable": false
+      },
+      "id": 15
+    },
+    {
+      "event": {
+        "id": 3,
+        "title": "Call Francisco",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T09:00:00",
+        "end": "2023-04-12T09:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 16
+    },
+    {
+      "event": {
+        "id": 4,
+        "title": "Call Zeca",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T10:00:00",
+        "end": "2023-04-12T10:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 17
+    },
+    {
+      "event": {
+        "id": 3,
+        "title": "Call Francisco",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T09:00:00",
+        "end": "2023-04-12T09:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 18
+    },
+    {
+      "event": {
+        "id": 1,
+        "title": "Call Julia",
+        "extendedProps": {
+          "category": "Santé",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T12:00:00",
+        "end": "2023-04-12T13:00:00",
+        "backgroundColor": "#e3ab9a",
+        "borderColor": "#e3ab9a",
+        "editable": false
+      },
+      "id": 19
+    },
+    {
+      "event": {
+        "id": 4,
+        "title": "Call Zeca",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T10:00:00",
+        "end": "2023-04-12T10:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 20
+    },
+    {
+      "event": {
+        "id": 1,
+        "title": "Call Julia",
+        "extendedProps": {
+          "category": "Santé",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T12:00:00",
+        "end": "2023-04-12T13:00:00",
+        "backgroundColor": "#e3ab9a",
+        "borderColor": "#e3ab9a",
+        "editable": false
+      },
+      "id": 21
+    },
+    {
+      "event": {
+        "id": 3,
+        "title": "Call Francisco",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T09:00:00",
+        "end": "2023-04-12T09:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 22
+    },
+    {
+      "event": {
+        "id": 4,
+        "title": "Call Zeca",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T10:00:00",
+        "end": "2023-04-12T10:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 23
+    },
+    {
+      "event": {
+        "id": 1,
+        "title": "Call Julia",
+        "extendedProps": {
+          "category": "Santé",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T12:00:00",
+        "end": "2023-04-12T13:00:00",
+        "backgroundColor": "#e3ab9a",
+        "borderColor": "#e3ab9a",
+        "editable": false
+      },
+      "id": 24
+    },
+    {
+      "event": {
+        "id": 3,
+        "title": "Call Francisco",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T09:00:00",
+        "end": "2023-04-12T09:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 25
+    },
+    {
+      "event": {
+        "id": 4,
+        "title": "Call Zeca",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T10:00:00",
+        "end": "2023-04-12T10:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 26
+    },
+    {
+      "event": {
+        "id": 1,
+        "title": "Call Julia",
+        "extendedProps": {
+          "category": "Santé",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T12:00:00",
+        "end": "2023-04-12T13:00:00",
+        "backgroundColor": "#e3ab9a",
+        "borderColor": "#e3ab9a",
+        "editable": false
+      },
+      "id": 27
+    },
+    {
+      "event": {
+        "id": 3,
+        "title": "Call Francisco",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T09:00:00",
+        "end": "2023-04-12T09:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 28
+    },
+    {
+      "event": {
+        "id": 4,
+        "title": "Call Zeca",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T10:00:00",
+        "end": "2023-04-12T10:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 29
+    },
+    {
+      "event": {
+        "id": 1,
+        "title": "Call Julia",
+        "extendedProps": {
+          "category": "Santé",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T12:00:00",
+        "end": "2023-04-12T13:00:00",
+        "backgroundColor": "#e3ab9a",
+        "borderColor": "#e3ab9a",
+        "editable": false
+      },
+      "id": 30
+    },
+    {
+      "event": {
+        "id": 3,
+        "title": "Call Francisco",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T09:00:00",
+        "end": "2023-04-12T09:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 31
+    },
+    {
+      "event": {
+        "id": 4,
+        "title": "Call Zeca",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T10:00:00",
+        "end": "2023-04-12T10:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 32
+    },
+    {
+      "event": {
+        "id": 1,
+        "title": "Call Julia",
+        "extendedProps": {
+          "category": "Santé",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T12:00:00",
+        "end": "2023-04-12T13:00:00",
+        "backgroundColor": "#e3ab9a",
+        "borderColor": "#e3ab9a",
+        "editable": false
+      },
+      "id": 33
+    },
+    {
+      "event": {
+        "id": 3,
+        "title": "Call Francisco",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T09:00:00",
+        "end": "2023-04-12T09:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 34
+    },
+    {
+      "event": {
+        "id": 4,
+        "title": "Call Zeca",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T10:00:00",
+        "end": "2023-04-12T10:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 35
+    },
+    {
+      "event": {
+        "id": 1,
+        "title": "Call Julia",
+        "extendedProps": {
+          "category": "Santé",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T12:00:00",
+        "end": "2023-04-12T13:00:00",
+        "backgroundColor": "#e3ab9a",
+        "borderColor": "#e3ab9a",
+        "editable": false
+      },
+      "id": 36
+    },
+    {
+      "event": {
+        "id": 3,
+        "title": "Call Francisco",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T09:00:00",
+        "end": "2023-04-12T09:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 37
+    },
+    {
+      "event": {
+        "id": 4,
+        "title": "Call Zeca",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T10:00:00",
+        "end": "2023-04-12T10:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      },
+      "id": 38
+    },
+    [
+      {
+        "id": 1,
+        "title": "Call Julia",
+        "extendedProps": {
+          "category": "Santé",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T12:00:00",
+        "end": "2023-04-12T13:00:00",
+        "backgroundColor": "#e3ab9a",
+        "borderColor": "#e3ab9a",
+        "editable": false
+      }
+    ],
+    [
+      {
+        "id": 3,
+        "title": "Call Francisco",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T09:00:00",
+        "end": "2023-04-12T09:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      }
+    ],
+    [
+      {
+        "id": 4,
+        "title": "Call Zeca",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T10:00:00",
+        "end": "2023-04-12T10:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      }
+    ],
+    [
+      {
+        "id": 1,
+        "title": "Call Julia",
+        "extendedProps": {
+          "category": "Santé",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T12:00:00",
+        "end": "2023-04-12T13:00:00",
+        "backgroundColor": "#e3ab9a",
+        "borderColor": "#e3ab9a",
+        "editable": false
+      }
+    ],
+    [
+      {
+        "id": 3,
+        "title": "Call Francisco",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T09:00:00",
+        "end": "2023-04-12T09:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      }
+    ],
+    [
+      {
+        "id": 4,
+        "title": "Call Zeca",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T10:00:00",
+        "end": "2023-04-12T10:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      }
+    ],
+    [
+      {
+        "id": 1,
+        "title": "Call Julia",
+        "extendedProps": {
+          "category": "Santé",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T12:00:00",
+        "end": "2023-04-12T13:00:00",
+        "backgroundColor": "#e3ab9a",
+        "borderColor": "#e3ab9a",
+        "editable": false
+      }
+    ],
+    [
+      {
+        "id": 3,
+        "title": "Call Francisco",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T09:00:00",
+        "end": "2023-04-12T09:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      }
+    ],
+    [
+      {
+        "id": 4,
+        "title": "Call Zeca",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T10:00:00",
+        "end": "2023-04-12T10:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      }
+    ],
+    [
+      {
+        "id": 1,
+        "title": "Call Julia",
+        "extendedProps": {
+          "category": "Santé",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T12:00:00",
+        "end": "2023-04-12T13:00:00",
+        "backgroundColor": "#e3ab9a",
+        "borderColor": "#e3ab9a",
+        "editable": false
+      }
+    ],
+    [
+      {
+        "id": 3,
+        "title": "Call Francisco",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T09:00:00",
+        "end": "2023-04-12T09:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      }
+    ],
+    [
+      {
+        "id": 4,
+        "title": "Call Zeca",
+        "extendedProps": {
+          "category": "Vie",
+          "mandatory": true,
+          "resourceEditable": true
+        },
+        "start": "2023-04-12T10:00:00",
+        "end": "2023-04-12T10:15:00",
+        "backgroundColor": "#44936c",
+        "borderColor": "#44936c",
+        "editable": false
+      }
+    ]
+  ]
+}

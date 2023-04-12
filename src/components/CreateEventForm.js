@@ -6,7 +6,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import DeleteIcon from '@mui/icons-material/Delete';
 import dayjs from 'dayjs';
-import  { dataCategories } from '../data/eventData';
 
 const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateForm, setOpenCreateForm, startDate, setStartDate, endDate, setEndDate}) => {
     const [title, setTitle] = useState('');
@@ -14,22 +13,24 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const [mandatory, setMandatory] = useState(false);
     const [backColor, setBackColor] = useState('#3788d8');
     const [debounceTimeoutId, setDebounceTimeoutId] = useState(null);    
+
+    const dataCategories = ['Santé', 'Vie'];
   
-  useEffect(() => {
-      if (eventInfo) {
-        setTitle(eventInfo.title);
-        setCategory(eventInfo?.extendedProps?.category || '')
-        setMandatory(eventInfo?.extendedProps?.mandatory || mandatory)
-        setStartDate(dayjs(eventInfo.start));
-        setEndDate(dayjs(eventInfo.end));
-        setBackColor(eventInfo.backgroundColor);
-    } else {
-        setTitle('');
-        setCategory('');
-        setMandatory(mandatory);
-        setBackColor(backColor);
-    }
-  }, [eventInfo]);
+    useEffect(() => {
+        if (eventInfo) {
+            setTitle(eventInfo.title);
+            setCategory(eventInfo?.extendedProps?.category || '')
+            setMandatory(eventInfo?.extendedProps?.mandatory || mandatory)
+            setStartDate(dayjs(eventInfo.start));
+            setEndDate(dayjs(eventInfo.end));
+            setBackColor(eventInfo.backgroundColor);
+        } else {
+            setTitle('');
+            setCategory('');
+            setMandatory(mandatory);
+            setBackColor(backColor);
+        }
+    }, [eventInfo]);
 
     const style = {
         position: 'absolute',
