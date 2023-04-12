@@ -1,44 +1,11 @@
+import { useRef, useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import interactionPlugin, { Draggable, EventDropArg } from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { useRef, useState, useEffect } from 'react';
 import CreateEventForm from './CreateEventForm';
 import DraggableEvents from './DraggableEvents';
-
-let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of today
-  const list = [
-      {
-          id: 1,
-          title: 'Call Julia',
-          extendedProps: {
-            category: 'Santé',
-            mandatory: true,
-            resourceEditable: true,
-          },
-          start: todayStr + 'T12:00:00',
-          end: todayStr + 'T13:00:00',
-          backgroundColor: '#e3ab9a',
-          borderColor: '#e3ab9a',
-          editable: false,
-          classNames: 'mandatory'
-      },
-      {
-          id: 2,
-          title: 'Call Sandra',
-          extendedProps: {
-            category: 'Vie',
-            mandatory: false,
-            resourceEditable: true,
-            editable: true,
-          },
-          start: todayStr + 'T14:00:00',
-          end: todayStr + 'T14:15:00',
-          backgroundColor: '#44936c',
-          borderColor: '#44936c',
-          classNames: ''
-      }
-  ]
-
+import { list, dragList } from '../data/eventData'
+import dayjs from 'dayjs';
 
 export function DemoApp() {
   const [openCreateForm, setOpenCreateForm] = useState(false);
@@ -48,6 +15,17 @@ export function DemoApp() {
   const [customEvents, setCustomEvents] = useState(list);
 
   const calendar = useRef();
+
+  useEffect(() => {
+    let now = dayjs().format();
+    customEvents.forEach(event => {
+      if (event?.extendedProps?.mandatory && (now > event.end)) {
+        dragList.push(event);
+      }
+    })
+  }, [customEvents])
+
+  /* drag events */
   const draggableRef = useRef(null);
   useEffect(() => {
     if (draggableRef.current) {
@@ -61,21 +39,20 @@ export function DemoApp() {
           const mandatory = data.extendedProps.mandatory;
           let backColor = '#3788d8';
           if(category === 'Santé') {
-            backColor = '#e3ab9a';
+            backColor = '#e3ab9a'
           } else if ((category === 'Vie')) {
-            backColor = '#188038';
-          }
+            backColor = '#44936c'
+          };
           return {
             id: calendar.current.props.events.length + 1,
             title: title,
-            startEditable: true,
             duration: '00:15',
             extendedProps: {
               category: category,
-              mandatory: mandatory
+              mandatory: mandatory,
+              resourceEditable: true,
             },
             editable: !mandatory,
-            resourceEditable: true,
             backgroundColor: backColor,
             borderColor: backColor,
           };
@@ -84,6 +61,7 @@ export function DemoApp() {
     }
   }, []);
   
+  /* remove event */
   const handleEventRemove = (id) => {
     let calendarApi = calendar.current.getApi()
     let eventData = calendarApi.getEventById(id);
@@ -93,12 +71,16 @@ export function DemoApp() {
     }
     setOpenCreateForm(false);
   };
-  
+
+  /* open form */
   const handleOpenCreateForm = () => {
     setOpenCreateForm(true);
+    console.log(eventInfo)
   };
 
+  /* render event */
   const eventContent = (eventInfo) => {
+    //mandatory icon
     const isMandatory = eventInfo.event.extendedProps.mandatory;
     const icon = isMandatory ? <i className="fa-solid fa-lock"></i> : null;
     return (
@@ -110,17 +92,18 @@ export function DemoApp() {
       </div>
     )}
        
-  //calendar options
+  /* calendar options */
   const options = {
     plugins: [
       timeGridPlugin, 
       interactionPlugin 
     ],
+    //on drop
     droppable: true,
       eventReceive: function (info) {
-    const event = info.event.toPlainObject();
-    setCustomEvents([...customEvents, event]);
-  },
+      const event = info.event.toPlainObject();
+      setCustomEvents([...customEvents, event]);
+    },
     initialView: 'timeGridDay',
     weekends: false,
     slotMinTime: "09:00:00", 
@@ -141,6 +124,7 @@ export function DemoApp() {
     selectable: true,
     editable: true,
     eventRemove: handleEventRemove,
+    //onclick
     select: function(info) {
       if (info.start && !info.event) {
         setEventInfo(null);

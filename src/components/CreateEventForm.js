@@ -56,7 +56,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
         if (event.target.value === 'Santé') {
             setBackColor('#e3ab9a');
         } else if ((event.target.value === 'Vie')) {
-            setBackColor('#188038');
+            setBackColor('#44936c');
         } else {
             setBackColor('#3788d8');
         }
@@ -93,8 +93,8 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             calendar.current.calendar.addEvent({
                 id: calendar.current.props.events.length + 1,
                 title,
-                start: startDate.format(), 
-                end: endDate.format(),
+                start: startDate, 
+                end: endDate,
                 extendedProps: {
                     category,
                     mandatory,

@@ -1,26 +1,8 @@
 import { useState } from 'react';
+import { Card, CardContent, Typography } from '@mui/material';
+import { dragList } from '../data/eventData';
 
 const DraggableEvents = () => {
-  const list = [
-    {
-      id: 3,
-      title: 'Call Pedro',
-      extendedProps: {
-        category: 'Santé',
-        mandatory: true,
-      },
-      
-    },
-    {
-      id: 4,
-      title: 'Call Oscar',
-      extendedProps: {
-        category: 'Vie',
-        mandatory: true,
-      },
-    },
-  ];
-
   const [selectedItemId, setSelectedItemId] = useState(null);
 
   const handleItemClick = (itemId) => {
@@ -33,18 +15,22 @@ const DraggableEvents = () => {
 
   return (
     <ul className="draggable-list">
-      {list.map((item) => {
+      {dragList.map((item, index) => {
         const isSelected = selectedItemId === item.id;
         return (
-          <li
-            key={item.id}
+          <Card sx={{ minWidth: 120 }} key={index}>
+            <CardContent
+            key={index}
             data-event={JSON.stringify(item)}
             className={`draggable-item ${isSelected ? 'selected' : ''}`}
             draggable={true}
             onClick={() => handleItemClick(item.id)}
-          >
-            {item.title}
-          </li>
+            >
+              <Typography fontSize={14} component="div">
+                {item.title}
+              </Typography>
+            </CardContent>
+          </Card>
         );
       })}
     </ul>
