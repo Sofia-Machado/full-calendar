@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import { Card, CardContent, Typography } from '@mui/material';
-import { dragList } from '../data/eventData';
+
 
 const fecthDraggableItems = () => {
   return axios.get("http://localhost:8000/dragItemList")

@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useQuery, useMutation } from 'react-query';
+import axios from 'axios';
 import { Box, Button, FormControl, FormControlLabel, FormGroup, InputLabel, MenuItem, Modal, Select, Switch, TextField } from '@mui/material';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -6,6 +8,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import DeleteIcon from '@mui/icons-material/Delete';
 import dayjs from 'dayjs';
+
+const addEvent = (event) => {
+    return axios.post("http://localhost:8000/events", event)
+}
 
 const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateForm, setOpenCreateForm, startDate, setStartDate, endDate, setEndDate}) => {
     const [title, setTitle] = useState('');
@@ -15,6 +21,11 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const [debounceTimeoutId, setDebounceTimeoutId] = useState(null);    
 
     const dataCategories = ['Santé', 'Vie'];
+
+    const useAddEvent = () => {
+        return useMutation(addEvent)
+    }
+    const { mutate:addNewEvent } = useAddEvent()
   
     useEffect(() => {
         if (eventInfo) {
@@ -91,7 +102,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const handleSubmit = (event) => {
         event.preventDefault();
         if (!eventInfo || eventInfo.title === '') {
-            calendar.current.calendar.addEvent({
+            addNewEvent(calendar.current.calendar.addEvent({
                 id: calendar.current.props.events.length + 1,
                 title,
                 start: startDate, 
@@ -104,7 +115,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                 backgroundColor: backColor,
                 borderColor: backColor,
                 editable: !mandatory
-            });
+            }));
             handleCloseCreateForm()
         }
         else {

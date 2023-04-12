@@ -33,6 +33,7 @@ export function DemoApp() {
       return axios.post("http://localhost:8000/dragItemList", newDragItem)
     }
   })
+  //try to mutate first the simple events list
 
   //fetch
   const { isLoading, data: events, isError, error } = useQuery(
@@ -49,15 +50,15 @@ export function DemoApp() {
       }, */
       refetchInterval: 60000,
       refetchIntervalInBackground: true,
-      onSuccess: (events) => {
+      onSuccess/* : (events) => {
         events?.data.forEach(event => {
           let now = dayjs().format();
           if (event?.extendedProps?.mandatory && (now > event.end)) {
             console.log(event)
-            mutation.mutate([event])
+            mutation.mutate(event)
           }
         })
-      },
+      } */,
       onError
     }
   )
