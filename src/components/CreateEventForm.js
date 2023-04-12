@@ -1,20 +1,13 @@
 import { useState, useEffect } from 'react';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
-import axios from 'axios';
+import { useQueryClient } from 'react-query';
 import { Box, Button, FormControl, FormControlLabel, FormGroup, InputLabel, MenuItem, Modal, Select, Switch, TextField } from '@mui/material';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useAddEvent, useUpdateEvent } from '../hooks/addAndUpdateEventHook';
 import dayjs from 'dayjs';
-
-const addEvent = (event) => {
-    return axios.post("http://localhost:8000/events", event)
-}
-const updateEvent = (event) => {
-    return axios.put(`http://localhost:8000/events/${event.id}`, event)
-}
 
 const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateForm, setOpenCreateForm, startDate, setStartDate, endDate, setEndDate}) => {
     const [title, setTitle] = useState('');
@@ -25,13 +18,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
 
     const dataCategories = ['Santé', 'Vie'];
     const queryClient = useQueryClient();
-
-    const useAddEvent = () => {
-        return useMutation(addEvent)
-    }
-    const useUpdateEvent = () => {
-        return useMutation(updateEvent)
-    }
+   
     const { mutate:addNewEvent } = useAddEvent()
     const { mutate:updateExistingEvent } = useUpdateEvent()
   

@@ -6,11 +6,14 @@ import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import CreateEventForm from './CreateEventForm';
 import DraggableEvents from './DraggableEvents';
-import { dragList } from '../data/eventData';
+import { useUpdateEvent } from '../hooks/addAndUpdateEventHook';
 import dayjs from 'dayjs';
 
 const fetchEvents = () => {
   return axios.get("http://localhost:8000/events")
+}
+const removeEvents = (id) => {
+  return axios.delete(`http://localhost:8000/events/${id}`)
 }
 
 export function DemoApp() {
@@ -28,11 +31,11 @@ export function DemoApp() {
   const onError = () => {
     console.log('error')
   }
-  const mutation = useMutation({
+ /*  const mutation = useMutation({
     mutationFn: (newDragItem) => {
       return axios.post("http://localhost:8000/dragItemList", newDragItem)
     }
-  })
+  }) */
   //try to mutate first the simple events
 
   //fetch
@@ -53,15 +56,17 @@ export function DemoApp() {
       onSuccess: (events) => {
         events?.data.forEach(event => {
           let now = dayjs().format();
-          if (event?.extendedProps?.mandatory && (now > event.end)) {
+          /* if (event?.extendedProps?.mandatory && (now > event.end)) {
             console.log(event)
             mutation.mutate(event)
-          }
+          } */
         })
       },
       onError
     }
   )
+
+  const { mutate:updateExistingEvent } = useUpdateEvent()
 
   /* drag events */
   const draggableRef = useRef(null);
@@ -105,7 +110,8 @@ export function DemoApp() {
     let eventData = calendarApi.getEventById(id);
     //check if id exists
     if (eventData) {
-      eventData.remove();
+      removeEvents(eventData.id)
+      //eventData.remove();
     }
     setOpenCreateForm(false);
   };
@@ -161,6 +167,9 @@ export function DemoApp() {
     nowIndicator: true,
     selectable: true,
     editable: true,
+    eventDrop: function(info) {
+      updateExistingEvent(info.event)
+    },
     eventRemove: handleEventRemove,
     //onclick
     select: function(info) {
