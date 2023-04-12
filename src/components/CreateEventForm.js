@@ -26,14 +26,13 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
         if (eventInfo) {
             setTitle(eventInfo.title);
             setCategory(eventInfo?.extendedProps?.category || '')
-            setMandatory(eventInfo?.extendedProps?.mandatory || mandatory)
+            setMandatory(eventInfo?.extendedProps?.mandatory)
             setStartDate(dayjs(eventInfo.start));
             setEndDate(dayjs(eventInfo.end));
             setBackColor(eventInfo.backgroundColor);
         } else {
             setTitle('');
             setCategory('');
-            setMandatory(mandatory);
             setBackColor(backColor);
         }
     }, [eventInfo]);
@@ -109,7 +108,9 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                 },
                 backgroundColor: backColor,
                 borderColor: backColor,
-                editable: !mandatory
+                editable: !mandatory,
+                startEditable: !mandatory,
+                durationEditable: !mandatory
             }));
             handleCloseCreateForm()
         }
@@ -123,6 +124,8 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             eventInfo.setProp('backgroundColor', backColor)
             eventInfo.setProp('borderColor', backColor)
             eventInfo.setProp('editable', !mandatory)
+            eventInfo.setProp('startEditable', !mandatory)
+            eventInfo.setProp('durationEditable', !mandatory)
             const updatedEvent = eventInfo;
             console.log(updatedEvent)
             updateExistingEvent(updatedEvent, {

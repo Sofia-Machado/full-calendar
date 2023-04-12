@@ -24,7 +24,7 @@ const removeEvents = (id, options) => {
 
 export function DemoApp() {
   const [openCreateForm, setOpenCreateForm] = useState(false);
-  const [eventInfo, setEventInfo] = useState({})
+  const [eventInfo, setEventInfo] = useState({});
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [customEvents, setCustomEvents] = useState([]);
@@ -103,6 +103,8 @@ export function DemoApp() {
               mandatory: mandatory,
               resourceEditable: true,
             },
+            startEditable: !mandatory,
+            durationEditable: !mandatory,
             editable: !mandatory,
             backgroundColor: backColor,
             borderColor: backColor,
@@ -131,10 +133,10 @@ export function DemoApp() {
   /* open form */
   const handleOpenCreateForm = () => {
     setOpenCreateForm(true);
-    console.log(eventInfo)
   };
-
-  /* render event */
+  
+  
+  /* event content */
   const eventContent = (eventInfo) => {
     //mandatory icon
     const isMandatory = eventInfo.event.extendedProps.mandatory;
@@ -146,8 +148,9 @@ export function DemoApp() {
         <i>{eventInfo.event.title}</i>
         <em>{eventInfo.event.extendedProps.category}</em>
       </div>
-    )}
-       
+    )
+  }
+
   /* calendar options */
   const options = {
     plugins: [
