@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
 import { Box, Button, FormControl, FormControlLabel, FormGroup, InputLabel, MenuItem, Modal, Select, Switch, TextField } from '@mui/material';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -12,6 +12,9 @@ import dayjs from 'dayjs';
 const addEvent = (event) => {
     return axios.post("http://localhost:8000/events", event)
 }
+const updateEvent = (event) => {
+    return axios.put(`http://localhost:8000/events/${event.id}`, event)
+}
 
 const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateForm, setOpenCreateForm, startDate, setStartDate, endDate, setEndDate}) => {
     const [title, setTitle] = useState('');
@@ -21,11 +24,16 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const [debounceTimeoutId, setDebounceTimeoutId] = useState(null);    
 
     const dataCategories = ['Santé', 'Vie'];
+    const queryClient = useQueryClient();
 
     const useAddEvent = () => {
         return useMutation(addEvent)
     }
+    const useUpdateEvent = () => {
+        return useMutation(updateEvent)
+    }
     const { mutate:addNewEvent } = useAddEvent()
+    const { mutate:updateExistingEvent } = useUpdateEvent()
   
     useEffect(() => {
         if (eventInfo) {
@@ -119,7 +127,6 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             handleCloseCreateForm()
         }
         else {
-            console.log(backColor)
             eventInfo.setProp('title', title)
             eventInfo.setStart(startDate.format())
             eventInfo.setEnd(endDate.format())
@@ -129,7 +136,13 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             eventInfo.setProp('backgroundColor', backColor)
             eventInfo.setProp('borderColor', backColor)
             eventInfo.setProp('editable', !mandatory)
-            console.log(eventInfo)
+            const updatedEvent = eventInfo;
+            console.log(updatedEvent)
+            updateExistingEvent(updatedEvent, {
+                onSuccess: () => {
+                    queryClient.invalidateQueries('events');
+                }
+            })
             handleCloseCreateForm()
         }
     }

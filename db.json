@@ -57,17 +57,21 @@
       "editable": false
     },
     {
-      "title": "asd",
+      "allDay": false,
+      "title": "asd16456",
       "start": "2023-04-12T11:15:00+01:00",
       "end": "2023-04-12T11:30:00+01:00",
       "id": "5",
-      "backgroundColor": "#44936c",
-      "borderColor": "#44936c",
+      "backgroundColor": "#e3ab9a",
+      "borderColor": "#e3ab9a",
       "extendedProps": {
-        "category": "Vie",
+        "category": "Santé",
         "mandatory": false,
         "resourceEditable": true
       }
+    },
+    {
+      "id": "blM-Anb"
     }
   ],
   "dragItemList": [
@@ -86,6 +90,34 @@
         "category": "Vie",
         "mandatory": false
       }
+    },
+    {
+      "id": 3,
+      "title": "Call Francisco",
+      "extendedProps": {
+        "category": "Vie",
+        "mandatory": true,
+        "resourceEditable": true
+      },
+      "start": "2023-04-12T09:00:00",
+      "end": "2023-04-12T09:15:00",
+      "backgroundColor": "#44936c",
+      "borderColor": "#44936c",
+      "editable": false
+    },
+    {
+      "id": 4,
+      "title": "Call Zeca",
+      "extendedProps": {
+        "category": "Vie",
+        "mandatory": true,
+        "resourceEditable": true
+      },
+      "start": "2023-04-12T10:00:00",
+      "end": "2023-04-12T10:15:00",
+      "backgroundColor": "#44936c",
+      "borderColor": "#44936c",
+      "editable": false
     }
   ]
 }
