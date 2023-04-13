@@ -30,10 +30,6 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             setStartDate(dayjs(eventInfo.start));
             setEndDate(dayjs(eventInfo.end));
             setBackColor(eventInfo.backgroundColor);
-        } else {
-            setTitle('');
-            setCategory('');
-            setBackColor(backColor);
         }
     }, [eventInfo]);
 
@@ -113,6 +109,8 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                 durationEditable: !mandatory
             }));
             handleCloseCreateForm()
+            setTitle('');
+            setCategory('');
         }
         else {
             eventInfo.setProp('title', title)
