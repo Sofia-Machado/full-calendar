@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import axios from 'axios';
+import dayjs from 'dayjs';
 import { Card, CardContent, Typography } from '@mui/material';
 
 const fecthDraggableItems = () => {
@@ -20,6 +21,29 @@ const DraggableEvents = ({events}) => {
       setSelectedItemId(itemId); // select item
     }
   };
+
+  let pastMandatoryEvents = [];
+  
+  useEffect(() => {
+    const now = dayjs().format();
+    events.data.forEach(event => {
+        if (event?.extendedProps?.mandatory && (now > event.end)) {
+          pastMandatoryEvents.push({
+                title: event.title,
+                id: parseInt(event.id, 10), 
+                start: event.start,
+                end: event.end,
+                category: event.extendedProps.category,
+                mandatory: event.extendedProps.mandatory,
+                backgroundColor: event.backgroundColor,
+                borderColor: event.borderColor,
+                editable: !event.extendedProps.mandatory, 
+                startEditable: !event.extendedProps.mandatory, 
+                durationEditable: !event.extendedProps.mandatory
+          })}
+    })
+  }, [events])
+  console.log(pastMandatoryEvents)
 
   if (isLoading) {
     return <h2>Loading...</h2>

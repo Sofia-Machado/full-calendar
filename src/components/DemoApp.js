@@ -119,6 +119,8 @@ export function DemoApp() {
     setOpenCreateForm(true);
   };
  
+
+  //EADDRINUSE /* ERROR */
   const handleEventReceive = (info) => {
     const event = info.event.toPlainObject();
     const mandatory = event.extendedProps.mandatory;
@@ -135,7 +137,6 @@ export function DemoApp() {
         onSuccess: () => {
           queryClient.invalidateQueries('dragItems');
         }
-        
       })
     }
   }
