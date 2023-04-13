@@ -128,7 +128,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             eventInfo.setProp('durationEditable', !mandatory)
             const updatedEvent = eventInfo;
             console.log(updatedEvent)
-            updateExistingEvent(updatedEvent, {
+            updateExistingEvent(({updatedEvent, editable: false, startEditable: false, durationEditable: false}), {
                 onSuccess: () => {
                     queryClient.invalidateQueries('events');
                 }
