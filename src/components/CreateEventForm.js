@@ -135,10 +135,6 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                 editable: !mandatory, 
                 startEditable: !mandatory, 
                 durationEditable: !mandatory
-            }, {
-                onSuccess: () => {
-                    queryClient.invalidateQueries('events');
-                }
             })
             handleCloseCreateForm()
         }

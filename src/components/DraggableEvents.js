@@ -16,10 +16,11 @@ const DraggableEvents = ({events}) => {
   const { isLoading, data: draggableList, isError, error } = useQuery('dragItems', fecthDraggableItems)
   const { mutate: addDragItem } = useAddDragItem();
   const queryClient = useQueryClient();
-  /* useEffect(() => {
+  /*  useEffect(() => {
       events?.data.forEach(event => {
         let now = dayjs().format();
         if (!draggableList.data.includes(event.id) && event?.extendedProps?.mandatory && (now > event.end)) {
+          console.log()
           addDragItem(({
             id: draggableList.data.length + 1,
                   title: event.title,
@@ -35,8 +36,8 @@ const DraggableEvents = ({events}) => {
           })
         }
       })
-  }, [])
- */
+  }, []) */
+ 
   const handleItemClick = (itemId) => {
     if (selectedItemId === itemId) {
       setSelectedItemId(null); // deselect item if already selected
