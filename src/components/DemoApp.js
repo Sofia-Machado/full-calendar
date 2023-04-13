@@ -115,16 +115,16 @@ export function DemoApp() {
               mandatory: mandatory,
               resourceEditable: true,
             },
-            startEditable: !mandatory,
-            durationEditable: !mandatory,
-            editable: !mandatory,
             backgroundColor: backColor,
             borderColor: backColor,
+            startEditable: !mandatory,
+            durationEditable: !mandatory,
+            editable: !mandatory
           };
         }
       });
     }
-  }, []);
+  }, [addNewEvent]);
   
   /* remove event */
   const handleEventRemove = (id) => {
@@ -153,10 +153,10 @@ export function DemoApp() {
     if (event) {
       addNewEvent(calendar.current.calendar.addEvent({...event,
         id: calendar.current.props.events.length + 1,
-        startEditable: !mandatory,
-        durationEditable: !mandatory,
-        editable: !mandatory,
       }));
+      updateExistingEvent({...event, startEditable: !mandatory,
+        durationEditable: !mandatory,
+        editable: !mandatory,})
       removeDraggableEvents(dragId, {
         onSuccess: () => {
           queryClient.invalidateQueries('dragItems');

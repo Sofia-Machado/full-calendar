@@ -70,24 +70,23 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
         let isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
         dayjs.extend(isSameOrAfter);
         setStartDate(dayjs(date));
-        
         // Check if start date is after end date
         if (dayjs(date).isSameOrAfter(endDate)) {
           // If start date is after end date, set end date to start date + 15 minutes
           setEndDate(dayjs(date).add(15, 'minutes')); 
         }
       };
-      const handleChangeEndDate = (date) => {
-        let isSameOrBefore = require('dayjs/plugin/isSameOrBefore');
-        dayjs.extend(isSameOrBefore);
-        setEndDate(dayjs(date));
-        console.log(endDate)
-        // Check if end date is before start date
-        if (dayjs(date).isSameOrBefore(startDate)) {
-          // If end date is before start date, set start date to end date - 15 minutes
-          setStartDate(dayjs(date).subtract(15, 'minutes'));
-        }
-      };
+    const handleChangeEndDate = (date) => {
+    let isSameOrBefore = require('dayjs/plugin/isSameOrBefore');
+    dayjs.extend(isSameOrBefore);
+    setEndDate(dayjs(date));
+    console.log(endDate)
+    // Check if end date is before start date
+    if (dayjs(date).isSameOrBefore(startDate)) {
+        // If end date is before start date, set start date to end date - 15 minutes
+        setStartDate(dayjs(date).subtract(15, 'minutes'));
+    }
+    };
 
     const handleSubmit = (event) => {
         event.preventDefault();
