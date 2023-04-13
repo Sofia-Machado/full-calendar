@@ -99,7 +99,7 @@ export function DemoApp() {
         }
       });
     }
-  }, [])
+  }, [isLoading])
 
   /* remove event */
   const handleEventRemove = (id) => {
@@ -111,8 +111,6 @@ export function DemoApp() {
           queryClient.invalidateQueries('events');
         }
       })
-      //eventData.remove();
-    
     setOpenCreateForm(false);
   };
 
@@ -128,16 +126,10 @@ export function DemoApp() {
       addNewEvent(calendar.current.calendar.addEvent({...event,
         id: calendar.current.props.events.length + 1,
       }, {
-        onSuccess: () => {
-          queryClient.invalidateQueries('events');
-        }
       }));
       updateExistingEvent({...event, startEditable: !mandatory,
         durationEditable: !mandatory,
         editable: !mandatory}, {
-          onSuccess: () => {
-            queryClient.invalidateQueries('events');
-          }
         })
       removeDraggableEvents(dragId, {
         onSuccess: () => {

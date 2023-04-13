@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react';
-import { useQuery, useQueryClient } from 'react-query';
+import { useState } from 'react';
+import { useQuery } from 'react-query';
 import axios from 'axios';
 import { Card, CardContent, Typography } from '@mui/material';
-import dayjs from 'dayjs';
-import { useAddDragItem } from '../hooks/eventHook';
 
 const fecthDraggableItems = () => {
   return axios.get("http://localhost:8001/dragItemList")
@@ -14,29 +12,6 @@ const DraggableEvents = ({events}) => {
 
   /* fetch */
   const { isLoading, data: draggableList, isError, error } = useQuery('dragItems', fecthDraggableItems)
-  const { mutate: addDragItem } = useAddDragItem();
-  const queryClient = useQueryClient();
-  /*  useEffect(() => {
-      events?.data.forEach(event => {
-        let now = dayjs().format();
-        if (!draggableList.data.includes(event.id) && event?.extendedProps?.mandatory && (now > event.end)) {
-          console.log()
-          addDragItem(({
-            id: draggableList.data.length + 1,
-                  title: event.title,
-                  extendedProps: {
-                      category: event.extendedProps.category,
-                      mandatory: event.extendedProps.mandatory,
-                      resourceEditable: true,
-                  }
-          }), {
-            onSuccess: () => {
-              queryClient.invalidateQueries('dragItems')
-            }
-          })
-        }
-      })
-  }, []) */
  
   const handleItemClick = (itemId) => {
     if (selectedItemId === itemId) {

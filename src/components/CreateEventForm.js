@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useQueryClient } from 'react-query';
 import { Box, Button, FormControl, FormControlLabel, FormGroup, InputLabel, MenuItem, Modal, Select, Switch, TextField } from '@mui/material';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -17,7 +16,6 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const [debounceTimeoutId, setDebounceTimeoutId] = useState(null);    
 
     const dataCategories = ['Santé', 'Vie'];
-    const queryClient = useQueryClient();
    
     const { mutate:addNewEvent } = useAddEvent()
     const { mutate:updateExistingEvent } = useUpdateEvent()
@@ -72,19 +70,17 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
         setStartDate(dayjs(date));
         // Check if start date is after end date
         if (dayjs(date).isSameOrAfter(endDate)) {
-          // If start date is after end date, set end date to start date + 15 minutes
           setEndDate(dayjs(date).add(15, 'minutes')); 
         }
-      };
+    };
     const handleChangeEndDate = (date) => {
     let isSameOrBefore = require('dayjs/plugin/isSameOrBefore');
     dayjs.extend(isSameOrBefore);
     setEndDate(dayjs(date));
-    // Check if end date is before start date
-    if (dayjs(date).isSameOrBefore(startDate)) {
-        // If end date is before start date, set start date to end date - 15 minutes
-        setStartDate(dayjs(date).subtract(15, 'minutes'));
-    }
+        // Check if end date is before start date
+        if (dayjs(date).isSameOrBefore(startDate)) {
+            setStartDate(dayjs(date).subtract(15, 'minutes'));
+        }
     };
 
     const handleSubmit = (event) => {
