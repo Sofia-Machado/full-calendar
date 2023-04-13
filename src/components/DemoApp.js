@@ -21,6 +21,15 @@ const removeEvents = (id, options) => {
       return response;
     });
 }
+const removeDraggableEvents = (id, options) => {
+  return axios.delete(`http://localhost:8000/dragItemList/${id}`)
+    .then(response => {
+      if (options && options.onSuccess) {
+        options.onSuccess(response);
+      }
+      return response;
+    });
+}
 
 export function DemoApp() {
   const [openCreateForm, setOpenCreateForm] = useState(false);
@@ -28,6 +37,7 @@ export function DemoApp() {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [customEvents, setCustomEvents] = useState([]);
+  const [dragId, setDragId] = useState(null);
   
   const calendar = useRef();
 
@@ -86,6 +96,7 @@ export function DemoApp() {
         eventData: function(eventEl) {
           const dataString = eventEl.getAttribute('data-event');
           const data = JSON.parse(dataString);
+          setDragId(data.id);
           const title = data.title;
           const category = data.extendedProps.category;
           const mandatory = data.extendedProps.mandatory;
@@ -135,7 +146,16 @@ export function DemoApp() {
   const handleOpenCreateForm = () => {
     setOpenCreateForm(true);
   };
-  
+ 
+  const handleEventReceive = (info) => {
+    const event = info.event.toPlainObject();
+    addNewEvent(calendar.current.calendar.addEvent({event}))
+    removeDraggableEvents(dragId, {
+      onSuccess: () => {
+        queryClient.invalidateQueries('dragItems');
+      }
+    })
+  }
   
   /* event content */
   const eventContent = (eventInfo) => {
@@ -160,10 +180,8 @@ export function DemoApp() {
     ],
     //on drop
     droppable: true,
-      eventReceive: function (info) {
-      const event = info.event.toPlainObject();
-      addNewEvent(event)
-    },
+    eventReceive: handleEventReceive,
+    dragScroll: true,
     initialView: 'timeGridDay',
     weekends: false,
     slotMinTime: "09:00:00", 
@@ -183,9 +201,6 @@ export function DemoApp() {
     nowIndicator: true,
     selectable: true,
     editable: true,
-    eventDrop: function(info) {
-      updateExistingEvent(info.event)
-    },
     eventRemove: handleEventRemove,
     //onclick
     select: function(info) {

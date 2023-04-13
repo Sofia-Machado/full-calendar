@@ -55,20 +55,6 @@
       "backgroundColor": "#44936c",
       "borderColor": "#44936c",
       "editable": false
-    },
-    {
-      "allDay": false,
-      "title": "çççç",
-      "start": "2023-04-13T10:45:00+01:00",
-      "end": "2023-04-13T11:20:00+01:00",
-      "id": "5",
-      "backgroundColor": "#e3ab9a",
-      "borderColor": "#e3ab9a",
-      "extendedProps": {
-        "category": "Santé",
-        "mandatory": true,
-        "resourceEditable": true
-      }
     }
   ],
   "dragItemList": [
@@ -90,29 +76,21 @@
     },
     {
       "id": 3,
-      "title": "Call Francisco",
+      "title": "Call Chico",
       "extendedProps": {
         "category": "Vie",
         "mandatory": true,
         "resourceEditable": true
-      },
-      "start": "2023-04-13T09:00:00",
-      "end": "2023-04-13T09:15:00",
-      "backgroundColor": "#44936c",
-      "borderColor": "#44936c"
+      }
     },
     {
       "id": 4,
-      "title": "Call Zeca",
+      "title": "Call Bolinha",
       "extendedProps": {
         "category": "Vie",
         "mandatory": true,
         "resourceEditable": true
-      },
-      "start": "2023-04-13T10:00:00",
-      "end": "2023-04-13T10:15:00",
-      "backgroundColor": "#44936c",
-      "borderColor": "#44936c"
+      }
     }
   ]
 }
