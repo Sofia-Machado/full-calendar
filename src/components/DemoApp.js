@@ -149,12 +149,22 @@ export function DemoApp() {
  
   const handleEventReceive = (info) => {
     const event = info.event.toPlainObject();
-    addNewEvent(calendar.current.calendar.addEvent({event}))
-    removeDraggableEvents(dragId, {
-      onSuccess: () => {
-        queryClient.invalidateQueries('dragItems');
-      }
-    })
+    const mandatory = event.extendedProps.mandatory;
+    if (event) {
+      addNewEvent(calendar.current.calendar.addEvent({...event,
+        id: calendar.current.props.events.length + 1,
+        startEditable: !mandatory,
+        durationEditable: !mandatory,
+        editable: !mandatory,
+      }));
+      removeDraggableEvents(dragId, {
+        onSuccess: () => {
+          queryClient.invalidateQueries('dragItems');
+          queryClient.invalidateQueries('events');
+        }
+        
+      })
+    }
   }
   
   /* event content */

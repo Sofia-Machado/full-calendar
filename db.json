@@ -64,7 +64,10 @@
       "extendedProps": {
         "category": "Santé",
         "mandatory": true
-      }
+      },
+      "startEditable": false,
+      "durationEditable": false,
+      "editable": false
     },
     {
       "id": 2,
@@ -72,7 +75,10 @@
       "extendedProps": {
         "category": "Vie",
         "mandatory": false
-      }
+      },
+      "startEditable": true,
+      "durationEditable": true,
+      "editable": true
     },
     {
       "id": 3,
@@ -81,7 +87,10 @@
         "category": "Vie",
         "mandatory": true,
         "resourceEditable": true
-      }
+      },
+      "startEditable": false,
+      "durationEditable": false,
+      "editable": false
     },
     {
       "id": 4,
@@ -90,7 +99,10 @@
         "category": "Vie",
         "mandatory": true,
         "resourceEditable": true
-      }
+      },
+      "startEditable": false,
+      "durationEditable": false,
+      "editable": false
     }
   ]
 }
