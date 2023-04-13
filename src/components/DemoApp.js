@@ -1,12 +1,12 @@
 import { useRef, useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
-import { useQuery, QueryClient, useQueryClient } from 'react-query';
+import { useQuery, QueryClient, useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import CreateEventForm from './CreateEventForm';
 import DraggableEvents from './DraggableEvents';
-import { useUpdateEvent, useAddEvent } from '../hooks/eventHook';
+import { useUpdateEvent, useAddEvent, useAddDragItem } from '../hooks/eventHook';
 import dayjs from 'dayjs';
 
 const fetchEvents = () => {
@@ -49,35 +49,27 @@ export function DemoApp() {
   const onError = () => {
     console.log('error')
   }
- /*  const mutation = useMutation({
-    mutationFn: (newDragItem) => {
-      return axios.post("http://localhost:8000/dragItemList", newDragItem)
-    }
-  }) */
+ const mutation = useAddDragItem()
   //try to mutate first the simple events
 
   //fetch
   const { isLoading, data: events, isError, error } = useQuery(
     'events', 
     fetchEvents,
-    {/* 
-      select: (data) => {
-        data?.data.forEach(event => {
-          let now = dayjs().format();
-          if (event?.extendedProps?.mandatory && (now > event.end)) {
-            mutation.mutate({event})
-          }
-        })
-      }, */
+    {
       refetchInterval: 60000,
       refetchIntervalInBackground: true,
       onSuccess: (events) => {
         events?.data.forEach(event => {
           let now = dayjs().format();
-          /* if (event?.extendedProps?.mandatory && (now > event.end)) {
+          if (event?.extendedProps?.mandatory && (now > event.end)) {
             console.log(event)
-            mutation.mutate(event)
-          } */
+            mutation.mutate(event, {
+              onSuccess: () => {
+                queryClient.invalidateQueries('dragItems')
+              }
+            })
+          }
         })
       },
       onError

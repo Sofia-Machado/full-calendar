@@ -14,7 +14,8 @@ const DraggableEvents = () => {
   /* fetch */
   const { isLoading, data: draggableList, isError, error } = useQuery('dragItems', fecthDraggableItems)
 
-  const handleItemClick = (itemId) => {
+  const handleItemClick = (e, itemId) => {
+    console.log(e.target.getAttribute('draggable'))
     if (selectedItemId === itemId) {
       setSelectedItemId(null); // deselect item if already selected
     } else {
@@ -34,13 +35,12 @@ const DraggableEvents = () => {
       {draggableList?.data.map((item, index) => {
         const isSelected = selectedItemId === item.id;
         return (
-          <Card sx={{ minWidth: 120 }} key={index}>
+          <Card sx={{ minWidth: 120 }} key={index} >
             <CardContent
-            key={index}
             data-event={JSON.stringify(item)}
             className={`draggable-item ${isSelected ? 'selected' : ''}`}
             draggable={true}
-            onClick={() => handleItemClick(item.id)}
+            onClick={(e) => handleItemClick(e, item.id)}
             >
               <Typography fontSize={14} component="div">
                 {item.title}
