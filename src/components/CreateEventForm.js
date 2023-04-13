@@ -80,7 +80,6 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     let isSameOrBefore = require('dayjs/plugin/isSameOrBefore');
     dayjs.extend(isSameOrBefore);
     setEndDate(dayjs(date));
-    console.log(endDate)
     // Check if end date is before start date
     if (dayjs(date).isSameOrBefore(startDate)) {
         // If end date is before start date, set start date to end date - 15 minutes
@@ -124,8 +123,19 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             eventInfo.setProp('startEditable', !mandatory)
             eventInfo.setProp('durationEditable', !mandatory)
             const updatedEvent = eventInfo;
-            console.log(updatedEvent)
-            updateExistingEvent(({updatedEvent, editable: !mandatory, startEditable: !mandatory, durationEditable: !mandatory}), {
+            updateExistingEvent({ 
+                title: updatedEvent.title,
+                id: parseInt(updatedEvent.id, 10), 
+                start: updatedEvent.start,
+                end: updatedEvent.end,
+                category: updatedEvent.extendedProps.category,
+                mandatory: updatedEvent.extendedProps.mandatory,
+                backgroundColor: updatedEvent.backgroundColor,
+                borderColor: updatedEvent.borderColor,
+                editable: !mandatory, 
+                startEditable: !mandatory, 
+                durationEditable: !mandatory
+            }, {
                 onSuccess: () => {
                     queryClient.invalidateQueries('events');
                 }

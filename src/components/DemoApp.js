@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
-import { useQuery, QueryClient, useMutation, useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -10,10 +10,10 @@ import { useUpdateEvent, useAddEvent, useAddDragItem } from '../hooks/eventHook'
 import dayjs from 'dayjs';
 
 const fetchEvents = () => {
-  return axios.get("http://localhost:8000/events")
+  return axios.get("http://localhost:8001/events")
 }
 const removeEvents = (id, options) => {
-  return axios.delete(`http://localhost:8000/events/${id}`)
+  return axios.delete(`http://localhost:8001/events/${id}`)
     .then(response => {
       if (options && options.onSuccess) {
         options.onSuccess(response);
@@ -22,7 +22,7 @@ const removeEvents = (id, options) => {
     });
 }
 const removeDraggableEvents = (id, options) => {
-  return axios.delete(`http://localhost:8000/dragItemList/${id}`)
+  return axios.delete(`http://localhost:8001/dragItemList/${id}`)
     .then(response => {
       if (options && options.onSuccess) {
         options.onSuccess(response);
@@ -39,8 +39,8 @@ export function DemoApp() {
   const [customEvents, setCustomEvents] = useState([]);
   const [dragId, setDragId] = useState(null);
   
-  const calendar = useRef();
-
+  const calendar = useRef(null);
+  const draggableRef = useRef(null);
   const queryClient = useQueryClient();
   
   const onSuccess = () => {
@@ -49,38 +49,21 @@ export function DemoApp() {
   const onError = () => {
     console.log('error')
   }
- const mutation = useAddDragItem()
-  //try to mutate first the simple events
+ const { mutate: addDragItem } = useAddDragItem();
+ const { mutate:updateExistingEvent } = useUpdateEvent();
+ const { mutate:addNewEvent } = useAddEvent();
 
   //fetch
   const { isLoading, data: events, isError, error } = useQuery(
     'events', 
     fetchEvents,
     {
-      refetchInterval: 60000,
-      refetchIntervalInBackground: true,
-      onSuccess: (events) => {
-        events?.data.forEach(event => {
-          let now = dayjs().format();
-          if (event?.extendedProps?.mandatory && (now > event.end)) {
-            console.log(event)
-            mutation.mutate(event, {
-              onSuccess: () => {
-                queryClient.invalidateQueries('dragItems')
-              }
-            })
-          }
-        })
-      },
+      onSuccess,
       onError
     }
   )
 
-  const { mutate:updateExistingEvent } = useUpdateEvent();
-  const { mutate:addNewEvent } = useAddEvent();
-
   /* drag events */
-  const draggableRef = useRef(null);
   useEffect(() => {
     if (draggableRef.current) {
       new Draggable(draggableRef.current, {
@@ -116,21 +99,20 @@ export function DemoApp() {
         }
       });
     }
-  }, []);
-  
+  }, [])
+
   /* remove event */
   const handleEventRemove = (id) => {
     let calendarApi = calendar.current.getApi()
     let eventData = calendarApi.getEventById(id);
     //check if id exists
-    if (eventData) {
       removeEvents(eventData.id, {
         onSuccess: () => {
           queryClient.invalidateQueries('events');
         }
       })
       //eventData.remove();
-    }
+    
     setOpenCreateForm(false);
   };
 
@@ -142,7 +124,7 @@ export function DemoApp() {
   const handleEventReceive = (info) => {
     const event = info.event.toPlainObject();
     const mandatory = event.extendedProps.mandatory;
-    if (event) {
+    if (info.event) {
       addNewEvent(calendar.current.calendar.addEvent({...event,
         id: calendar.current.props.events.length + 1,
       }, {
@@ -190,7 +172,6 @@ export function DemoApp() {
     //on drop
     droppable: true,
     eventReceive: handleEventReceive,
-    dragScroll: true,
     initialView: 'timeGridDay',
     weekends: false,
     slotMinTime: "09:00:00", 
@@ -233,7 +214,7 @@ export function DemoApp() {
     <div>
       <h1>Demo App</h1>
       <div ref={draggableRef}>
-        <DraggableEvents />
+        <DraggableEvents events={events} />
       </div>
       <FullCalendar
         ref={calendar}
