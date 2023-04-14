@@ -4,7 +4,8 @@ import { useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { Autocomplete, Container, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack, TextField } from '@mui/material';
+import { Autocomplete, Container, FormControl, FormControlLabel,FormHelperText, FormLabel, InputAdornment, InputLabel, MenuItem, Radio, RadioGroup, Select, Stack, TextField } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 import { useUpdateEvent, useAddEvent } from '../hooks/eventHook';
 import CreateEventForm from './CreateEventForm';
 import DraggableEvents from './DraggableEvents';
@@ -247,7 +248,16 @@ export function DemoApp() {
             setEventInfo(value);
             handleOpenCreateForm()
           }}
-          renderInput={(params) => <TextField {...params} label="With categories" />}
+          renderInput={(params) => <TextField {...params}
+          InputProps={{
+            ...params.InputProps,
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            )
+          }}
+          label="Search by category" />}
         />
         </Stack>
         <div class="draggables" ref={draggableRef}>
@@ -267,22 +277,24 @@ export function DemoApp() {
             <FormControlLabel value="01:00:00" control={<Radio size='small' />} label="1h" />
           </RadioGroup>
         </FormControl>
-        <Stack spacing={3} sx={{ width: 300 }}>
-          <Autocomplete
-            multiple
-            id="tags-standard"
-            options={categoryOptions}
-            getOptionLabel={(option) => option.title}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                variant="standard"
-                label="Multiple values"
-                placeholder="Filter"
-              />
-            )}
-          />
-        </Stack>
+        <FormControl sx={{ m: 1, minWidth: 120 }}>
+        <InputLabel id="demo-simple-select-helper-label">Filter</InputLabel>
+        <Select
+          labelId="demo-simple-select-helper-label"
+          id="demo-simple-select-helper"
+          //value={}
+          label="Age"
+          //onChange={}
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value={10}>Ten</MenuItem>
+          <MenuItem value={20}>Twenty</MenuItem>
+          <MenuItem value={30}>Thirty</MenuItem>
+        </Select>
+        <FormHelperText>With label + helper text</FormHelperText>
+      </FormControl>
         <FullCalendar
           className='full-calendar'
           ref={calendar}
