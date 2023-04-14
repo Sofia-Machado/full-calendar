@@ -7,7 +7,8 @@
       "end": "2023-04-14T13:00:00.000Z",
       "extendedProps": {
         "category": "Santé",
-        "mandatory": true
+        "mandatory": true,
+        "resourceEditable": true
       },
       "backgroundColor": "#e3ab9a",
       "borderColor": "#e3ab9a",
@@ -18,8 +19,8 @@
     {
       "title": "Call Sandra",
       "id": 2,
-      "start": "2023-04-14T10:30:00.000Z",
-      "end": "2023-04-14T10:45:00.000Z",
+      "start": "2023-04-14T08:15:00.000Z",
+      "end": "2023-04-14T08:30:00.000Z",
       "extendedProps": {
         "category": "Vie",
         "mandatory": false
@@ -47,23 +48,24 @@
       "durationEditable": false
     },
     {
-      "id": 4,
       "title": "Call Zeca",
+      "id": 4,
+      "start": "2023-04-14T08:15:00.000Z",
+      "end": "2023-04-14T08:30:00.000Z",
       "extendedProps": {
         "category": "Vie",
-        "mandatory": true,
-        "resourceEditable": true
+        "mandatory": false
       },
-      "start": "2023-04-14T10:00:00",
-      "end": "2023-04-14T10:15:00",
       "backgroundColor": "#44936c",
       "borderColor": "#44936c",
-      "editable": false
+      "editable": true,
+      "startEditable": true,
+      "durationEditable": true
     }
   ],
   "dragItemList": [
     {
-      "id": 1,
+      "id": "list1",
       "title": "Call Pedro",
       "extendedProps": {
         "category": "Santé",
@@ -71,7 +73,7 @@
       }
     },
     {
-      "id": 2,
+      "id": "list2",
       "title": "Call Oscar",
       "extendedProps": {
         "category": "Vie",
@@ -79,7 +81,7 @@
       }
     },
     {
-      "id": 3,
+      "id": "list3",
       "title": "Call Chico",
       "extendedProps": {
         "category": "Vie",
@@ -88,7 +90,7 @@
       }
     },
     {
-      "id": 4,
+      "id": "list4",
       "title": "Call Bolinha",
       "extendedProps": {
         "category": "Vie",

@@ -28,6 +28,9 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             setStartDate(dayjs(eventInfo.start));
             setEndDate(dayjs(eventInfo.end));
             setBackColor(eventInfo.backgroundColor);
+        } else {
+            setTitle('')
+            setCategory('')
         }
     }, [eventInfo]);
 
