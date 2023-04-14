@@ -2,17 +2,40 @@ import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import { useAddDragItem } from '../hooks/eventHook';
 import { Card, CardContent, Typography } from '@mui/material';
-
-const fecthDraggableItems = () => {
-  return axios.get("http://localhost:8001/dragItemList")
-}
 
 const DraggableEvents = ({events}) => {
   const [selectedItemId, setSelectedItemId] = useState(null);
-
+  
+  const fecthDraggableItems = () => {
+    return axios.get("http://localhost:8001/dragItemList")
+  }
+  const { mutate: addDragItem } = useAddDragItem();
   /* fetch */
-  const { isLoading, data: draggableList, isError, error } = useQuery('dragItems', fecthDraggableItems)
+  const { isLoading, data: draggableList, isError, error } = useQuery('dragItems', fecthDraggableItems, {
+    onSuccess: (data) => {
+      const now = dayjs().format();
+      events.data.forEach(event => {
+        if (!data.data.includes(event)) {
+          if (event?.extendedProps?.mandatory && (now > event.end && now < event.start)) {
+            addDragItem({
+              title: event.title,
+              start: event.start,
+              end: event.end,
+              category: event.extendedProps.category,
+              mandatory: event.extendedProps.mandatory,
+              backgroundColor: event.backgroundColor,
+              borderColor: event.borderColor,
+              editable: !event.extendedProps.mandatory, 
+              startEditable: !event.extendedProps.mandatory, 
+              durationEditable: !event.extendedProps.mandatory
+            })
+          }
+        }
+      })
+    }
+  })
  
   const handleItemClick = (itemId) => {
     if (selectedItemId === itemId) {
@@ -21,29 +44,6 @@ const DraggableEvents = ({events}) => {
       setSelectedItemId(itemId); // select item
     }
   };
-
-  let pastMandatoryEvents = [];
-  
-  useEffect(() => {
-    const now = dayjs().format();
-    events.data.forEach(event => {
-        if (event?.extendedProps?.mandatory && (now > event.end)) {
-          pastMandatoryEvents.push({
-                title: event.title,
-                id: parseInt(event.id, 10), 
-                start: event.start,
-                end: event.end,
-                category: event.extendedProps.category,
-                mandatory: event.extendedProps.mandatory,
-                backgroundColor: event.backgroundColor,
-                borderColor: event.borderColor,
-                editable: !event.extendedProps.mandatory, 
-                startEditable: !event.extendedProps.mandatory, 
-                durationEditable: !event.extendedProps.mandatory
-          })}
-    })
-  }, [events])
-  console.log(pastMandatoryEvents)
 
   if (isLoading) {
     return <h2>Loading...</h2>
