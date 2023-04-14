@@ -1,18 +1,17 @@
 {
   "events": [
     {
-      "allDay": false,
       "title": "Call Julia",
-      "start": "2023-04-14T13:00:00+01:00",
-      "end": "2023-04-14T13:00:00+01:00",
       "id": 1,
+      "start": "2023-04-14T12:00:00.000Z",
+      "end": "2023-04-14T13:00:00.000Z",
+      "category": "Santé",
+      "mandatory": true,
       "backgroundColor": "#e3ab9a",
       "borderColor": "#e3ab9a",
-      "extendedProps": {
-        "category": "Santé",
-        "mandatory": true,
-        "resourceEditable": true
-      }
+      "editable": false,
+      "startEditable": false,
+      "durationEditable": false
     },
     {
       "allDay": false,
