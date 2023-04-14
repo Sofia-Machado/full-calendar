@@ -179,8 +179,8 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                         onChange={handleChangeCategory}
                         value={category}
                     >
-                        {dataCategories.map(dateCategory => {
-                            return <MenuItem key={dateCategory} value={dateCategory}>{dateCategory}</MenuItem>
+                        {dataCategories.map(dataCategory => {
+                            return <MenuItem key={dataCategory} value={dataCategory}>{dataCategory}</MenuItem>
                         })}
                     </Select>
                 </FormControl>

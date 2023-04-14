@@ -62,7 +62,7 @@ const DraggableEvents = ({events}) => {
       {draggableList?.data.map((item, index) => {
         const isSelected = selectedItemId === item.id;
         return (
-          <Card sx={{ minWidth: 120 }} key={index} >
+          <Card key={index} >
             <CardContent
             data-event={JSON.stringify(item)}
             className={`draggable-item ${isSelected ? 'selected' : ''}`}

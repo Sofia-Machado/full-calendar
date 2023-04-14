@@ -4,11 +4,12 @@ import { useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import { Autocomplete, Container, Stack, TextField } from '@mui/material';
+import { useUpdateEvent, useAddEvent } from '../hooks/eventHook';
 import CreateEventForm from './CreateEventForm';
 import DraggableEvents from './DraggableEvents';
-import { useUpdateEvent, useAddEvent, useAddDragItem } from '../hooks/eventHook';
-import dayjs from 'dayjs';
 
+/* Fetch and remove functions */
 const fetchEvents = () => {
   return axios.get("http://localhost:8001/events")
 }
@@ -31,13 +32,15 @@ const removeDraggableEvents = (id, options) => {
     });
 }
 
+/* Component DemoApp */
 export function DemoApp() {
   const [openCreateForm, setOpenCreateForm] = useState(false);
   const [eventInfo, setEventInfo] = useState({});
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [customEvents, setCustomEvents] = useState([]);
   const [dragId, setDragId] = useState(null);
+
+  const dataCategories = ['Santé', 'Vie'];
   
   const calendar = useRef(null);
   const draggableRef = useRef(null);
@@ -49,21 +52,17 @@ export function DemoApp() {
   const onError = () => {
     console.log('error')
   }
- const { mutate: addDragItem } = useAddDragItem();
- const { mutate:updateExistingEvent } = useUpdateEvent();
- const { mutate:addNewEvent } = useAddEvent();
-
-  //fetch
-  const { isLoading, data: events, isError, error } = useQuery(
-    'events', 
-    fetchEvents,
+  
+  //fetch and mutate data
+  const { isLoading, data: events, isError, error } = useQuery('events', fetchEvents,
     {
       onSuccess,
       onError
-    }
-  )
+    })
+    const { mutate:updateExistingEvent } = useUpdateEvent();
+    const { mutate:addNewEvent } = useAddEvent();
 
-  /* drag events */
+  //drag event info
   useEffect(() => {
     if (draggableRef.current) {
       new Draggable(draggableRef.current, {
@@ -101,7 +100,7 @@ export function DemoApp() {
     }
   }, [isLoading])
 
-  /* remove event */
+  //remove event
   const handleEventRemove = (id) => {
     let calendarApi = calendar.current.getApi()
     let eventData = calendarApi.getEventById(id);
@@ -114,11 +113,12 @@ export function DemoApp() {
     setOpenCreateForm(false);
   };
 
-  /* open form */
+  //open form
   const handleOpenCreateForm = () => {
     setOpenCreateForm(true);
   };
 
+  //update event drag and drop
   const handleDrop = (info) => {
     const event = info.event.toPlainObject();
     if (event) {
@@ -147,7 +147,7 @@ export function DemoApp() {
     }
   }
   
-  /* event content */
+  //event content 
   const eventContent = (eventInfo) => {
     //mandatory icon
     const isMandatory = eventInfo.event.extendedProps.mandatory;
@@ -162,17 +162,12 @@ export function DemoApp() {
     )
   }
 
-  /* calendar options */
+  //calendar options
   const options = {
     plugins: [
       timeGridPlugin, 
       interactionPlugin 
     ],
-    //on drop
-    droppable: true,
-    eventReceive: handleEventReceive,
-    eventDrop: handleDrop,
-    eventResize: handleDrop,
     initialView: 'timeGridDay',
     weekends: false,
     slotMinTime: "09:00:00", 
@@ -192,6 +187,10 @@ export function DemoApp() {
     nowIndicator: true,
     selectable: true,
     editable: true,
+    droppable: true,
+    eventReceive: handleEventReceive,
+    eventDrop: handleDrop,
+    eventResize: handleDrop,
     eventRemove: handleEventRemove,
     //onclick
     select: function(info) {
@@ -211,23 +210,60 @@ export function DemoApp() {
     return <h2>{error.message}</h2>
   }
   
+  const categoryOptions = Object.values(events.data).sort((a, b) => {
+    if (a.extendedProps.category>b.extendedProps.category){
+      return -1;
+  } else {
+    if (a.extendedProps.category<b.extendedProps.category){
+          return 1;
+    } else {
+        if (a.title > b.title) {
+          return 1
+        } else {
+          if (a.title < b.title) {
+            return -1
+          }
+        }
+      }
+    }
+  });
+
   return (
     <div className='calendar-app'>
-      <h1>Demo App</h1>
-      <div ref={draggableRef}>
-        <DraggableEvents events={events} />
-      </div>
-      <FullCalendar
-        ref={calendar}
-        {...options}
-        events={events.data}
-        eventContent={eventContent}
-        eventClick={(e) => {
-          setEventInfo(e.event);
-          handleOpenCreateForm()
-        }}
-      />
-     <CreateEventForm handleEventRemove={handleEventRemove} customEvents={customEvents} calendar={calendar} eventInfo={eventInfo} setEventInfo={setEventInfo} openCreateForm={openCreateForm} setOpenCreateForm={setOpenCreateForm} startDate={startDate} setStartDate={setStartDate} endDate={endDate} setEndDate={setEndDate}  />
+      <Container>
+        <h1>Demo App</h1>
+        <Stack spacing={2} sx={{ width: 300 }}>
+        <Autocomplete
+          id="search-by-category"
+          options={categoryOptions}
+          groupBy={(option) => option.extendedProps.category}
+          getOptionLabel={(option) => option.title}
+          sx={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} label="With categories" />}
+        />
+        </Stack>
+        <div class="draggables" ref={draggableRef}>
+          <DraggableEvents events={events} />
+        </div>
+        <FullCalendar
+          className='full-calendar'
+          ref={calendar}
+          {...options}
+          events={events.data}
+          eventContent={eventContent}
+          eventClick={(e) => {
+            setEventInfo(e.event);
+            handleOpenCreateForm()
+          }}
+        />
+      <CreateEventForm 
+        handleEventRemove={handleEventRemove} 
+        calendar={calendar} 
+        eventInfo={eventInfo} setEventInfo={setEventInfo}
+        openCreateForm={openCreateForm} setOpenCreateForm={setOpenCreateForm} 
+        startDate={startDate} setStartDate={setStartDate} 
+        endDate={endDate} setEndDate={setEndDate} />
+      </Container>
     </div>
   )
 }
