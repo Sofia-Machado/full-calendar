@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { useAddDragItem } from '../hooks/eventHook';
@@ -12,13 +12,14 @@ const DraggableEvents = ({events}) => {
     return axios.get("http://localhost:8001/dragItemList")
   }
   const { mutate: addDragItem } = useAddDragItem();
+  
   /* fetch */
   const { isLoading, data: draggableList, isError, error } = useQuery('dragItems', fecthDraggableItems, {
     onSuccess: (data) => {
       const now = dayjs().format();
       events.data.forEach(event => {
         if (!data.data.includes(event)) {
-          if (event?.extendedProps?.mandatory && (now > event.end && now < event.start)) {
+          if (event?.extendedProps?.mandatory && now > event.end) {
             addDragItem({
               title: event.title,
               start: event.start,

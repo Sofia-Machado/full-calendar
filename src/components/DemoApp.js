@@ -204,7 +204,7 @@ export function DemoApp() {
   }
   
   return (
-    <div>
+    <div className='calendar-app'>
       <h1>Demo App</h1>
       <div ref={draggableRef}>
         <DraggableEvents events={events} />
