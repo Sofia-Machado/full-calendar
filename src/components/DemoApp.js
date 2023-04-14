@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { Autocomplete, Container, IconButton, Stack, TextField } from '@mui/material';
+import { Autocomplete, Container, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Stack, TextField } from '@mui/material';
 import { useUpdateEvent, useAddEvent } from '../hooks/eventHook';
 import CreateEventForm from './CreateEventForm';
 import DraggableEvents from './DraggableEvents';
@@ -39,6 +39,7 @@ export function DemoApp() {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [dragId, setDragId] = useState(null);
+  const [slotDuration, setSlotDuration] = useState("00:15:00")
   
   const calendar = useRef(null);
   const draggableRef = useRef(null);
@@ -171,7 +172,7 @@ export function DemoApp() {
     weekends: false,
     slotMinTime: "09:00:00", 
     slotMaxTime: "18:00:01",
-    slotDuration: "00:15:00",
+    slotDuration: slotDuration,
     slotLabelFormat: {
       hour: 'numeric',
       minute: '2-digit',
@@ -210,21 +211,23 @@ export function DemoApp() {
   }
   
   const categoryOptions = Object.values(events.data).sort((a, b) => {
+    let result;
     if (a.extendedProps.category>b.extendedProps.category){
-      return -1;
+      result = -1;
   } else {
     if (a.extendedProps.category<b.extendedProps.category){
-          return 1;
+          result = 1;
     } else {
         if (a.title > b.title) {
-          return 1
+          result = 1
         } else {
           if (a.title < b.title) {
-            return -1
+            result = -1
           }
         }
       }
     }
+    return result;
   });
 
   //try to insert icon on mandatory params 
@@ -250,6 +253,19 @@ export function DemoApp() {
         <div class="draggables" ref={draggableRef}>
           <DraggableEvents events={events} />
         </div>
+        <FormControl>
+          <FormLabel id="slot-duration-select">Slot Duration</FormLabel>
+          <RadioGroup
+            aria-labelledby="slot-duration-select-options"
+            value={slotDuration}
+            onChange={(e) => setSlotDuration(e.target.value)}
+            name="slot-duration-select-options"
+          >
+            <FormControlLabel value="00:15:00" control={<Radio />} label="15min" />
+            <FormControlLabel value="00:30:00" control={<Radio />} label="30min" />
+            <FormControlLabel value="01:00:00" control={<Radio />} label="1h" />
+          </RadioGroup>
+        </FormControl>
         <FullCalendar
           className='full-calendar'
           ref={calendar}

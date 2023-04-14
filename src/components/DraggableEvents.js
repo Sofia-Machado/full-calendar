@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useQuery, useQueryClient } from 'react-query';
+import { useState } from 'react';
+import { useQuery } from 'react-query';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { useAddDragItem } from '../hooks/eventHook';

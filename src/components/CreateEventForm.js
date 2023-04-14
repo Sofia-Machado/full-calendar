@@ -13,7 +13,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const [category, setCategory] = useState('');
     const [mandatory, setMandatory] = useState(false);
     const [backColor, setBackColor] = useState('#3788d8');
-    const [debounceTimeoutId, setDebounceTimeoutId] = useState(null);    
+    const [timeoutFunc, settimeoutFunc] = useState(null);    
 
     const dataCategories = ['Santé', 'Vie'];
    
@@ -193,9 +193,9 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                         label="Start Date"
                         value={dayjs(startDate)}
                         onChange={(e) => {
-                            clearTimeout(debounceTimeoutId);
-                            const newTimeoutId = setTimeout(() => handleChangeStartDate(e), 300);
-                            setDebounceTimeoutId(newTimeoutId);
+                            clearTimeout(timeoutFunc);
+                            const newTimeout = setTimeout(() => handleChangeStartDate(e), 300);
+                            settimeoutFunc(newTimeout);
                         }}
                         ampm={false}
                         minTime={dayjs().set('hour', 7)}
@@ -205,9 +205,9 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                         label="End Date"
                         value={dayjs(endDate)}
                         onChange={(e) => {
-                            clearTimeout(debounceTimeoutId);
-                            const newTimeoutId = setTimeout(() => handleChangeEndDate(e), 300);
-                            setDebounceTimeoutId(newTimeoutId);
+                            clearTimeout(timeoutFunc);
+                            const newTimeout = setTimeout(() => handleChangeEndDate(e), 300);
+                            settimeoutFunc(newTimeout);
                         }}
                         ampm={false}
                         minTime={dayjs(startDate)}
