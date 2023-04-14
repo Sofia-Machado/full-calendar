@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { Autocomplete, Container, Stack, TextField } from '@mui/material';
+import { Autocomplete, Container, IconButton, Stack, TextField } from '@mui/material';
 import { useUpdateEvent, useAddEvent } from '../hooks/eventHook';
 import CreateEventForm from './CreateEventForm';
 import DraggableEvents from './DraggableEvents';
@@ -61,6 +61,8 @@ export function DemoApp() {
     })
     const { mutate:updateExistingEvent } = useUpdateEvent();
     const { mutate:addNewEvent } = useAddEvent();
+
+    const lockIcon = <i className="fa-solid fa-lock"></i>
 
   //drag event info
   useEffect(() => {
@@ -151,7 +153,7 @@ export function DemoApp() {
   const eventContent = (eventInfo) => {
     //mandatory icon
     const isMandatory = eventInfo.event.extendedProps.mandatory;
-    const icon = isMandatory ? <i className="fa-solid fa-lock"></i> : null;
+    const icon = isMandatory ? lockIcon : null;
     return (
       <div className="event-render">
         <b>{eventInfo.timeText}</b>
@@ -231,13 +233,17 @@ export function DemoApp() {
   return (
     <div className='calendar-app'>
       <Container>
-        <h1>Demo App</h1>
+        <h1>Call-endar</h1>
         <Stack spacing={2} sx={{ width: 300 }}>
         <Autocomplete
           id="search-by-category"
           options={categoryOptions}
           groupBy={(option) => option.extendedProps.category}
-          getOptionLabel={(option) => option.title}
+          getOptionLabel={(option) => {
+            if (option.extendedProps.mandatory) {
+              return (<>{option.title}{lockIcon}</>)
+            }
+            return option.title}}
           sx={{ width: 300 }}
           renderInput={(params) => <TextField {...params} label="With categories" />}
         />
