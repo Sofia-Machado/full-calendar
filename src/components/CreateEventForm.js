@@ -124,8 +124,10 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                 id: parseInt(updatedEvent.id, 10), 
                 start: updatedEvent.start,
                 end: updatedEvent.end,
-                category: updatedEvent.extendedProps.category,
-                mandatory: updatedEvent.extendedProps.mandatory,
+                extendedProps: {
+                    category: updatedEvent.extendedProps.category,
+                    mandatory: updatedEvent.extendedProps.mandatory,
+                },
                 backgroundColor: updatedEvent.backgroundColor,
                 borderColor: updatedEvent.borderColor,
                 editable: !mandatory, 

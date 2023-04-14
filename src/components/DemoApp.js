@@ -118,9 +118,15 @@ export function DemoApp() {
   const handleOpenCreateForm = () => {
     setOpenCreateForm(true);
   };
- 
 
-  //EADDRINUSE /* ERROR */
+  const handleDrop = (info) => {
+    const event = info.event.toPlainObject();
+    if (event) {
+      updateExistingEvent({...event}, {
+      })
+    }
+  }
+ 
   const handleEventReceive = (info) => {
     const event = info.event.toPlainObject();
     const mandatory = event.extendedProps.mandatory;
@@ -165,6 +171,8 @@ export function DemoApp() {
     //on drop
     droppable: true,
     eventReceive: handleEventReceive,
+    eventDrop: handleDrop,
+    eventResize: handleDrop,
     initialView: 'timeGridDay',
     weekends: false,
     slotMinTime: "09:00:00", 

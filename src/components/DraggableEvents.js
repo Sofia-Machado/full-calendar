@@ -12,20 +12,24 @@ const DraggableEvents = ({events}) => {
     return axios.get("http://localhost:8001/dragItemList")
   }
   const { mutate: addDragItem } = useAddDragItem();
-  
+
   /* fetch */
   const { isLoading, data: draggableList, isError, error } = useQuery('dragItems', fecthDraggableItems, {
     onSuccess: (data) => {
       const now = dayjs().format();
       events.data.forEach(event => {
-        if (!data.data.includes(event)) {
+        if (!data.data.includes(event.id)) {
           if (event?.extendedProps?.mandatory && now > event.end) {
             addDragItem({
+              id: event.id,
               title: event.title,
               start: event.start,
               end: event.end,
-              category: event.extendedProps.category,
-              mandatory: event.extendedProps.mandatory,
+              extendedProps : {
+                category: event.extendedProps.category,
+                mandatory: event.extendedProps.mandatory,
+                resourceEditable: true
+              },
               backgroundColor: event.backgroundColor,
               borderColor: event.borderColor,
               editable: !event.extendedProps.mandatory, 
