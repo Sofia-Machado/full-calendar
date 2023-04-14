@@ -39,8 +39,6 @@ export function DemoApp() {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [dragId, setDragId] = useState(null);
-
-  const dataCategories = ['Santé', 'Vie'];
   
   const calendar = useRef(null);
   const draggableRef = useRef(null);
@@ -62,7 +60,6 @@ export function DemoApp() {
     const { mutate:updateExistingEvent } = useUpdateEvent();
     const { mutate:addNewEvent } = useAddEvent();
 
-    const lockIcon = <i className="fa-solid fa-lock"></i>
 
   //drag event info
   useEffect(() => {
@@ -153,7 +150,7 @@ export function DemoApp() {
   const eventContent = (eventInfo) => {
     //mandatory icon
     const isMandatory = eventInfo.event.extendedProps.mandatory;
-    const icon = isMandatory ? lockIcon : null;
+    const icon = isMandatory ? <i className="fa-solid fa-lock"></i> : null;
     return (
       <div className="event-render">
         <b>{eventInfo.timeText}</b>
@@ -230,6 +227,7 @@ export function DemoApp() {
     }
   });
 
+  //try to insert icon on mandatory params 
   return (
     <div className='calendar-app'>
       <Container>
@@ -239,12 +237,13 @@ export function DemoApp() {
           id="search-by-category"
           options={categoryOptions}
           groupBy={(option) => option.extendedProps.category}
-          getOptionLabel={(option) => {
-            if (option.extendedProps.mandatory) {
-              return (<>{option.title}{lockIcon}</>)
-            }
-            return option.title}}
+          getOptionLabel={(option) => option.title}
           sx={{ width: 300 }}
+          onChange={(e, value) => {
+            console.log(value)
+            setEventInfo(value);
+            handleOpenCreateForm()
+          }}
           renderInput={(params) => <TextField {...params} label="With categories" />}
         />
         </Stack>

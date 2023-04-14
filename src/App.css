@@ -63,3 +63,8 @@
   padding: 15px !important;
 }
 
+.icon-lock {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 400;
+  content: "\f023";
+}
