@@ -9,14 +9,14 @@ const DraggableEvents = ({events}) => {
   const [selectedItemId, setSelectedItemId] = useState(null);
   
   const fecthDraggableItems = () => {
-    return axios.get("http://localhost:8001/dragItemList")
+    return axios.get("http://localhost:8000/dragItemList")
   }
   const { mutate: addDragItem } = useAddDragItem();
 
   /* fetch */
   const { isLoading, data: draggableList, isError, error } = useQuery('dragItems', fecthDraggableItems, {
     onSuccess: (data) => {
-      const now = dayjs().format();
+      /* const now = dayjs().format();
       events.data.forEach(event => {
         if (!data.data.includes(event.id)) {
           if (event?.extendedProps?.mandatory && now > event.end) {
@@ -39,9 +39,36 @@ const DraggableEvents = ({events}) => {
             })
           }
         }
-      })
+      }) */
     }
   })
+
+  setTimeout(() => {
+    const now = dayjs().format();
+      events.data.forEach(event => {
+        if (!draggableList.data.includes(event.id)) {
+          if (event?.extendedProps?.mandatory && now > event.end) {
+            addDragItem({
+              id: event.id,
+              title: event.title,
+              start: event.start,
+              end: event.end,
+              extendedProps : {
+                category: event.extendedProps.category,
+                mandatory: event.extendedProps.mandatory,
+                resourceEditable: true
+              },
+              backgroundColor: event.backgroundColor,
+              borderColor: event.borderColor,
+              editable: !event.extendedProps.mandatory, 
+              startEditable: !event.extendedProps.mandatory, 
+              durationEditable: !event.extendedProps.mandatory,
+              display: event.display,
+            })
+          }
+        }
+      })
+  }, 15 * 60 * 1000)
  
   const handleItemClick = (itemId) => {
     if (selectedItemId === itemId) {

@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { Autocomplete, Box, Chip, Container, FormControl, FormControlLabel, FormLabel, InputAdornment, InputLabel, MenuItem, MenuProps, OutlinedInput, Radio, RadioGroup, Select, Stack, TextField } from '@mui/material';
+import { Autocomplete, Box, Chip, Container, FormControl, FormControlLabel, FormLabel, InputAdornment, InputLabel, MenuItem, OutlinedInput, Radio, RadioGroup, Select, Stack, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useTheme } from '@mui/material/styles';
 import { useUpdateEvent, useAddEvent } from '../hooks/eventHook';
@@ -13,10 +13,10 @@ import DraggableEvents from './DraggableEvents';
 
 /* Fetch and remove functions */
 const fetchEvents = () => {
-  return axios.get("http://localhost:8001/events")
+  return axios.get("http://localhost:8000/events")
 }
 const removeEvents = (id, options) => {
-  return axios.delete(`http://localhost:8001/events/${id}`)
+  return axios.delete(`http://localhost:8000/events/${id}`)
     .then(response => {
       if (options && options.onSuccess) {
         options.onSuccess(response);
@@ -25,7 +25,7 @@ const removeEvents = (id, options) => {
     });
 }
 const removeDraggableEvents = (id, options) => {
-  return axios.delete(`http://localhost:8001/dragItemList/${id}`)
+  return axios.delete(`http://localhost:8000/dragItemList/${id}`)
     .then(response => {
       if (options && options.onSuccess) {
         options.onSuccess(response);
@@ -64,6 +64,61 @@ export function DemoApp() {
     })
     const { mutate:updateExistingEvent } = useUpdateEvent();
     const { mutate:addNewEvent } = useAddEvent();
+
+  const filterEvents = (e) => {
+    if (events) {
+      for (let event of events.data) {
+        console.log(filters)
+        if (filters.length > 0) {
+          if (e.target.value === event.extendedProps.category || filters.includes(event.extendedProps.category)) {
+            updateExistingEvent({...event, display: 'block'}, {
+              onSuccess: () => {
+                queryClient.invalidateQueries('events')
+              }
+            })
+          } if ((e.target.value === 'Mandatory' && event.extendedProps.mandatory) || (filters.includes('Mandatory') && event.extendedProps.mandatory)) {
+            updateExistingEvent({...event, display: 'block'}, {
+              onSuccess: () => {
+                queryClient.invalidateQueries('events')
+              }
+            })
+          } else {
+            updateExistingEvent({...event, display: 'none'}, {
+              onSuccess: () => {
+                queryClient.invalidateQueries('events')
+              }
+            })
+          } 
+        }
+      }
+    }
+  }
+    /* for (let filter of filters) {
+        if (event.extendedProps.category !== filter) {
+          updateExistingEvent({...event, display: 'none'}, {
+            onSuccess: () => {
+              queryClient.invalidateQueries('events')
+            }
+          })
+          //setProp not a function...
+          //event.setProp('display', 'none')
+        } 
+        if (event.extendedProps.mandatory && filter === 'Mandatory')  {
+          updateExistingEvent({...event, display: 'none'}, {
+            onSuccess: () => {
+              queryClient.invalidateQueries('events')
+            }
+          })
+          //event.setProp('display', 'none')
+        } else {
+          updateExistingEvent({...event, display: 'block'}, {
+            onSuccess: () => {
+              queryClient.invalidateQueries('events')
+            }
+          })
+          //event.setProp('display', 'block')
+        }
+    } */
 
   //drag event info
   useEffect(() => {
@@ -126,21 +181,47 @@ export function DemoApp() {
   const handleDrop = (info) => {
     const event = info.event.toPlainObject();
     if (event) {
-      updateExistingEvent({...event})
+      updateExistingEvent({event})
     }
   }
  
   const handleEventReceive = (info) => {
     const event = info.event.toPlainObject();
-    const mandatory = event.extendedProps.mandatory;
     if (info.event) {
-      addNewEvent(calendar.current.calendar.addEvent({...event,
-        id: calendar.current.props.events.length + 1,
+      addNewEvent(calendar.current.calendar.addEvent({
+        title: event.title,
+        start: event.start,
+        end: event.end,
+        extendedProps : {
+          category: event.extendedProps.category,
+          mandatory: event.extendedProps.mandatory,
+          resourceEditable: true
+        },
+        backgroundColor: event.backgroundColor,
+        borderColor: event.borderColor,
+        editable: !event.extendedProps.mandatory, 
+        startEditable: !event.extendedProps.mandatory, 
+        durationEditable: !event.extendedProps.mandatory,
+        display: event.display,
       }, {
       }));
-      updateExistingEvent({...event, startEditable: !mandatory,
-        durationEditable: !mandatory,
-        editable: !mandatory}, {
+      updateExistingEvent({
+        id: event.id,
+        title: event.title,
+        start: event.start,
+        end: event.end,
+        extendedProps : {
+          category: event.extendedProps.category,
+          mandatory: event.extendedProps.mandatory,
+          resourceEditable: true
+        },
+        backgroundColor: event.backgroundColor,
+        borderColor: event.borderColor,
+        editable: !event.extendedProps.mandatory, 
+        startEditable: !event.extendedProps.mandatory, 
+        durationEditable: !event.extendedProps.mandatory,
+        display: event.display
+      }, {
         })
       removeDraggableEvents(dragId, {
         onSuccess: () => {
@@ -192,13 +273,12 @@ export function DemoApp() {
     editable: true,
     droppable: true,
     eventReceive: handleEventReceive,
-    eventDrop: handleDrop,
-    eventResize: handleDrop,
+    eventChange: handleDrop,
     eventRemove: handleEventRemove,
     //onclick
     select: function(info) {
       if (info.start && !info.event) {
-        setEventInfo(null);
+        setEventInfo({});
       }
       setStartDate(info.startStr.slice(0 , 19));
       setEndDate(info.endStr.slice(0 , 19));
@@ -246,25 +326,39 @@ export function DemoApp() {
   const filtersList = ['Mandatory', 'Vie', 'Santé'];
   const handleFilter = (e) => {
     setFilters(e.target.value)
-    console.log(filters)
-    events.data.forEach(event => {
-      console.log(event)
-      if (event.extendedProps.category !== e.target.value) {
-        updateExistingEvent({...event, display: 'none'})
-        //event.setProp('display', 'none')
-      } 
-      if (event.extendedProps.mandatory !== e.target.value)  {
-        updateExistingEvent({...event, display: 'none'})
-
-//        event.setProp('display', 'none')
+    for (let event of events.data) {
+      console.log(filters)
+      if (filters.length > 0) {
+        if (e.target.value === event.extendedProps.category || filters.includes(e.target.value)) {
+          updateExistingEvent({...event, display: 'block'}, {
+            onSuccess: () => {
+              queryClient.invalidateQueries('events')
+            }
+          })
+        } if (e.target.value === 'Mandatory' && event.extendedProps.mandatory) {
+          updateExistingEvent({...event, display: 'block'}, {
+            onSuccess: () => {
+              queryClient.invalidateQueries('events')
+            }
+          })  
+        } else {
+          updateExistingEvent({...event, display: 'none'}, {
+            onSuccess: () => {
+              queryClient.invalidateQueries('events')
+            }
+          })
+        }
       } else {
-        updateExistingEvent({...event, display: 'block'})
-
-//        event.setProp('display', 'block')
+        updateExistingEvent({...event, display: 'block'}, {
+          onSuccess: () => {
+            queryClient.invalidateQueries('events')
+          }
+        })
       }
-    })
+      
+    }
   }
-  
+
   return (
     <div className='calendar-app'>
       <Container>

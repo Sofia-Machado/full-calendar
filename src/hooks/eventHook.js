@@ -2,13 +2,13 @@ import { useMutation } from 'react-query';
 import axios from 'axios';
 
 const addDragItem = (event) => {
-    return axios.post("http://localhost:8001/dragItemList/", event)
+    return axios.post("http://localhost:8000/dragItemList/", event)
 }
 const addEvent = (event) => {
-    return axios.post("http://localhost:8001/events", event)
+    return axios.post("http://localhost:8000/events", event)
 }
 const updateEvent = (event) => {
-    return axios.put(`http://localhost:8001/events/${event.id}`, event)
+    return axios.put(`http://localhost:8000/events/${event.id}`, event)
 }
 export const useAddDragItem = () => {
     return useMutation(addDragItem)
