@@ -34,7 +34,8 @@ const DraggableEvents = ({events}) => {
               borderColor: event.borderColor,
               editable: !event.extendedProps.mandatory, 
               startEditable: !event.extendedProps.mandatory, 
-              durationEditable: !event.extendedProps.mandatory
+              durationEditable: !event.extendedProps.mandatory,
+              display: event.display,
             })
           }
         }

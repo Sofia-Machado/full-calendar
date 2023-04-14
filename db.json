@@ -14,7 +14,8 @@
       "borderColor": "#e3ab9a",
       "editable": false,
       "startEditable": false,
-      "durationEditable": false
+      "durationEditable": false,
+      "display": "block"
     },
     {
       "title": "Call Sandra",
@@ -29,7 +30,8 @@
       "borderColor": "#e3ab9a",
       "editable": true,
       "startEditable": true,
-      "durationEditable": true
+      "durationEditable": true,
+      "display": "block"
     },
     {
       "title": "Call Francisco",
@@ -45,14 +47,16 @@
       "borderColor": "#44936c",
       "editable": false,
       "startEditable": false,
-      "durationEditable": false
+      "durationEditable": false,
+      "display": "block"
     },
     {
       "allDay": false,
       "title": "Call Zeca",
-      "start": "2023-04-14T10:30:00+01:00",
-      "end": "2023-04-14T12:15:00+01:00",
+      "start": "2023-04-14T10:15:00+01:00",
+      "end": "2023-04-14T12:00:00+01:00",
       "id": 4,
+      "display": "block",
       "backgroundColor": "#44936c",
       "borderColor": "#44936c",
       "extendedProps": {
