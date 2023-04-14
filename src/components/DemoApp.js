@@ -260,12 +260,29 @@ export function DemoApp() {
             value={slotDuration}
             onChange={(e) => setSlotDuration(e.target.value)}
             name="slot-duration-select-options"
+            sx={{display: "block"}}
           >
-            <FormControlLabel value="00:15:00" control={<Radio />} label="15min" />
-            <FormControlLabel value="00:30:00" control={<Radio />} label="30min" />
-            <FormControlLabel value="01:00:00" control={<Radio />} label="1h" />
+            <FormControlLabel value="00:15:00" control={<Radio size='small' />} label="15min" />
+            <FormControlLabel value="00:30:00" control={<Radio size='small' />} label="30min" />
+            <FormControlLabel value="01:00:00" control={<Radio size='small' />} label="1h" />
           </RadioGroup>
         </FormControl>
+        <Stack spacing={3} sx={{ width: 300 }}>
+          <Autocomplete
+            multiple
+            id="tags-standard"
+            options={categoryOptions}
+            getOptionLabel={(option) => option.title}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="standard"
+                label="Multiple values"
+                placeholder="Filter"
+              />
+            )}
+          />
+        </Stack>
         <FullCalendar
           className='full-calendar'
           ref={calendar}
