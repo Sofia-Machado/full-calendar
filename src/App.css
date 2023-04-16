@@ -50,21 +50,33 @@
   color: darkslategrey;
 }
 
+.calendar-app {
+  margin-bottom: 40px;
+}
+
 .draggable-list {
-  display: flex;
-  gap: 10px;
   padding-inline-start: 0;
+  width: 150px;
+}
+.draggable-card {
+  margin-bottom: 20px;
 }
 
 .draggable-item {
+  padding-bottom: 16px !important;
   display: grid;
   justify-content: center;
   align-items: center;
-  padding: 15px !important;
+  gap: 5px;
+}
+.calendar-list-container {
+  display: flex;
+  gap: 30px;
 }
 
-.icon-lock {
-  font-family: "Font Awesome 5 Free";
-  font-weight: 400;
-  content: "\f023";
+.draggables {
+  display: flex;
+}
+.Fullcalendar, .fc {
+  width: 100%;
 }

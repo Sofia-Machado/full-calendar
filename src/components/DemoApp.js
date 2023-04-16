@@ -4,19 +4,21 @@ import { useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import dayGridPlugin from "@fullcalendar/daygrid";
 import { Autocomplete, Box, Chip, Container, FormControl, FormControlLabel, FormLabel, InputAdornment, InputLabel, MenuItem, OutlinedInput, Radio, RadioGroup, Select, Stack, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useTheme } from '@mui/material/styles';
 import { useUpdateEvent, useAddEvent } from '../hooks/eventHook';
+import CustomHeader from './CustomHeader';
 import CreateEventForm from './CreateEventForm';
 import DraggableEvents from './DraggableEvents';
 
 /* Fetch and remove functions */
 const fetchEvents = () => {
-  return axios.get("http://localhost:8000/events")
+  return axios.get("http://localhost:8080/events")
 }
 const removeEvents = (id, options) => {
-  return axios.delete(`http://localhost:8000/events/${id}`)
+  return axios.delete(`http://localhost:8080/events/${id}`)
     .then(response => {
       if (options && options.onSuccess) {
         options.onSuccess(response);
@@ -25,7 +27,7 @@ const removeEvents = (id, options) => {
     });
 }
 const removeDraggableEvents = (id, options) => {
-  return axios.delete(`http://localhost:8000/dragItemList/${id}`)
+  return axios.delete(`http://localhost:8080/dragItemList/${id}`)
     .then(response => {
       if (options && options.onSuccess) {
         options.onSuccess(response);
@@ -41,16 +43,19 @@ export function DemoApp() {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [dragId, setDragId] = useState(null);
-  const [slotDuration, setSlotDuration] = useState("00:15:00")
-  const [filters, setFilters] = useState([])
+  const [slotDuration, setSlotDuration] = useState("00:15:00");
+  const [filters, setFilters] = useState([]);
+  const [visibleEvents, setVisibleEvents] = useState([])
   
   const calendar = useRef(null);
   const draggableRef = useRef(null);
   const queryClient = useQueryClient();
   const theme = useTheme();
   
-  const onSuccess = () => {
-    console.log('success')
+  const onSuccess = (response) => {
+    console.log('success');
+    const events = filterEvents(response.data, filters);
+    setVisibleEvents(events);
   }
   const onError = () => {
     console.log('error')
@@ -65,60 +70,17 @@ export function DemoApp() {
     const { mutate:updateExistingEvent } = useUpdateEvent();
     const { mutate:addNewEvent } = useAddEvent();
 
-  const filterEvents = (e) => {
-    if (events) {
-      for (let event of events.data) {
-        console.log(filters)
-        if (filters.length > 0) {
-          if (e.target.value === event.extendedProps.category || filters.includes(event.extendedProps.category)) {
-            updateExistingEvent({...event, display: 'block'}, {
-              onSuccess: () => {
-                queryClient.invalidateQueries('events')
-              }
-            })
-          } if ((e.target.value === 'Mandatory' && event.extendedProps.mandatory) || (filters.includes('Mandatory') && event.extendedProps.mandatory)) {
-            updateExistingEvent({...event, display: 'block'}, {
-              onSuccess: () => {
-                queryClient.invalidateQueries('events')
-              }
-            })
-          } else {
-            updateExistingEvent({...event, display: 'none'}, {
-              onSuccess: () => {
-                queryClient.invalidateQueries('events')
-              }
-            })
-          } 
-        }
-      }
+  const filterEvents = (events, currentFilters) => {
+    if (currentFilters.length === 0) {
+      return events;
     }
+    return events.filter((event) => {
+      if (currentFilters.includes('Mandatory')) {
+        return event.extendedProps.mandatory;
+      }
+      return currentFilters.includes(event.extendedProps.category)
+    })
   }
-    /* for (let filter of filters) {
-        if (event.extendedProps.category !== filter) {
-          updateExistingEvent({...event, display: 'none'}, {
-            onSuccess: () => {
-              queryClient.invalidateQueries('events')
-            }
-          })
-          //setProp not a function...
-          //event.setProp('display', 'none')
-        } 
-        if (event.extendedProps.mandatory && filter === 'Mandatory')  {
-          updateExistingEvent({...event, display: 'none'}, {
-            onSuccess: () => {
-              queryClient.invalidateQueries('events')
-            }
-          })
-          //event.setProp('display', 'none')
-        } else {
-          updateExistingEvent({...event, display: 'block'}, {
-            onSuccess: () => {
-              queryClient.invalidateQueries('events')
-            }
-          })
-          //event.setProp('display', 'block')
-        }
-    } */
 
   //drag event info
   useEffect(() => {
@@ -249,6 +211,7 @@ export function DemoApp() {
   //calendar options
   const options = {
     plugins: [
+      dayGridPlugin,
       timeGridPlugin, 
       interactionPlugin 
     ],
@@ -324,39 +287,12 @@ export function DemoApp() {
   }  
 
   const filtersList = ['Mandatory', 'Vie', 'Santé'];
+
   const handleFilter = (e) => {
-    setFilters(e.target.value)
-    for (let event of events.data) {
-      console.log(filters)
-      if (filters.length > 0) {
-        if (e.target.value === event.extendedProps.category || filters.includes(e.target.value)) {
-          updateExistingEvent({...event, display: 'block'}, {
-            onSuccess: () => {
-              queryClient.invalidateQueries('events')
-            }
-          })
-        } if (e.target.value === 'Mandatory' && event.extendedProps.mandatory) {
-          updateExistingEvent({...event, display: 'block'}, {
-            onSuccess: () => {
-              queryClient.invalidateQueries('events')
-            }
-          })  
-        } else {
-          updateExistingEvent({...event, display: 'none'}, {
-            onSuccess: () => {
-              queryClient.invalidateQueries('events')
-            }
-          })
-        }
-      } else {
-        updateExistingEvent({...event, display: 'block'}, {
-          onSuccess: () => {
-            queryClient.invalidateQueries('events')
-          }
-        })
-      }
-      
-    }
+    const newFilters = e.target.value;
+    setFilters(newFilters);
+    const newEvents = filterEvents(events.data, newFilters);
+    setVisibleEvents(newEvents);
   }
 
   return (
@@ -387,24 +323,9 @@ export function DemoApp() {
           label="Search by category" />}
         />
         </Stack>
-        <div className="draggables" ref={draggableRef}>
-          <DraggableEvents events={events} />
-        </div>
-        <FormControl>
-          <FormLabel id="slot-duration-select">Slot Duration</FormLabel>
-          <RadioGroup
-            aria-labelledby="slot-duration-select-options"
-            value={slotDuration}
-            onChange={(e) => setSlotDuration(e.target.value)}
-            name="slot-duration-select-options"
-            sx={{display: "block"}}
-          >
-            <FormControlLabel value="00:15:00" control={<Radio size='small' />} label="15min" />
-            <FormControlLabel value="00:30:00" control={<Radio size='small' />} label="30min" />
-            <FormControlLabel value="01:00:00" control={<Radio size='small' />} label="1h" />
-          </RadioGroup>
-        </FormControl>
-        <FormControl sx={{ m: 1, width: 300 }}>
+       
+          
+        <FormControl sx={{ m: 1, width: 120 }}>
           <InputLabel id="demo-multiple-chip-label">Filter</InputLabel>
           <Select
             labelId="demo-multiple-chip-label"
@@ -433,16 +354,24 @@ export function DemoApp() {
             ))}
           </Select>
         </FormControl>
-        <FullCalendar
-          ref={calendar}
-          {...options}
-          events={events.data}
-          eventContent={eventContent}
-          eventClick={(e) => {
-            setEventInfo(e.event);
-            handleOpenCreateForm()
-          }}
-        />
+        <div className='calendar-list-container'>
+          <div className="draggables" ref={draggableRef}>
+            <DraggableEvents events={events} />
+          </div>
+          <FullCalendar
+            ref={calendar}
+            {...options}
+            events={visibleEvents}
+            eventContent={eventContent}
+            eventClick={(e) => {
+              setEventInfo(e.event);
+              handleOpenCreateForm()
+            }}
+            headerToolbar={{
+             //right: <CustomHeader slotDuration={slotDuration} setSlotDuration={setSlotDuration} />,
+            }}
+          />
+        </div>
       <CreateEventForm 
         handleEventRemove={handleEventRemove} 
         calendar={calendar} 

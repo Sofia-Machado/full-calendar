@@ -14,8 +14,7 @@
       "borderColor": "#e3ab9a",
       "editable": false,
       "startEditable": false,
-      "durationEditable": false,
-      "display": "block"
+      "durationEditable": false
     },
     {
       "title": "Call Sandra",
@@ -30,8 +29,7 @@
       "borderColor": "#e3ab9a",
       "editable": true,
       "startEditable": true,
-      "durationEditable": true,
-      "display": "block"
+      "durationEditable": true
     },
     {
       "title": "Call Francisco",
@@ -47,8 +45,7 @@
       "borderColor": "#44936c",
       "editable": false,
       "startEditable": false,
-      "durationEditable": false,
-      "display": "block"
+      "durationEditable": false
     },
     {
       "allDay": false,
@@ -64,8 +61,7 @@
       },
       "editable": true,
       "startEditable": true,
-      "durationEditable": true,
-      "display": "block"
+      "durationEditable": true
     }
   ],
   "dragItemList": [

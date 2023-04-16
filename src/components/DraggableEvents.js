@@ -9,7 +9,7 @@ const DraggableEvents = ({events}) => {
   const [selectedItemId, setSelectedItemId] = useState(null);
   
   const fecthDraggableItems = () => {
-    return axios.get("http://localhost:8000/dragItemList")
+    return axios.get("http://localhost:8080/dragItemList")
   }
   const { mutate: addDragItem } = useAddDragItem();
 
@@ -87,10 +87,11 @@ const DraggableEvents = ({events}) => {
 
   return (
     <ul className="draggable-list">
+      <Typography variant='title' component='h2' mb={2} sx={{textAlign: 'center'}}>Évènements à venir</Typography>
       {draggableList?.data.map((item, index) => {
         const isSelected = selectedItemId === item.id;
         return (
-          <Card key={index} >
+          <Card className="draggable-card" key={index} >
             <CardContent
             data-event={JSON.stringify(item)}
             className={`draggable-item ${isSelected ? 'selected' : ''}`}
