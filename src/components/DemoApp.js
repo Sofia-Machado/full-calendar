@@ -241,7 +241,7 @@ export function DemoApp() {
     //onclick
     select: function(info) {
       if (info.start && !info.event) {
-        setEventInfo({});
+        setEventInfo(null);
       }
       setStartDate(info.startStr.slice(0 , 19));
       setEndDate(info.endStr.slice(0 , 19));

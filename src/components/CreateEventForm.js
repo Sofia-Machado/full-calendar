@@ -13,7 +13,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const [category, setCategory] = useState('');
     const [mandatory, setMandatory] = useState(false);
     const [backColor, setBackColor] = useState('#3788d8');
-    const [timeoutFunc, settimeoutFunc] = useState(null);    
+    const [timeoutFunc, setTimeoutFunc] = useState(null);    
 
     const dataCategories = ['Santé', 'Vie'];
    
@@ -197,7 +197,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                         onChange={(e) => {
                             clearTimeout(timeoutFunc);
                             const newTimeout = setTimeout(() => handleChangeStartDate(e), 300);
-                            settimeoutFunc(newTimeout);
+                            setTimeoutFunc(newTimeout);
                         }}
                         ampm={false}
                         minTime={dayjs().set('hour', 7)}
@@ -209,7 +209,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                         onChange={(e) => {
                             clearTimeout(timeoutFunc);
                             const newTimeout = setTimeout(() => handleChangeEndDate(e), 300);
-                            settimeoutFunc(newTimeout);
+                            setTimeoutFunc(newTimeout);
                         }}
                         ampm={false}
                         minTime={dayjs(startDate)}
