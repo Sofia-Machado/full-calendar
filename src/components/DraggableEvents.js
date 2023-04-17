@@ -16,7 +16,7 @@ const DraggableEvents = ({events}) => {
   /* fetch */
   const { isLoading, data: draggableList, isError, error } = useQuery('dragItems', fecthDraggableItems, {
     onSuccess: (data) => {
-      /* const now = dayjs().format();
+      const now = dayjs().format();
       events.data.forEach(event => {
         if (!data.data.includes(event.id)) {
           if (event?.extendedProps?.mandatory && now > event.end) {
@@ -34,41 +34,40 @@ const DraggableEvents = ({events}) => {
               borderColor: event.borderColor,
               editable: !event.extendedProps.mandatory, 
               startEditable: !event.extendedProps.mandatory, 
-              durationEditable: !event.extendedProps.mandatory,
-              display: event.display,
-            })
-          }
-        }
-      }) */
-    }
-  })
-
-  setTimeout(() => {
-    const now = dayjs().format();
-      events.data.forEach(event => {
-        if (!draggableList.data.includes(event.id)) {
-          if (event?.extendedProps?.mandatory && now > event.end) {
-            addDragItem({
-              id: event.id,
-              title: event.title,
-              start: event.start,
-              end: event.end,
-              extendedProps : {
-                category: event.extendedProps.category,
-                mandatory: event.extendedProps.mandatory,
-                resourceEditable: true
-              },
-              backgroundColor: event.backgroundColor,
-              borderColor: event.borderColor,
-              editable: !event.extendedProps.mandatory, 
-              startEditable: !event.extendedProps.mandatory, 
-              durationEditable: !event.extendedProps.mandatory,
-              display: event.display,
+              durationEditable: !event.extendedProps.mandatory
             })
           }
         }
       })
-  }, 15 * 60 * 1000)
+    },
+    enabled: !!events,
+  })
+
+/*  const savePastEvents = () => {
+   const now = dayjs().format();
+     events.data.forEach(event => {
+       if (!draggableList.data.includes(event.id)) {
+         if (event?.extendedProps?.mandatory && now > event.end) {
+           addDragItem({
+             id: event.id,
+             title: event.title,
+             start: event.start,
+             end: event.end,
+             extendedProps : {
+               category: event.extendedProps.category,
+               mandatory: event.extendedProps.mandatory,
+               resourceEditable: true
+             },
+             backgroundColor: event.backgroundColor,
+             borderColor: event.borderColor,
+             editable: !event.extendedProps.mandatory, 
+             startEditable: !event.extendedProps.mandatory, 
+             durationEditable: !event.extendedProps.mandatory
+           })
+         }
+       }
+     })
+ } */
  
   const handleItemClick = (itemId) => {
     if (selectedItemId === itemId) {

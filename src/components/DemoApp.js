@@ -114,7 +114,6 @@ export function DemoApp() {
             startEditable: !mandatory,
             durationEditable: !mandatory,
             editable: !mandatory,
-            display: 'block',
           };
         }
       });
@@ -144,7 +143,9 @@ export function DemoApp() {
   const handleDrop = (info) => {
     const event = info.event.toPlainObject();
     if (event) {
-      updateExistingEvent({event})
+      updateExistingEvent({...event, editable: !event.extendedProps.mandatory, 
+        startEditable: !event.extendedProps.mandatory, 
+        durationEditable: !event.extendedProps.mandatory})
     }
   }
  
@@ -164,8 +165,7 @@ export function DemoApp() {
         borderColor: event.borderColor,
         editable: !event.extendedProps.mandatory, 
         startEditable: !event.extendedProps.mandatory, 
-        durationEditable: !event.extendedProps.mandatory,
-        display: event.display,
+        durationEditable: !event.extendedProps.mandatory
       }, {
       }));
       updateExistingEvent({
@@ -182,8 +182,7 @@ export function DemoApp() {
         borderColor: event.borderColor,
         editable: !event.extendedProps.mandatory, 
         startEditable: !event.extendedProps.mandatory, 
-        durationEditable: !event.extendedProps.mandatory,
-        display: event.display
+        durationEditable: !event.extendedProps.mandatory
       }, {
         })
       removeDraggableEvents(dragId, {
