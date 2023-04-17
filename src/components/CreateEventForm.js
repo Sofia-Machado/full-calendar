@@ -103,8 +103,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                 borderColor: backColor,
                 editable: !mandatory,
                 startEditable: !mandatory,
-                durationEditable: !mandatory,
-                display: 'block',
+                durationEditable: !mandatory
             }));
             handleCloseCreateForm()
             setTitle('');
@@ -136,8 +135,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                 borderColor: updatedEvent.borderColor,
                 editable: !mandatory, 
                 startEditable: !mandatory, 
-                durationEditable: !mandatory,
-                display: 'block',
+                durationEditable: !mandatory
             })
             handleCloseCreateForm()
         }

@@ -39,8 +39,7 @@ const DraggableEvents = ({events}) => {
           }
         }
       })
-    },
-    enabled: !!events,
+    }
   })
 
 /*  const savePastEvents = () => {
