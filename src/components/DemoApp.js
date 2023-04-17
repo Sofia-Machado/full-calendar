@@ -128,7 +128,8 @@ export function DemoApp() {
     //check if id exists
       removeEvents(eventData.id, {
         onSuccess: () => {
-          queryClient.invalidateQueries('events');
+          eventData.remove();
+          console.log('deleted')
         }
       })
     setOpenCreateForm(false);
