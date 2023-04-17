@@ -215,6 +215,7 @@ export function DemoApp() {
       timeGridPlugin, 
       interactionPlugin 
     ],
+    eventMaxStack: 4,
     initialView: 'timeGridDay',
     weekends: false,
     slotMinTime: "09:00:00", 
