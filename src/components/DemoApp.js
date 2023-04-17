@@ -36,7 +36,7 @@ const removeDraggableEvents = (id, options) => {
     });
 }
 
-/* Component DemoApp */
+/* Component Demo App */
 export function DemoApp() {
   const [openCreateForm, setOpenCreateForm] = useState(false);
   const [eventInfo, setEventInfo] = useState({});
@@ -61,7 +61,7 @@ export function DemoApp() {
     console.log('error')
   }
   
-  //fetch and mutate data
+  /* Fetch and mutate data */
   const { isLoading, data: events, isError, error } = useQuery('events', fetchEvents,
     {
       onSuccess,
@@ -82,7 +82,7 @@ export function DemoApp() {
     })
   }
 
-  //drag event info
+  /* Drag event info */
   useEffect(() => {
     if (draggableRef.current) {
       new Draggable(draggableRef.current, {
@@ -120,11 +120,10 @@ export function DemoApp() {
     }
   }, [isLoading])
 
-  //remove event
+  /* Remove event */
   const handleEventRemove = (id) => {
     let calendarApi = calendar.current.getApi()
     let eventData = calendarApi.getEventById(id);
-    //check if id exists
       removeEvents(eventData.id, {
         onSuccess: () => {
           eventData.remove();
@@ -134,12 +133,12 @@ export function DemoApp() {
     setOpenCreateForm(false);
   };
 
-  //open form
+  /* Open form */
   const handleOpenCreateForm = () => {
     setOpenCreateForm(true);
   };
 
-  //update event drag and drop
+  /* Update event drag and drop */
   const handleDrop = (info) => {
     const event = info.event.toPlainObject();
     if (event) {
@@ -148,7 +147,7 @@ export function DemoApp() {
         durationEditable: !event.extendedProps.mandatory})
     }
   }
- 
+  /* Update/add event on receive */
   const handleEventReceive = (info) => {
     const event = info.event.toPlainObject();
     if (info.event) {
@@ -193,28 +192,30 @@ export function DemoApp() {
     }
   }
   
-  //event content 
+  /* Event content Render */ 
   const eventContent = (eventInfo) => {
-    //mandatory icon
     const isMandatory = eventInfo.event.extendedProps.mandatory;
     const icon = isMandatory ? <i className="fa-solid fa-lock"></i> : null;
     return (
       <div className="event-render">
-        <b>{eventInfo.timeText}</b>
-        <span>{icon}</span>
-        <i>{eventInfo.event.title}</i>
-        <em>{eventInfo.event.extendedProps.category}</em>
+        <p className="event-paragraph">
+          <span>{eventInfo.timeText}</span>
+          <i>{icon}</i>
+          {eventInfo.event.title}
+          <em>{eventInfo.event.extendedProps.category}</em>
+        </p>
       </div>
     )
   }
 
-  //calendar options
+  /* Calendar options */
   const options = {
     plugins: [
       dayGridPlugin,
       timeGridPlugin, 
       interactionPlugin 
     ],
+    allDaySlot: false,
     eventMaxStack: 4,
     initialView: 'timeGridDay',
     weekends: false,
@@ -249,7 +250,7 @@ export function DemoApp() {
       handleOpenCreateForm();
     },
   }
-
+  
   if (isLoading) {
     return <h2>Loading...</h2>
   }
@@ -257,6 +258,7 @@ export function DemoApp() {
     return <h2>{error.message}</h2>
   }
   
+  /* Set category options on the search bar */
   const categoryOptions = Object.values(events.data).sort((a, b) => {
     let result;
     if (a.extendedProps.category>b.extendedProps.category){
@@ -277,7 +279,9 @@ export function DemoApp() {
     return result;
   });
 
-  
+  /* Menu filter */ 
+  const filtersList = ['Obligatoire', 'Vie', 'Santé'];
+  //styles
   function getStyles(filter, filtersList, theme) {
     return {
       fontWeight:
@@ -286,15 +290,15 @@ export function DemoApp() {
           : theme.typography.fontWeightMedium,
     };
   }  
-
-  const filtersList = ['Obligatoire', 'Vie', 'Santé'];
-
+  //function
   const handleFilter = (e) => {
     const newFilters = e.target.value;
     setFilters(newFilters);
     const newEvents = filterEvents(events.data, newFilters);
     setVisibleEvents(newEvents);
   }
+
+
 
   return (
     <div className='calendar-app'>
@@ -324,34 +328,34 @@ export function DemoApp() {
           label="Search by category" />}
         />
         </Stack>
+        
         <FormControl>
-            <FormLabel id="slot-duration-select">Slot Duration</FormLabel>
-            <RadioGroup
-              aria-labelledby="slot-duration-select-options"
-              value={slotDuration}
-              onChange={(e) => setSlotDuration(e.target.value)}
-              name="slot-duration-select-options"
-              sx={{ display: "block" }}
-            >
-              <FormControlLabel
-                value="00:15:00"
-                control={<Radio size="small" />}
-                label="15min"
-              />
-              <FormControlLabel
-                value="00:30:00"
-                control={<Radio size="small" />}
-                label="30min"
-              />
-              <FormControlLabel
-                value="01:00:00"
-                control={<Radio size="small" />}
-                label="1h"
-              />
-            </RadioGroup>
-          </FormControl>
+          <FormLabel id="slot-duration-select">Slot Duration</FormLabel>
+          <RadioGroup
+            aria-labelledby="slot-duration-select-options"
+            value={slotDuration}
+            onChange={(e) => setSlotDuration(e.target.value)}
+            name="slot-duration-select-options"
+            sx={{ display: "block" }}
+          >
+            <FormControlLabel
+              value="00:15:00"
+              control={<Radio size="small" />}
+              label="15min"
+            />
+            <FormControlLabel
+              value="00:30:00"
+              control={<Radio size="small" />}
+              label="30min"
+            />
+            <FormControlLabel
+              value="01:00:00"
+              control={<Radio size="small" />}
+              label="1h"
+            />
+          </RadioGroup>
+        </FormControl>
 
-          
         <FormControl sx={{ m: 1, width: 120 }}>
           <InputLabel id="demo-multiple-chip-label">Filter</InputLabel>
           <Select
@@ -396,8 +400,11 @@ export function DemoApp() {
               setEventInfo(e.event);
               handleOpenCreateForm()
             }}
+            
             headerToolbar={{
-             //right: <CustomHeader slotDuration={slotDuration} setSlotDuration={setSlotDuration} />,
+              start: '',
+              center: '',
+              end: 'title today prev,next',
             }}
           />
         </div>

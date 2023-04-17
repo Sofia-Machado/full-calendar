@@ -41,32 +41,6 @@ const DraggableEvents = ({events}) => {
       })
     }
   })
-
-/*  const savePastEvents = () => {
-   const now = dayjs().format();
-     events.data.forEach(event => {
-       if (!draggableList.data.includes(event.id)) {
-         if (event?.extendedProps?.mandatory && now > event.end) {
-           addDragItem({
-             id: event.id,
-             title: event.title,
-             start: event.start,
-             end: event.end,
-             extendedProps : {
-               category: event.extendedProps.category,
-               mandatory: event.extendedProps.mandatory,
-               resourceEditable: true
-             },
-             backgroundColor: event.backgroundColor,
-             borderColor: event.borderColor,
-             editable: !event.extendedProps.mandatory, 
-             startEditable: !event.extendedProps.mandatory, 
-             durationEditable: !event.extendedProps.mandatory
-           })
-         }
-       }
-     })
- } */
  
   const handleItemClick = (itemId) => {
     if (selectedItemId === itemId) {
@@ -85,11 +59,11 @@ const DraggableEvents = ({events}) => {
 
   return (
     <ul className="draggable-list">
-      <Typography variant='title' component='h2' mb={2} sx={{textAlign: 'center'}}>Évènements à venir</Typography>
+      <Typography variant='title' component='h2' mb={2} sx={{textAlign: 'center', fontSize: 18, fontWeight: 400}}>Évènements à venir</Typography>
       {draggableList?.data.map((item, index) => {
         const isSelected = selectedItemId === item.id;
         return (
-          <Card className="draggable-card" key={index} >
+          <Card className="draggable-card" sx={{borderRadius: 20}} key={index} >
             <CardContent
             data-event={JSON.stringify(item)}
             className={`draggable-item ${isSelected ? 'selected' : ''}`}

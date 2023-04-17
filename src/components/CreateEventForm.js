@@ -20,6 +20,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const { mutate:addNewEvent } = useAddEvent()
     const { mutate:updateExistingEvent } = useUpdateEvent()
   
+    /* Set states */
     useEffect(() => {
         if (eventInfo) {
             setTitle(eventInfo.title);
@@ -34,23 +35,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
         }
     }, [eventInfo]);
 
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: 'background.paper',
-        boxShadow: 24,
-        pt: 2,
-        px: 4,
-        pb: 3,
-      };
-      
-    const handleCloseCreateForm = () => {
-        setOpenCreateForm(false);
-    };
-        
+    /* Handle States */
     const handleChangeTitle = (event) => {
         setTitle(event.target.value);
     };
@@ -86,6 +71,12 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
         }
     };
 
+    /* Close Form */
+    const handleCloseCreateForm = () => {
+        setOpenCreateForm(false);
+    };
+    
+    /* Submit Event */
     const handleSubmit = (event) => {
         event.preventDefault();
         if (!eventInfo || eventInfo.title === '') {
@@ -141,11 +132,27 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
         }
     }
 
+    /* Delete Event */
     const handleDelete = () => {
         handleEventRemove(eventInfo.id);
         handleCloseCreateForm();
       };
 
+
+    /* Box Style */
+    const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    pt: 2,
+    px: 4,
+    pb: 3,
+    };
+    
     return (
         <form onSubmit={handleSubmit}>
             <Modal

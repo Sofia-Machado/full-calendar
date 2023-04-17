@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  
 }
 
 .App-logo {
@@ -20,7 +21,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
 }
 
@@ -37,8 +37,130 @@
   }
 }
 
-.event-render > b {
-  margin-right: 10px;
+.calendar-app {
+  margin-bottom: 40px;
+  font-family: 'Montserrat', Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.calendar-app h1 {
+  text-align: center;
+  font-weight: 700;
+  font-size: 3rem;
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+  margin-bottom: 0.5em;
+}
+
+.fc-toolbar-chunk
+.fc-toolbar-title {
+  font-weight: 500;
+  font-size: 1.5rem;
+}
+
+.fc-toolbar-chunk
+.fc-button.fc-button-primary {
+  background-color: rgb(57, 74, 172);
+  border-radius: 15px;
+  border: 0;
+}
+
+.fc-toolbar-chunk
+.fc-button.fc-button-primary:hover {
+  background-color: rgb(47, 62, 145);
+}
+
+.fc-toolbar-chunk
+.fc-button.fc-button-primary:active {
+  background-color: rgb(47, 62, 145);
+  box-shadow: none;
+}
+.fc-toolbar-chunk
+.fc-button.fc-button-primary:focus {
+  box-shadow: none;
+}
+
+table {
+border-radius: 10px;
+}
+.fc-timegrid-slot.fc-timegrid-slot-lane:focus {
+  background-color: whitesmoke;
+}
+
+td.fc-day.fc-day-mon.fc-day-today.fc-daygrid-day:focus {
+  background-color: whitesmoke;
+}
+.fc-timegrid-slot.fc-timegrid-slot-lane:hover {
+  background-color: rgb(230, 230, 230);
+}
+
+th.fc-col-header-cell.fc-day {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  border-top: 0;
+  border-left: 0;
+}
+
+.fc-toolbar-chunk {
+  display: flex;
+  align-items: center;
+}
+
+td.fc-day.fc-day-mon.fc-day-today.fc-daygrid-day:hover {
+  background-color: rgb(230, 230, 230);
+}
+td.fc-day.fc-day-mon.fc-day-today.fc-daygrid-day,
+td {
+  background-color: rgb(255, 255, 255);
+}
+tr {
+  height: 50px;
+}
+
+.fc-scroller {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(212 170 112);
+}
+table
+*::-webkit-scrollbar {
+  width: 12px;
+}
+table
+ *::-webkit-scrollbar-thumb {
+  background-color: rgb(167, 165, 165);
+  border-radius: 20px;
+}
+
+.fc-timegrid-now-indicator-line {
+  border-bottom-color: #282c34 !important;
+  border-top-color: #282c34 !important;
+  border-bottom-width: 1px !important;
+}
+.fc-timegrid-now-indicator-arrow {
+ color:#282c34;
+ border: 2px;
+ border-right-color: #282c34 !important;
+ border-left-color: #282c34 !important;
+ border-left-width: 10px !important;
+ border-top-width: 10px !important;
+ border-bottom-width: 10px !important;
+}
+
+.fc-event-main:hover {
+  border-radius: 20px;
+  background-color: rgba(49, 49, 49, 0.178);
+ }
+a.fc-event {
+ border-radius: 20px;
+}
+
+.event-paragraph {
+  padding-left: 10px;
+  margin-top: 0;
+  gap: 4px;
+  display: flex;
 }
 .event-render > i {
   margin-right: 10px;
@@ -50,24 +172,56 @@
   color: darkslategrey;
 }
 
-.calendar-app {
-  margin-bottom: 40px;
+.fc-timegrid-more-link.fc-more-link:hover {
+  background-color: rgb(107, 107, 107);
+  color: black;
+}
+.fc-timegrid-more-link.fc-more-link:active {
+  background-color: rgb(255, 255, 255);
+  color: black;
+}
+.fc-timegrid-more-link.fc-more-link {
+  top: 372px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: darkgrey;
+  color: black;
+  padding-left: 4px;
+  padding-right: 4px;
+  border-radius: 25px;
 }
 
 .draggable-list {
+  background-color: rgb(57, 74, 172);
+  color: white;
+  border-radius: 20px;
   padding-inline-start: 0;
+  padding: 15px;
   width: 150px;
+  margin-top: 45px;
 }
 .draggable-card {
   margin-bottom: 20px;
 }
 
+.draggable-item:hover {
+  background-color: rgb(190, 197, 255);
+  border-radius: 20px;
+}
+.draggable-item:active {
+  background-color: rgb(148, 158, 252);
+  border-radius: 20px;
+}
+
 .draggable-item {
-  padding-bottom: 16px !important;
+  font-family: 'Montserrat', Verdana, Geneva, Tahoma, sans-serif;
+  padding: 8px !important;
   display: grid;
   justify-content: center;
   align-items: center;
   gap: 5px;
+  font-weight: 200;
 }
 .calendar-list-container {
   display: flex;
