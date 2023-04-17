@@ -75,7 +75,7 @@ export function DemoApp() {
       return events;
     }
     return events.filter((event) => {
-      if (currentFilters.includes('Mandatory')) {
+      if (currentFilters.includes('Obligatoire')) {
         return event.extendedProps.mandatory;
       }
       return currentFilters.includes(event.extendedProps.category)
@@ -286,7 +286,7 @@ export function DemoApp() {
     };
   }  
 
-  const filtersList = ['Mandatory', 'Vie', 'Santé'];
+  const filtersList = ['Obligatoire', 'Vie', 'Santé'];
 
   const handleFilter = (e) => {
     const newFilters = e.target.value;
@@ -323,7 +323,33 @@ export function DemoApp() {
           label="Search by category" />}
         />
         </Stack>
-       
+        <FormControl>
+            <FormLabel id="slot-duration-select">Slot Duration</FormLabel>
+            <RadioGroup
+              aria-labelledby="slot-duration-select-options"
+              value={slotDuration}
+              onChange={(e) => setSlotDuration(e.target.value)}
+              name="slot-duration-select-options"
+              sx={{ display: "block" }}
+            >
+              <FormControlLabel
+                value="00:15:00"
+                control={<Radio size="small" />}
+                label="15min"
+              />
+              <FormControlLabel
+                value="00:30:00"
+                control={<Radio size="small" />}
+                label="30min"
+              />
+              <FormControlLabel
+                value="01:00:00"
+                control={<Radio size="small" />}
+                label="1h"
+              />
+            </RadioGroup>
+          </FormControl>
+
           
         <FormControl sx={{ m: 1, width: 120 }}>
           <InputLabel id="demo-multiple-chip-label">Filter</InputLabel>
@@ -343,6 +369,8 @@ export function DemoApp() {
             )}
             //MenuProps={MenuProps}
           >
+
+          
             {filtersList.map((filter) => (
               <MenuItem
                 key={filter}
