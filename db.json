@@ -3,8 +3,8 @@
     {
       "title": "Call Julia",
       "id": 1,
-      "start": "2023-04-14T12:00:00.000Z",
-      "end": "2023-04-14T13:00:00.000Z",
+      "start": "2023-04-17T12:00:00.000Z",
+      "end": "2023-04-17T13:00:00.000Z",
       "extendedProps": {
         "category": "Santé",
         "mandatory": true,
@@ -19,8 +19,8 @@
     {
       "title": "Call Sandra",
       "id": 2,
-      "start": "2023-04-14T10:15:00.000Z",
-      "end": "2023-04-14T11:00:00.000Z",
+      "start": "2023-04-17T10:15:00.000Z",
+      "end": "2023-04-17T11:00:00.000Z",
       "extendedProps": {
         "category": "Santé",
         "mandatory": false
@@ -34,8 +34,8 @@
     {
       "title": "Call Francisco",
       "id": 3,
-      "start": "2023-04-14T08:00:00.000Z",
-      "end": "2023-04-14T08:15:00.000Z",
+      "start": "2023-04-17T08:00:00.000Z",
+      "end": "2023-04-17T08:15:00.000Z",
       "extendedProps": {
         "category": "Vie",
         "mandatory": true,
@@ -50,8 +50,8 @@
     {
       "allDay": false,
       "title": "Call Zeca",
-      "start": "2023-04-14T10:15:00+01:00",
-      "end": "2023-04-14T12:00:00+01:00",
+      "start": "2023-04-17T10:15:00+01:00",
+      "end": "2023-04-17T12:00:00+01:00",
       "id": 4,
       "backgroundColor": "#44936c",
       "borderColor": "#44936c",
@@ -83,53 +83,12 @@
     },
     {
       "id": "list3",
-      "title": "Call Chico",
+      "title": "Call Afonso",
       "extendedProps": {
         "category": "Vie",
         "mandatory": true,
         "resourceEditable": true
       }
-    },
-    {
-      "id": "list4",
-      "title": "Call Bolinha",
-      "extendedProps": {
-        "category": "Vie",
-        "mandatory": true,
-        "resourceEditable": true
-      }
-    },
-    {
-      "id": 3,
-      "title": "Call Francisco",
-      "start": "2023-04-14T08:00:00.000Z",
-      "end": "2023-04-14T08:15:00.000Z",
-      "extendedProps": {
-        "category": "Vie",
-        "mandatory": true,
-        "resourceEditable": true
-      },
-      "backgroundColor": "#44936c",
-      "borderColor": "#44936c",
-      "editable": false,
-      "startEditable": false,
-      "durationEditable": false
-    },
-    {
-      "id": 1,
-      "title": "Call Julia",
-      "start": "2023-04-14T12:00:00.000Z",
-      "end": "2023-04-14T13:00:00.000Z",
-      "extendedProps": {
-        "category": "Santé",
-        "mandatory": true,
-        "resourceEditable": true
-      },
-      "backgroundColor": "#e3ab9a",
-      "borderColor": "#e3ab9a",
-      "editable": false,
-      "startEditable": false,
-      "durationEditable": false
     }
   ]
 }
