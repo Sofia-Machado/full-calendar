@@ -170,6 +170,22 @@
       "editable": false,
       "startEditable": false,
       "durationEditable": false
+    },
+    {
+      "id": 1,
+      "title": "Call Julia",
+      "start": "2023-04-17T12:00:00.000Z",
+      "end": "2023-04-17T13:00:00.000Z",
+      "extendedProps": {
+        "category": "Santé",
+        "mandatory": true,
+        "resourceEditable": true
+      },
+      "backgroundColor": "#e3ab9a",
+      "borderColor": "#e3ab9a",
+      "editable": false,
+      "startEditable": false,
+      "durationEditable": false
     }
   ]
 }

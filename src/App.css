@@ -44,8 +44,32 @@
 
 .calendar-app h1 {
   text-align: center;
-  font-weight: 700;
+  font-weight: 500;
   font-size: 3rem;
+  color: rgb(57, 74, 172)
+}
+
+#slot-duration-select {
+  margin-left: 210px;
+}
+
+.MuiFormGroup-root.css-18nkkfo-MuiFormGroup-root {
+  margin-left: 210px;
+  margin-bottom: -45px;
+}
+ .MuiTypography-root.MuiTypography-body1.MuiFormControlLabel-label.css-m9g036-MuiTypography-root {
+  font-size: 0.8em;
+  font-weight: 500;
+}
+.mui-forms {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.css-6ffsbr-MuiAutocomplete-root .MuiOutlinedInput-root {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
 
 .fc .fc-toolbar.fc-header-toolbar {
