@@ -13,13 +13,28 @@ const style = {
   p: 4,
 };
 
-export default function DragOrDuplicateForm({openDragForm, setOpenDragForm}) {
-  const handleOpen = () => setOpenDragForm(true);
+export default function DragOrDuplicateForm({ addNewEvent, eventInfo, openDragForm, setOpenDragForm, updateExistingEvent }) {
   const handleClose = () => setOpenDragForm(false);
+
+  const handleReplace = () => {
+    if (eventInfo) {
+      updateExistingEvent({...eventInfo, editable: !eventInfo.extendedProps.mandatory, 
+        startEditable: !eventInfo.extendedProps.mandatory, 
+        durationEditable: !eventInfo.extendedProps.mandatory})
+    }
+    setOpenDragForm(false)
+  }
+  const handleAdd = () => {
+    if (eventInfo) {
+      addNewEvent({...eventInfo, editable: !eventInfo.extendedProps.mandatory, 
+        startEditable: !eventInfo.extendedProps.mandatory, 
+        durationEditable: !eventInfo.extendedProps.mandatory})
+    }
+    setOpenDragForm(false)
+  }
 
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
       <Modal
         open={openDragForm}
         onClose={handleClose}
@@ -28,11 +43,16 @@ export default function DragOrDuplicateForm({openDragForm, setOpenDragForm}) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
+          Do you want to duplicate the event or replace it?
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+          <div className='duplicate-drag-buttons'>
+            <Button onClick={handleAdd} sx={{ mt: 2 }}>
+              Duplicate 
+            </Button>
+            <Button onClick={handleReplace} sx={{ mt: 2 }}>
+              Replace
+            </Button>
+          </div>
         </Box>
       </Modal>
     </div>

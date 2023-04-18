@@ -262,3 +262,8 @@ a.fc-event {
 .Fullcalendar, .fc {
   width: 100%;
 }
+
+.duplicate-drag-buttons {
+  display: flex;
+  justify-content: space-around;
+}

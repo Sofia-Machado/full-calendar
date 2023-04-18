@@ -187,15 +187,11 @@ export function DemoApp() {
     setOpenCreateForm(true);
   };
 
+  
   /* Update event drag and drop */
   const handleDrop = (info) => {
-    
-    const event = info.event.toPlainObject();
-    if (event) {
-      updateExistingEvent({...event, editable: !event.extendedProps.mandatory, 
-        startEditable: !event.extendedProps.mandatory, 
-        durationEditable: !event.extendedProps.mandatory})
-    }
+    setEventInfo(info.event.toPlainObject());
+    setOpenDragForm(true);
   }
   /* Update/add event on receive */
   const handleEventReceive = (info) => {
@@ -307,7 +303,12 @@ export function DemoApp() {
             }}
           />
         </div>
-      <DragOrDuplicateForm openDragForm={openDragForm} setOpenDragForm={setOpenDragForm} />
+      <DragOrDuplicateForm 
+        openDragForm={openDragForm} setOpenDragForm={setOpenDragForm} 
+        eventInfo={eventInfo} 
+        addNewEvent={addNewEvent}
+        updateExistingEvent={updateExistingEvent}
+      />
       <CreateEventForm 
         handleEventRemove={handleEventRemove} 
         calendar={calendar} 
