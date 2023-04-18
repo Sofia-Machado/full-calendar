@@ -1,12 +1,14 @@
 import { useRef, useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
-import { useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from "@fullcalendar/daygrid";
-import { Autocomplete, Box, Chip, Container, FormControl, FormControlLabel, FormLabel, InputAdornment, InputLabel, MenuItem, OutlinedInput, Radio, RadioGroup, Select, Stack, TextField } from '@mui/material';
+import { Autocomplete, Box, Button, Chip, Container, FormControl, FormControlLabel, FormLabel, IconButton, InputAdornment, InputLabel,
+   MenuItem, OutlinedInput, Radio, RadioGroup, Select, Snackbar, Stack, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import CloseIcon from '@mui/icons-material/Close';
 import { useTheme } from '@mui/material/styles';
 import { useUpdateEvent, useAddEvent } from '../hooks/eventHook';
 import CustomHeader from './CustomHeader';
@@ -17,15 +19,7 @@ import DraggableEvents from './DraggableEvents';
 const fetchEvents = () => {
   return axios.get("http://localhost:8080/events")
 }
-const removeEvents = (id, options) => {
-  return axios.delete(`http://localhost:8080/events/${id}`)
-    .then(response => {
-      if (options && options.onSuccess) {
-        options.onSuccess(response);
-      }
-      return response;
-    });
-}
+
 const removeDraggableEvents = (id, options) => {
   return axios.delete(`http://localhost:8080/dragItemList/${id}`)
     .then(response => {
@@ -45,7 +39,9 @@ export function DemoApp() {
   const [dragId, setDragId] = useState(null);
   const [slotDuration, setSlotDuration] = useState("00:15:00");
   const [filters, setFilters] = useState([]);
-  const [visibleEvents, setVisibleEvents] = useState([])
+  const [visibleEvents, setVisibleEvents] = useState([]);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
   
   const calendar = useRef(null);
   const draggableRef = useRef(null);
@@ -69,6 +65,9 @@ export function DemoApp() {
     })
     const { mutate:updateExistingEvent } = useUpdateEvent();
     const { mutate:addNewEvent } = useAddEvent();
+    const removeEvents = useMutation((id, options) => {
+      return axios.delete(`http://localhost:8080/events/${id}`, {options})  
+    })
 
   const filterEvents = (events, currentFilters) => {
     if (currentFilters.length === 0) {
@@ -124,14 +123,44 @@ export function DemoApp() {
   const handleEventRemove = (id) => {
     let calendarApi = calendar.current.getApi()
     let eventData = calendarApi.getEventById(id);
-      removeEvents(eventData.id, {
+      removeEvents.mutate(eventData.id, {
         onSuccess: () => {
-          eventData.remove();
           console.log('deleted')
+          queryClient.invalidateQueries('events');
         }
       })
+    setSnackbarMessage(`Deleted ${eventData.title}`)
+    setOpenSnackbar(true);
     setOpenCreateForm(false);
   };
+  
+  const handleUndoRemove = (e) => {
+    e.preventDefault()
+    queryClient.cancelQueries(['events'])
+  }
+
+  const handleCloseSnackbar = (e, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
+
+  const actionSnackbar = (
+    <>
+      <Button color="secondary" size="small" onClick={handleCloseSnackbar}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleUndoRemove}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </>
+  );
 
   /* Open form */
   const handleOpenCreateForm = () => {
@@ -412,7 +441,15 @@ export function DemoApp() {
         eventInfo={eventInfo} setEventInfo={setEventInfo}
         openCreateForm={openCreateForm} setOpenCreateForm={setOpenCreateForm} 
         startDate={startDate} setStartDate={setStartDate} 
-        endDate={endDate} setEndDate={setEndDate} />
+        endDate={endDate} setEndDate={setEndDate}
+      />
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        message="Note archived"
+        action={actionSnackbar}
+      />
       </Container>
     </div>
   )
