@@ -11,7 +11,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import { useTheme } from '@mui/material/styles';
 import { useUpdateEvent, useAddEvent } from '../hooks/eventHook';
-import CustomHeader from './CustomHeader';
 import CreateEventForm from './CreateEventForm';
 import DraggableEvents from './DraggableEvents';
 
@@ -461,7 +460,7 @@ export function DemoApp() {
         open={openSnackbar}
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
-        message="Note archived"
+        message={snackbarMessage}
         action={actionSnackbar}
       />
       </Container>
