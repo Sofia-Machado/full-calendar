@@ -387,7 +387,7 @@ export function DemoApp() {
           </FormControl>
         <div className='calendar-list-container'>
           <div className="draggables" ref={draggableRef}>
-            <DraggableEvents events={events} />
+            <DraggableEvents events={events} calendar={calendar} addNewEvent={addNewEvent} removeDraggableEvents={removeDraggableEvents} startDate={startDate} endDate={endDate} />
           </div>
           <FullCalendar
             ref={calendar}
