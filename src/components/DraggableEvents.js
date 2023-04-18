@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
 import dayjs from 'dayjs';
@@ -16,10 +16,12 @@ const DraggableEvents = ({events, calendar, removeDraggableEvents, startDate, en
   const queryClient = useQueryClient();
 
   /* fetch */
-  const { isLoading, data: draggableList, isError, error } = useQuery('dragItems', fecthDraggableItems, {
-    onSuccess: (data) => {
+  const { isLoading, data: draggableList, isError, error } = useQuery('dragItems', fecthDraggableItems, {})
+
+  useEffect(() => {
+    if (draggableList) {
       events.data.forEach(event => {
-        if (!data.data.includes(event.id)) {
+        if (!draggableList.data.includes(event.id)) {
           if (event?.extendedProps?.mandatory && now > event.end) {
             addDragItem({
               id: event.id,
@@ -36,12 +38,16 @@ const DraggableEvents = ({events, calendar, removeDraggableEvents, startDate, en
               editable: !event.extendedProps.mandatory, 
               startEditable: !event.extendedProps.mandatory, 
               durationEditable: !event.extendedProps.mandatory
+            }, {
+              onSuccess: () => {
+                queryClient.invalidateQueries('dragItems');
+              }
             })
           }
         }
       })
     }
-  })
+  }, [events])
  
   const handleItemClick = (e, item) => {
     e.preventDefault();

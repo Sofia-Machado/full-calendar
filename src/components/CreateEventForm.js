@@ -7,6 +7,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useAddEvent, useUpdateEvent } from '../hooks/eventHook';
 import dayjs from 'dayjs';
+import { useQueryClient } from 'react-query';
 
 const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateForm, setOpenCreateForm, startDate, setStartDate, endDate, setEndDate}) => {
     const [title, setTitle] = useState('');
@@ -17,8 +18,9 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
 
     const dataCategories = ['Santé', 'Vie'];
    
-    const { mutate:addNewEvent } = useAddEvent()
-    const { mutate:updateExistingEvent } = useUpdateEvent()
+    const { mutate:addNewEvent } = useAddEvent();
+    const { mutate:updateExistingEvent } = useUpdateEvent();
+    const queryClient = useQueryClient();
   
     /* Set states */
     useEffect(() => {
@@ -101,7 +103,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             setCategory('');
         }
         else {
-            eventInfo.setProp('title', title)
+           /*  eventInfo.setProp('title', title)
             eventInfo.setStart(startDate.format())
             eventInfo.setEnd(endDate.format())
             eventInfo.setExtendedProp('category', category)
@@ -113,20 +115,25 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             eventInfo.setProp('startEditable', !mandatory)
             eventInfo.setProp('durationEditable', !mandatory)
             const updatedEvent = eventInfo;
+             */
             updateExistingEvent({ 
-                title: updatedEvent.title,
-                id: parseInt(updatedEvent.id, 10), 
-                start: updatedEvent.start,
-                end: updatedEvent.end,
+                title,
+                id: eventInfo.id,
+                start: startDate,
+                end: endDate,
                 extendedProps: {
-                    category: updatedEvent.extendedProps.category,
-                    mandatory: updatedEvent.extendedProps.mandatory,
+                    category,
+                    mandatory,
                 },
-                backgroundColor: updatedEvent.backgroundColor,
-                borderColor: updatedEvent.borderColor,
+                backgroundColor: backColor,
+                borderColor: backColor,
                 editable: !mandatory, 
                 startEditable: !mandatory, 
                 durationEditable: !mandatory
+            }, {
+                onSuccess: () => {
+                    queryClient.invalidateQueries('events')
+                }
             })
             handleCloseCreateForm()
         }
