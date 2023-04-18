@@ -55,8 +55,8 @@ export function DemoApp() {
     })
     const { mutate:updateExistingEvent } = useUpdateEvent();
     const { mutate:addNewEvent } = useAddEvent();
-    const removeEvents = useMutation((id, options) => {
-      return axios.delete(`http://localhost:8080/events/${id}`, {options})  
+    const removeEvents =  useMutation(async (id, options) => {
+      await axios.delete(`http://localhost:8080/events/${id}`, {options})  
     })
     const removeDraggableEvents = useMutation((id, options) => {
       return axios.delete(`http://localhost:8080/dragItemList/${id}`, {options})})
@@ -115,21 +115,42 @@ export function DemoApp() {
   const handleEventRemove = (id) => {
     let calendarApi = calendar.current.getApi()
     let eventData = calendarApi.getEventById(id);
-      removeEvents.mutate(eventData.id, {
-        onSuccess: () => {
-          console.log('deleted')
-          queryClient.invalidateQueries('events');
-        }
-      })
+    setEventInfo(eventData);
+    
+    removeEvents.mutate(eventData.id, {
+      onSuccess: () => {
+        //eventData.remove();
+        queryClient.invalidateQueries('events');
+      },
+      keepPreviousData: true,
+    })
     setSnackbarMessage(`Deleted ${eventData.title}`)
     setOpenSnackbar(true);
     setOpenCreateForm(false);
+    console.log('remove ', eventInfo)
   };
   
   const handleUndoRemove = (e) => {
     e.preventDefault();
-    console.log('undo')
-    queryClient.cancelQueries(['events'])
+    console.log('undo ', eventInfo)
+    addNewEvent(calendar.current.calendar.addEvent({
+      id: eventInfo.id,
+      title: eventInfo.title,
+      start: eventInfo.start, 
+      end: eventInfo.end,
+      extendedProps: {
+        category: eventInfo.extendedProps.category,
+        mandatory: eventInfo.extendedProps.mandatory,
+        resourceEditable: true,
+      },
+      backgroundColor: eventInfo.backgroundColor,
+      borderColor: eventInfo.backgroundColor,
+      editable: !eventInfo.extendedProps.mandatory,
+      startEditable: !eventInfo.extendedProps.mandatory,
+      durationEditable: !eventInfo.extendedProps.mandatory
+  }));
+  setEventInfo(null)
+  setOpenSnackbar(false);
   }
 
   const handleCloseSnackbar = (e, reason) => {
@@ -141,7 +162,7 @@ export function DemoApp() {
 
   const actionSnackbar = (
     <>
-      <Button color="secondary" size="small" onClick={handleUndoRemove}>
+      <Button color="secondary" size="small" onClick={(e) => handleUndoRemove(e)}>
         UNDO
       </Button>
       <IconButton
