@@ -249,6 +249,7 @@ export function DemoApp() {
     selectable: true,
     editable: true,
     droppable: true,
+    eventDragStart:
     eventReceive: handleEventReceive,
     eventChange: handleDrop,
     eventRemove: handleEventRemove,
@@ -295,7 +296,6 @@ export function DemoApp() {
               setEventInfo(e.event);
               handleOpenCreateForm()
             }}
-            
             headerToolbar={{
               start: '',
               center: '',
