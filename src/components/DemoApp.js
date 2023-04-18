@@ -242,9 +242,9 @@ export function DemoApp() {
       <div className="event-render">
         <p className="event-paragraph">
           <span>{eventInfo.timeText}</span>
-          <i>{icon}</i>
-          {eventInfo.event.title}
-          <em>{eventInfo.event.extendedProps.category}</em>
+          {icon ? <i>{icon}</i> : null}
+          <span className='title'>{eventInfo.event.title}</span>
+          <em> - {eventInfo.event.extendedProps.category}</em>
         </p>
       </div>
     )
@@ -339,8 +339,6 @@ export function DemoApp() {
     const newEvents = filterEvents(events.data, newFilters);
     setVisibleEvents(newEvents);
   }
-
-
 
   return (
     <div className='calendar-app'>

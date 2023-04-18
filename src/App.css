@@ -185,15 +185,20 @@ a.fc-event {
   margin-top: 0;
   gap: 4px;
   display: flex;
+  align-items: center;
 }
-.event-render > i {
+.event-paragraph span.title {
+  margin-right: 0;
+  font-weight: 500;
+}
+.event-paragraph span {
   margin-right: 10px;
-  margin-left: 10px;
 }
 
-.event-render > em {
+.event-paragraph em {
   text-align: right;
   color: darkslategrey;
+  font-weight: 600;
 }
 
 .fc-timegrid-more-link.fc-more-link:hover {
