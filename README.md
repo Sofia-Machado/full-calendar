@@ -24,7 +24,7 @@ This calendar interface is directed to a call center worker.
 - Run `npm install --legacy-peer-deps` in your terminal
 - Run `npm install -g json-server --legacy-peer-deps`
 - Run `npm run serve-json`
-- Open http://localhost:8080/events or http://localhost:8080/dragItemList to view the database. This will allow you to interact with the database
+- Open http://localhost:8080/events or http://localhost:8080/dragItemList to view the database. This will allow you to interact with the database. You may need to change the date manually to today
 - Run `npm start` to run the app in developement mode
 - Open http://localhost:3000 to view the app in your browser.
 - Now you can organize your day!
