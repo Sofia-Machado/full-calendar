@@ -76,7 +76,7 @@ const DraggableEvents = ({events, calendar, removeDraggableEvents, startDate, en
           startEditable: !mandatory,
           durationEditable: !mandatory
       }));
-      removeDraggableEvents(item.id, {
+      removeDraggableEvents.mutate(item.id, {
         onSuccess: () => {
           queryClient.invalidateQueries('dragItems');
         }

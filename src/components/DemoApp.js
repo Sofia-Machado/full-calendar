@@ -20,16 +20,6 @@ const fetchEvents = () => {
   return axios.get("http://localhost:8080/events")
 }
 
-const removeDraggableEvents = (id, options) => {
-  return axios.delete(`http://localhost:8080/dragItemList/${id}`)
-    .then(response => {
-      if (options && options.onSuccess) {
-        options.onSuccess(response);
-      }
-      return response;
-    });
-}
-
 /* Component Demo App */
 export function DemoApp() {
   const [openCreateForm, setOpenCreateForm] = useState(false);
@@ -68,6 +58,8 @@ export function DemoApp() {
     const removeEvents = useMutation((id, options) => {
       return axios.delete(`http://localhost:8080/events/${id}`, {options})  
     })
+    const removeDraggableEvents = useMutation((id, options) => {
+      return axios.delete(`http://localhost:8080/dragItemList/${id}`, {options})})
 
   const filterEvents = (events, currentFilters) => {
     if (currentFilters.length === 0) {
@@ -135,7 +127,8 @@ export function DemoApp() {
   };
   
   const handleUndoRemove = (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    console.log('undo')
     queryClient.cancelQueries(['events'])
   }
 
@@ -148,14 +141,14 @@ export function DemoApp() {
 
   const actionSnackbar = (
     <>
-      <Button color="secondary" size="small" onClick={handleCloseSnackbar}>
+      <Button color="secondary" size="small" onClick={handleUndoRemove}>
         UNDO
       </Button>
       <IconButton
         size="small"
         aria-label="close"
         color="inherit"
-        onClick={handleUndoRemove}
+        onClick={handleCloseSnackbar}
       >
         <CloseIcon fontSize="small" />
       </IconButton>
@@ -213,7 +206,7 @@ export function DemoApp() {
         durationEditable: !event.extendedProps.mandatory
       }, {
         })
-      removeDraggableEvents(dragId, {
+      removeDraggableEvents.mutate(dragId, {
         onSuccess: () => {
           queryClient.invalidateQueries('dragItems');
         }
