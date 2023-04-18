@@ -5,14 +5,13 @@ import axios from 'axios';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from "@fullcalendar/daygrid";
-import { Autocomplete, Box, Button, Chip, Container, FormControl, FormControlLabel, FormLabel, IconButton, InputAdornment, InputLabel,
-   MenuItem, OutlinedInput, Radio, RadioGroup, Select, Snackbar, Stack, TextField } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import { Button, Container, IconButton, Snackbar } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { useTheme } from '@mui/material/styles';
 import { useUpdateEvent, useAddEvent } from '../hooks/eventHook';
 import CreateEventForm from './CreateEventForm';
+import DragOrDuplicateForm from './DragOrDuplicateForm';
 import DraggableEvents from './DraggableEvents';
+import OptionsHeader from './OptionsHeader';
 
 /* Fetch and remove functions */
 const fetchEvents = () => {
@@ -31,11 +30,11 @@ export function DemoApp() {
   const [visibleEvents, setVisibleEvents] = useState([]);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [openDragForm, setOpenDragForm] = useState(false);
   
   const calendar = useRef(null);
   const draggableRef = useRef(null);
   const queryClient = useQueryClient();
-  const theme = useTheme();
   
   const onSuccess = (response) => {
     console.log('success');
@@ -60,6 +59,7 @@ export function DemoApp() {
     const removeDraggableEvents = useMutation((id, options) => {
       return axios.delete(`http://localhost:8080/dragItemList/${id}`, {options})})
 
+  //Filter Events
   const filterEvents = (events, currentFilters) => {
     if (currentFilters.length === 0) {
       return events;
@@ -70,6 +70,13 @@ export function DemoApp() {
       }
       return currentFilters.includes(event.extendedProps.category)
     })
+  }
+  //function
+  const handleFilter = (e) => {
+    const newFilters = e.target.value;
+    setFilters(newFilters);
+    const newEvents = filterEvents(events.data, newFilters);
+    setVisibleEvents(newEvents);
   }
 
   /* Drag event info */
@@ -182,6 +189,7 @@ export function DemoApp() {
 
   /* Update event drag and drop */
   const handleDrop = (info) => {
+    
     const event = info.event.toPlainObject();
     if (event) {
       updateExistingEvent({...event, editable: !event.extendedProps.mandatory, 
@@ -192,46 +200,12 @@ export function DemoApp() {
   /* Update/add event on receive */
   const handleEventReceive = (info) => {
     const event = info.event.toPlainObject();
-    if (info.event) {
-      addNewEvent(calendar.current.calendar.addEvent({
-        title: event.title,
-        start: event.start,
-        end: event.end,
-        extendedProps : {
-          category: event.extendedProps.category,
-          mandatory: event.extendedProps.mandatory,
-          resourceEditable: true
-        },
-        backgroundColor: event.backgroundColor,
-        borderColor: event.borderColor,
-        editable: !event.extendedProps.mandatory, 
-        startEditable: !event.extendedProps.mandatory, 
-        durationEditable: !event.extendedProps.mandatory
-      }, {
-      }));
-      updateExistingEvent({
-        id: event.id,
-        title: event.title,
-        start: event.start,
-        end: event.end,
-        extendedProps : {
-          category: event.extendedProps.category,
-          mandatory: event.extendedProps.mandatory,
-          resourceEditable: true
-        },
-        backgroundColor: event.backgroundColor,
-        borderColor: event.borderColor,
-        editable: !event.extendedProps.mandatory, 
-        startEditable: !event.extendedProps.mandatory, 
-        durationEditable: !event.extendedProps.mandatory
-      }, {
-        })
-      removeDraggableEvents.mutate(dragId, {
-        onSuccess: () => {
-          queryClient.invalidateQueries('dragItems');
-        }
-      })
-    }
+    addNewEvent(event);
+    removeDraggableEvents.mutate(dragId, {
+      onSuccess: () => {
+        queryClient.invalidateQueries('dragItems');
+      }
+    })
   }
   
   /* Event content Render */ 
@@ -300,131 +274,18 @@ export function DemoApp() {
     return <h2>{error.message}</h2>
   }
   
-  /* Set category options on the search bar */
-  const categoryOptions = Object.values(events.data).sort((a, b) => {
-    let result;
-    if (a.extendedProps.category>b.extendedProps.category){
-      result = -1;
-  } else {
-    if (a.extendedProps.category<b.extendedProps.category){
-          result = 1;
-    } else {
-        if (a.title > b.title) {
-          result = 1
-        } else {
-          if (a.title < b.title) {
-            result = -1
-          }
-        }
-      }
-    }
-    return result;
-  });
-
-  /* Menu filter */ 
-  const filtersList = ['Obligatoire', 'Vie', 'Santé'];
-  //styles
-  function getStyles(filter, filtersList, theme) {
-    return {
-      fontWeight:
-        filters.indexOf(filter) === -1
-          ? theme.typography.fontWeightRegular
-          : theme.typography.fontWeightMedium,
-    };
-  }  
-  //function
-  const handleFilter = (e) => {
-    const newFilters = e.target.value;
-    setFilters(newFilters);
-    const newEvents = filterEvents(events.data, newFilters);
-    setVisibleEvents(newEvents);
-  }
+ 
 
   return (
     <div className='calendar-app'>
         <h1>Call-endar</h1>
       <Container>
-        <div className='mui-forms'>
-          <Stack spacing={2} sx={{ ml: 25, width: 300 }}>
-          <Autocomplete
-            id="search-by-category"
-            options={categoryOptions}
-            groupBy={(option) => option.extendedProps.category}
-            getOptionLabel={(option) => option.title}
-            sx={{ width: 300 }}
-            onChange={(e, value) => {
-              console.log(value)
-              setEventInfo(value);
-              handleOpenCreateForm()
-            }}
-            renderInput={(params) => <TextField {...params}
-            InputProps={{
-              ...params.InputProps,
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              )
-            }}
-            label="Search by category" />}
-          />
-          </Stack>
-          <FormControl sx={{ mt: 2, width: 300 }}>
-            <InputLabel id="demo-multiple-chip-label">Filter</InputLabel>
-            <Select
-              labelId="demo-multiple-chip-label"
-              id="demo-multiple-chip"
-              multiple
-              value={filters}
-              onChange={handleFilter}
-              input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-              renderValue={(selected) => (
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                  {selected.map((value) => (
-                    <Chip key={value} label={value} />
-                  ))}
-                </Box>
-              )}
-              //MenuProps={MenuProps}
-            >            
-              {filtersList.map((filter) => (
-                <MenuItem
-                  key={filter}
-                  value={filter}
-                  style={getStyles(filter, filtersList, theme)}
-                >
-                  {filter}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </div>
-        <FormControl>
-            <FormLabel id="slot-duration-select">Slot Duration</FormLabel>
-            <RadioGroup
-              aria-labelledby="slot-duration-select-options"
-              value={slotDuration}
-              onChange={(e) => setSlotDuration(e.target.value)}
-              name="slot-duration-select-options"
-              sx={{ display: "block" }}
-            >
-              <FormControlLabel
-                value="00:15:00"
-                control={<Radio size="small" />}
-                label="15min"
-              />
-              <FormControlLabel
-                value="00:30:00"
-                control={<Radio size="small" />}
-                label="30min"
-              />
-              <FormControlLabel
-                value="01:00:00"
-                control={<Radio size="small" />}
-                label="1h"
-              />
-            </RadioGroup>
-          </FormControl>
+        <OptionsHeader 
+          events={events} setEventInfo={setEventInfo}
+          filters={filters} handleFilter={handleFilter}
+          handleOpenCreateForm={handleOpenCreateForm}
+          slotDuration={slotDuration} setSlotDuration={setSlotDuration}
+        />
         <div className='calendar-list-container'>
           <div className="draggables" ref={draggableRef}>
             <DraggableEvents events={events} calendar={calendar} addNewEvent={addNewEvent} removeDraggableEvents={removeDraggableEvents} startDate={startDate} endDate={endDate} />
@@ -446,6 +307,7 @@ export function DemoApp() {
             }}
           />
         </div>
+      <DragOrDuplicateForm openDragForm={openDragForm} setOpenDragForm={setOpenDragForm} />
       <CreateEventForm 
         handleEventRemove={handleEventRemove} 
         calendar={calendar} 
