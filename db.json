@@ -7,14 +7,10 @@
       "end": "2023-04-19T13:15:00",
       "extendedProps": {
         "category": "Santé",
-        "mandatory": true,
-        "resourceEditable": true
+        "mandatory": true
       },
       "backgroundColor": "#e3ab9a",
-      "borderColor": "#e3ab9a",
-      "editable": false,
-      "startEditable": false,
-      "durationEditable": false
+      "borderColor": "#e3ab9a"
     },
     {
       "allDay": false,
@@ -26,12 +22,8 @@
       "borderColor": "#e3ab9a",
       "extendedProps": {
         "category": "Santé",
-        "mandatory": true,
-        "resourceEditable": true
-      },
-      "editable": false,
-      "startEditable": false,
-      "durationEditable": false
+        "mandatory": true
+      }
     },
     {
       "allDay": false,
@@ -43,12 +35,8 @@
       "borderColor": "#44936c",
       "extendedProps": {
         "category": "Vie",
-        "mandatory": false,
-        "resourceEditable": true
-      },
-      "editable": true,
-      "startEditable": true,
-      "durationEditable": true
+        "mandatory": false
+      }
     },
     {
       "allDay": false,
@@ -60,12 +48,8 @@
       "borderColor": "#44936c",
       "extendedProps": {
         "category": "Vie",
-        "mandatory": false,
-        "resourceEditable": true
-      },
-      "editable": true,
-      "startEditable": true,
-      "durationEditable": true
+        "mandatory": false
+      }
     },
     {
       "allDay": false,
@@ -77,12 +61,8 @@
       "borderColor": "#44936c",
       "extendedProps": {
         "category": "Vie",
-        "mandatory": false,
-        "resourceEditable": true
-      },
-      "editable": true,
-      "startEditable": true,
-      "durationEditable": true
+        "mandatory": false
+      }
     },
     {
       "allDay": false,
@@ -94,12 +74,8 @@
       "borderColor": "#44936c",
       "extendedProps": {
         "category": "Vie",
-        "mandatory": false,
-        "resourceEditable": true
-      },
-      "editable": true,
-      "startEditable": true,
-      "durationEditable": true
+        "mandatory": false
+      }
     },
     {
       "allDay": false,
@@ -111,12 +87,8 @@
       "borderColor": "#44936c",
       "extendedProps": {
         "category": "Vie",
-        "mandatory": false,
-        "resourceEditable": true
-      },
-      "editable": true,
-      "startEditable": true,
-      "durationEditable": true
+        "mandatory": false
+      }
     },
     {
       "allDay": false,
@@ -128,8 +100,7 @@
       "borderColor": "#44936c",
       "extendedProps": {
         "category": "Vie",
-        "mandatory": true,
-        "resourceEditable": true
+        "mandatory": true
       }
     },
     {
@@ -142,12 +113,8 @@
       "borderColor": "#44936c",
       "extendedProps": {
         "category": "Vie",
-        "mandatory": false,
-        "resourceEditable": true
-      },
-      "editable": true,
-      "startEditable": true,
-      "durationEditable": true
+        "mandatory": false
+      }
     }
   ],
   "dragItemList": [
@@ -156,8 +123,7 @@
       "title": "Call Pedro",
       "extendedProps": {
         "category": "Santé",
-        "mandatory": true,
-        "resourceEditable": true
+        "mandatory": true
       }
     },
     {
@@ -165,8 +131,7 @@
       "title": "Call Oscar",
       "extendedProps": {
         "category": "Vie",
-        "mandatory": false,
-        "resourceEditable": true
+        "mandatory": false
       }
     },
     {
@@ -174,8 +139,7 @@
       "title": "Call Afonso",
       "extendedProps": {
         "category": "Vie",
-        "mandatory": true,
-        "resourceEditable": true
+        "mandatory": true
       }
     },
     {
@@ -185,14 +149,10 @@
       "end": "2023-04-19T09:15:00+01:00",
       "extendedProps": {
         "category": "Vie",
-        "mandatory": true,
-        "resourceEditable": true
+        "mandatory": true
       },
       "backgroundColor": "#44936c",
-      "borderColor": "#44936c",
-      "editable": false,
-      "startEditable": false,
-      "durationEditable": false
+      "borderColor": "#44936c"
     },
     {
       "id": 2,
@@ -201,14 +161,10 @@
       "end": "2023-04-19T11:20:00",
       "extendedProps": {
         "category": "Santé",
-        "mandatory": true,
-        "resourceEditable": true
+        "mandatory": true
       },
       "backgroundColor": "#e3ab9a",
-      "borderColor": "#e3ab9a",
-      "editable": false,
-      "startEditable": false,
-      "durationEditable": false
+      "borderColor": "#e3ab9a"
     }
   ]
 }
