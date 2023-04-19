@@ -143,18 +143,6 @@
       }
     },
     {
-      "id": "3",
-      "title": "Call Francisco",
-      "start": "2023-04-19T09:00:00+01:00",
-      "end": "2023-04-19T09:15:00+01:00",
-      "extendedProps": {
-        "category": "Vie",
-        "mandatory": true
-      },
-      "backgroundColor": "#44936c",
-      "borderColor": "#44936c"
-    },
-    {
       "id": 2,
       "title": "Call Sandra",
       "start": "2023-04-19T11:15:00",
@@ -164,7 +152,21 @@
         "mandatory": true
       },
       "backgroundColor": "#e3ab9a",
-      "borderColor": "#e3ab9a"
+      "borderColor": "#e3ab9a",
+      "classNames": "past"
+    },
+    {
+      "id": "3",
+      "title": "Call Francisco",
+      "start": "2023-04-19T09:00:00+01:00",
+      "end": "2023-04-19T09:15:00+01:00",
+      "extendedProps": {
+        "category": "Vie",
+        "mandatory": true
+      },
+      "backgroundColor": "#44936c",
+      "borderColor": "#44936c",
+      "classNames": "past"
     }
   ]
 }
