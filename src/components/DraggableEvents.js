@@ -30,14 +30,10 @@ const DraggableEvents = ({events, calendar, removeDraggableEvents, startDate, en
               end: event.end,
               extendedProps : {
                 category: event.extendedProps.category,
-                mandatory: event.extendedProps.mandatory,
-                resourceEditable: true
+                mandatory: event.extendedProps.mandatory
               },
               backgroundColor: event.backgroundColor,
-              borderColor: event.borderColor,
-              editable: !event.extendedProps.mandatory, 
-              startEditable: !event.extendedProps.mandatory, 
-              durationEditable: !event.extendedProps.mandatory
+              borderColor: event.borderColor
             }, {
               onSuccess: () => {
                 queryClient.invalidateQueries('dragItems');
@@ -73,14 +69,10 @@ const DraggableEvents = ({events, calendar, removeDraggableEvents, startDate, en
           end: dayjs().add(15, 'minutes').format(),
           extendedProps: {
               category: category,
-              mandatory: mandatory,
-              resourceEditable: true,
+              mandatory: mandatory
           },
           backgroundColor: backColor,
-          borderColor: backColor,
-          editable: !mandatory,
-          startEditable: !mandatory,
-          durationEditable: !mandatory
+          borderColor: backColor
       }));
       removeDraggableEvents.mutate(item.id, {
         onSuccess: () => {

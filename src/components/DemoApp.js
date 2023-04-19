@@ -92,7 +92,6 @@ export function DemoApp() {
           setDragId(data.id);
           const title = data.title;
           const category = data.extendedProps.category;
-          const mandatory = data.extendedProps.mandatory;
           let backColor = '#3788d8';
           if(category === 'Santé') {
             backColor = '#e3ab9a'
@@ -105,14 +104,10 @@ export function DemoApp() {
             duration: '00:15',
             extendedProps: {
               category: category,
-              mandatory: mandatory,
-              resourceEditable: true,
+              mandatory: data.extendedProps.mandatory
             },
             backgroundColor: backColor,
-            borderColor: backColor,
-            startEditable: !mandatory,
-            durationEditable: !mandatory,
-            editable: !mandatory,
+            borderColor: backColor
           };
         }
       });
@@ -146,14 +141,10 @@ export function DemoApp() {
       end: eventRemoved.end,
       extendedProps: {
         category: eventRemoved.extendedProps.category,
-        mandatory: eventRemoved.extendedProps.mandatory,
-        resourceEditable: true,
+        mandatory: eventRemoved.extendedProps.mandatory
       },
       backgroundColor: eventRemoved.backgroundColor,
-      borderColor: eventRemoved.backgroundColor,
-      editable: !eventRemoved.extendedProps.mandatory,
-      startEditable: !eventRemoved.extendedProps.mandatory,
-      durationEditable: !eventRemoved.extendedProps.mandatory
+      borderColor: eventRemoved.backgroundColor
   }));
   setEventRemoved(null)
   setOpenSnackbar(false);
@@ -204,12 +195,7 @@ export function DemoApp() {
   /* Update/add event on receive */
   const handleEventReceive = (info) => {
     const event = info.event.toPlainObject();
-    addNewEvent({
-      ...event, 
-      editable: !event.extendedProps.mandatory,
-      startEditable: !event.extendedProps.mandatory,
-      durationEditable: !event.extendedProps.mandatory
-    });
+    addNewEvent(event);
     removeDraggableEvents.mutate(dragId, {
       onSuccess: () => {
         queryClient.invalidateQueries('dragItems');

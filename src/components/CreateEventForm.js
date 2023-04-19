@@ -89,14 +89,10 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                 end: endDate,
                 extendedProps: {
                     category,
-                    mandatory,
-                    resourceEditable: true,
+                    mandatory
                 },
                 backgroundColor: backColor,
-                borderColor: backColor,
-                editable: !mandatory,
-                startEditable: !mandatory,
-                durationEditable: !mandatory
+                borderColor: backColor
             }));
             handleCloseCreateForm()
             setTitle('');
@@ -127,10 +123,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                     mandatory,
                 },
                 backgroundColor: backColor,
-                borderColor: backColor,
-                editable: !mandatory, 
-                startEditable: !mandatory, 
-                durationEditable: !mandatory
+                borderColor: backColor
             }, {
                 onSuccess: () => {
                     queryClient.invalidateQueries('events')

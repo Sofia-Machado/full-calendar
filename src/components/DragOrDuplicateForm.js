@@ -21,22 +21,14 @@ export default function DragOrDuplicateForm({ addNewEvent, eventInfo, oldEventDr
  
   const handleReplace = () => {
     if (eventInfo) {
-      updateExistingEvent({
-        ...eventInfo, 
-        editable: !eventInfo.extendedProps.mandatory,
-        startEditable: !eventInfo.extendedProps.mandatory,
-        durationEditable: !eventInfo.extendedProps.mandatory
-      })
+      updateExistingEvent(eventInfo)
     }
     setOpenDragForm(false)
   }
   const handleAdd = () => {
     if (eventInfo) {
       addNewEvent({
-        ...eventInfo, 
-        editable: !eventInfo.extendedProps.mandatory,
-        startEditable: !eventInfo.extendedProps.mandatory,
-        durationEditable: !eventInfo.extendedProps.mandatory, 
+        ...eventInfo,
         id: eventInfo.id + 'duplicate'
       }, {
         onSuccess: () => {
