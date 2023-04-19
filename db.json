@@ -237,9 +237,7 @@
       "id": "3duplicate",
       "backgroundColor": "#44936c",
       "borderColor": "#44936c",
-      "classNames": [
-        "past"
-      ],
+      "classNames": "waiting-list",
       "extendedProps": {
         "category": "Vie",
         "mandatory": true
@@ -253,9 +251,7 @@
       "id": "2duplicate",
       "backgroundColor": "#e3ab9a",
       "borderColor": "#e3ab9a",
-      "classNames": [
-        "past"
-      ],
+      "classNames": "waiting-list",
       "extendedProps": {
         "category": "Santé",
         "mandatory": true
@@ -312,6 +308,104 @@
       "backgroundColor": "#44936c",
       "borderColor": "#44936c",
       "classNames": "past"
+    },
+    {
+      "allDay": false,
+      "title": "Call Francisco",
+      "start": "2023-04-19T16:22:02+01:00",
+      "end": "2023-04-19T16:37:02+01:00",
+      "id": "3duplicate",
+      "backgroundColor": "#44936c",
+      "borderColor": "#44936c",
+      "classNames": "past",
+      "extendedProps": {
+        "category": "Vie",
+        "mandatory": true
+      }
+    },
+    {
+      "allDay": false,
+      "title": "Call Sandra",
+      "start": "2023-04-19T16:22:26+01:00",
+      "end": "2023-04-19T16:37:26+01:00",
+      "id": "2duplicate",
+      "backgroundColor": "#e3ab9a",
+      "borderColor": "#e3ab9a",
+      "classNames": "past",
+      "extendedProps": {
+        "category": "Santé",
+        "mandatory": true
+      }
+    },
+    {
+      "allDay": false,
+      "title": "Call Sandra",
+      "start": "2023-04-19T16:22:26+01:00",
+      "end": "2023-04-19T16:37:26+01:00",
+      "id": "10duplicate",
+      "backgroundColor": "#e3ab9a",
+      "borderColor": "#e3ab9a",
+      "classNames": "past",
+      "extendedProps": {
+        "category": "Santé",
+        "mandatory": true
+      }
+    },
+    {
+      "allDay": false,
+      "title": "Call Sandra",
+      "start": "2023-04-19T16:22:26+01:00",
+      "end": "2023-04-19T16:37:26+01:00",
+      "id": "20duplicate",
+      "backgroundColor": "#e3ab9a",
+      "borderColor": "#e3ab9a",
+      "classNames": "past",
+      "extendedProps": {
+        "category": "Santé",
+        "mandatory": true
+      }
+    },
+    {
+      "allDay": false,
+      "title": "Call Sandra",
+      "start": "2023-04-19T16:22:26+01:00",
+      "end": "2023-04-19T16:37:26+01:00",
+      "id": "28duplicate",
+      "backgroundColor": "#e3ab9a",
+      "borderColor": "#e3ab9a",
+      "classNames": "past",
+      "extendedProps": {
+        "category": "Santé",
+        "mandatory": true
+      }
+    },
+    {
+      "allDay": false,
+      "title": "Call Sandra",
+      "start": "2023-04-19T16:22:26+01:00",
+      "end": "2023-04-19T16:37:26+01:00",
+      "id": "30duplicate",
+      "backgroundColor": "#e3ab9a",
+      "borderColor": "#e3ab9a",
+      "classNames": "past",
+      "extendedProps": {
+        "category": "Santé",
+        "mandatory": true
+      }
+    },
+    {
+      "allDay": false,
+      "title": "Call Sandra",
+      "start": "2023-04-19T16:22:26+01:00",
+      "end": "2023-04-19T16:37:26+01:00",
+      "id": "33duplicate",
+      "backgroundColor": "#e3ab9a",
+      "borderColor": "#e3ab9a",
+      "classNames": "past",
+      "extendedProps": {
+        "category": "Santé",
+        "mandatory": true
+      }
     }
   ]
 }

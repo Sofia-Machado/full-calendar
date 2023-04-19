@@ -230,6 +230,10 @@ a.fc-event {
   padding-right: 4px;
   border-radius: 25px;
 }
+.pagination-buttons {
+  text-align: center;
+  margin-bottom: 0;
+}
 
 .draggable-list {
   background-color: rgb(57, 74, 172);
