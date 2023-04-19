@@ -195,6 +195,7 @@ export function DemoApp() {
   }  
   */
   const handleEventDrop = (event) => {
+    console.log(event.event.classNames.includes('duplicate'))
     setOpenDragForm(true);
     setEventInfo(event.event.toPlainObject());
     setOldEventDrag(event.oldEvent.toPlainObject());
@@ -220,6 +221,10 @@ export function DemoApp() {
   const eventContent = (eventInfo) => {
     const isMandatory = eventInfo.event.extendedProps.mandatory;
     const icon = isMandatory ? <i className="fa-solid fa-lock"></i> : null;
+    let duplicate;
+    if (!eventInfo?.event?.classNames?.includes('duplicate')) {
+      duplicate = true;
+    }
     return (
       <div className="event-render">
         <p className="event-paragraph">
@@ -227,7 +232,7 @@ export function DemoApp() {
           {icon ? <i>{icon}</i> : null}
           <span className='title'>{eventInfo.event.title}</span>
           <em> - {eventInfo.event.extendedProps.category}</em>
-          
+          {duplicate ?? 'duplicated'}
         </p>
       </div>
     )
