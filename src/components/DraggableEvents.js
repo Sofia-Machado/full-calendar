@@ -21,7 +21,7 @@ const DraggableEvents = ({events, calendar, removeDraggableEvents, startDate, en
   useEffect(() => {
     if (draggableList) {
       events.data.forEach(event => {
-        if (!draggableList.data.includes(event.id)) {
+        if (!draggableList.data.some(item => item.id === event.id)) {
           if (event?.extendedProps?.mandatory && now > event.end) {
             if (!event?.classNames?.includes('duplicate')) {
               addDragItem({

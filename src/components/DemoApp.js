@@ -238,6 +238,12 @@ export function DemoApp() {
     ],
     allDaySlot: false,
     eventMaxStack: 4,
+    dayPopoverFormat:{
+      title: 'hello',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: false
+    },
     initialView: 'timeGridDay',
     weekends: false,
     slotMinTime: "09:00:00", 
@@ -249,7 +255,7 @@ export function DemoApp() {
       hour12: false
     },
     eventConstraint: {
-      start: now,
+      start: now
     },
     eventTimeFormat: {
       hour: '2-digit',

@@ -17,7 +17,6 @@ const style = {
 export default function DragOrDuplicateForm({ addNewEvent, eventInfo, oldEventDrag, openDragForm, setOpenDragForm, updateExistingEvent }) {
 
   const queryClient = useQueryClient();
-  const handleClose = () => setOpenDragForm(false);
  
   const handleReplace = () => {
     if (eventInfo) {

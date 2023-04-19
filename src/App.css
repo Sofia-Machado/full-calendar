@@ -289,3 +289,7 @@ div[data-event*="classNames"][data-event*="past"] {
 div[data-event*="classNames"][data-event*="past"]:hover {
   background-color: #fade8c;
 }
+
+.fc .fc-more-popover .fc-popover-body {
+  padding: 0;
+}
