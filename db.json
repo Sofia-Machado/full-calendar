@@ -131,9 +131,9 @@
         "mandatory": true,
         "resourceEditable": true
       },
-      "editable": true,
-      "startEditable": true,
-      "durationEditable": true
+      "editable": false,
+      "startEditable": false,
+      "durationEditable": false
     },
     {
       "allDay": false,
