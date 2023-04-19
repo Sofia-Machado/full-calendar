@@ -22,23 +22,26 @@ const DraggableEvents = ({events, calendar, removeDraggableEvents, startDate, en
     if (draggableList) {
       events.data.forEach(event => {
         if (!draggableList.data.includes(event.id)) {
-          if (event?.extendedProps?.mandatory && now > event.end && event?.classNames?.includes('duplicate')) {
-            addDragItem({
-              id: event.id,
-              title: event.title,
-              start: event.start,
-              end: event.end,
-              extendedProps : {
-                category: event.extendedProps.category,
-                mandatory: event.extendedProps.mandatory
-              },
-              backgroundColor: event.backgroundColor,
-              borderColor: event.borderColor
-            }, {
-              onSuccess: () => {
-                queryClient.invalidateQueries('dragItems');
-              }
-            })
+          if (event?.extendedProps?.mandatory && now > event.end) {
+            if (!event?.classNames?.includes('duplicate')) {
+              addDragItem({
+                id: event.id,
+                title: event.title,
+                start: event.start,
+                end: event.end,
+                extendedProps : {
+                  category: event.extendedProps.category,
+                  mandatory: event.extendedProps.mandatory
+                },
+                backgroundColor: event.backgroundColor,
+                borderColor: event.borderColor,
+                classNames: 'past'
+              }, {
+                onSuccess: () => {
+                  queryClient.invalidateQueries('dragItems');
+                }
+              })
+            }
           }
         }
       })
