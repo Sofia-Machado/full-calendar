@@ -105,7 +105,7 @@ const DraggableEvents = ({events, calendar, removeDraggableEvents, startDate, en
             draggable={true}
             onClick={(e) => handleItemClick(e, item)}
             >
-              <Typography fontSize={14} component="div">
+              <Typography fontSize={14} sx={{fontWeight: 500}} component="div">
                 {item.title}
               </Typography>
             </CardContent>

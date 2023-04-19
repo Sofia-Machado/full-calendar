@@ -7,6 +7,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { Button, Container, IconButton, Snackbar } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import dayjs from 'dayjs';
 import { useUpdateEvent, useAddEvent } from '../hooks/eventHook';
 import CreateEventForm from './CreateEventForm';
 import DragOrDuplicateForm from './DragOrDuplicateForm';
@@ -214,16 +215,20 @@ export function DemoApp() {
     return (
       <div className="event-render">
         <p className="event-paragraph">
-          <span>{eventInfo.timeText}</span>
-          {icon ? <i>{icon}</i> : null}
-          <span className='title'>{eventInfo.event.title}</span>
+          <span className={isMandatory ? "" : "event-date"}
+          onClick={() => { 
+            if (!isMandatory) {
+              handleOpenCreateForm();
+            }
+            }}>{eventInfo.timeText}</span>
+          <span className='event-title'>{icon ? <i>{icon}</i> : null}{eventInfo.event.title}</span>
           <em> - {eventInfo.event.extendedProps.category}</em>
           {duplicate ?? 'duplicated'}
         </p>
       </div>
     )
   }
-
+  const now = dayjs().format();
   /* Calendar options */
   const options = {
     plugins: [
@@ -243,6 +248,9 @@ export function DemoApp() {
       minute: '2-digit',
       hour12: false
     },
+    eventConstraint: {
+      start: now,
+    },
     eventTimeFormat: {
       hour: '2-digit',
       minute: '2-digit',
@@ -257,7 +265,7 @@ export function DemoApp() {
     eventReceive: handleEventReceive,
     //eventChange: handleChange,
     eventRemove: handleEventRemove,
-    //onclick
+    //save date
     select: function(info) {
       if (info.start && !info.event) {
         setEventInfo(null);
@@ -298,6 +306,7 @@ export function DemoApp() {
             eventContent={eventContent}
             eventClick={(e) => {
               setEventInfo(e.event);
+              //handleOpenCreateForm();
             }}
             headerToolbar={{
               start: '',

@@ -80,7 +80,6 @@ export default function DragOrDuplicateForm({ addNewEvent, eventInfo, oldEventDr
     <div>
       <Modal
         open={openDragForm}
-        onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >

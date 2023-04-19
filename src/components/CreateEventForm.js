@@ -100,19 +100,6 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             setMandatory(false);
         }
         else {
-           /*  eventInfo.setProp('title', title)
-            eventInfo.setStart(startDate.format())
-            eventInfo.setEnd(endDate.format())
-            eventInfo.setExtendedProp('category', category)
-            eventInfo.setExtendedProp('mandatory', mandatory)
-            eventInfo.setExtendedProp('resourceEditable', true)
-            eventInfo.setProp('backgroundColor', backColor)
-            eventInfo.setProp('borderColor', backColor)
-            eventInfo.setProp('editable', !mandatory)
-            eventInfo.setProp('startEditable', !mandatory)
-            eventInfo.setProp('durationEditable', !mandatory)
-            const updatedEvent = eventInfo;
-             */
             updateExistingEvent({ 
                 title,
                 id: eventInfo.id,
