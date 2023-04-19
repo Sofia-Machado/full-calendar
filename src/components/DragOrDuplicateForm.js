@@ -24,9 +24,13 @@ export default function DragOrDuplicateForm({ addNewEvent, eventInfo, openDragFo
   }
   const handleAdd = () => {
     if (eventInfo) {
-      addNewEvent({...eventInfo, editable: !eventInfo.extendedProps.mandatory,
+      addNewEvent({
+        ...eventInfo, 
+        editable: !eventInfo.extendedProps.mandatory,
         startEditable: !eventInfo.extendedProps.mandatory,
-        durationEditable: !eventInfo.extendedProps.mandatory, id: eventInfo.id + 'duplicate'})
+        durationEditable: !eventInfo.extendedProps.mandatory, 
+        id: eventInfo.id + 'duplicate'
+      })
     }
     setOpenDragForm(false)
   }

@@ -195,7 +195,12 @@ export function DemoApp() {
   /* Update/add event on receive */
   const handleEventReceive = (info) => {
     const event = info.event.toPlainObject();
-    addNewEvent(event);
+    addNewEvent({
+      ...event, 
+      editable: !event.extendedProps.mandatory,
+      startEditable: !event.extendedProps.mandatory,
+      durationEditable: !event.extendedProps.mandatory
+    });
     removeDraggableEvents.mutate(dragId, {
       onSuccess: () => {
         queryClient.invalidateQueries('dragItems');

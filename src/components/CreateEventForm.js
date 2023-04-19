@@ -101,6 +101,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             handleCloseCreateForm()
             setTitle('');
             setCategory('');
+            setMandatory(false);
         }
         else {
            /*  eventInfo.setProp('title', title)
