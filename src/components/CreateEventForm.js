@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
+import { useQueryClient } from 'react-query';
 import { Box, Button, FormControl, FormControlLabel, FormGroup, InputLabel, MenuItem, Modal, Select, Switch, TextField } from '@mui/material';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useAddEvent, useUpdateEvent } from '../hooks/eventHook';
 import dayjs from 'dayjs';
-import { useQueryClient } from 'react-query';
+import { useAddEvent, useUpdateEvent } from '../hooks/eventHook';
 
 const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateForm, setOpenCreateForm, startDate, setStartDate, endDate, setEndDate}) => {
     const [title, setTitle] = useState('');

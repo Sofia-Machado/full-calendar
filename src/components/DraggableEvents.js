@@ -3,7 +3,8 @@ import { useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { useAddDragItem } from '../hooks/eventHook';
-import { Card, CardContent, Typography } from '@mui/material';
+import { Card, CardContent, Tooltip, Typography } from '@mui/material';
+import Zoom from '@mui/material/Zoom';
 
 const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, updateExistingEvent}) => {
   const [selectedItemId, setSelectedItemId] = useState(null);
@@ -87,18 +88,20 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
       {draggableList?.data.map((item, index) => {
         const isSelected = selectedItemId === item.id;
         return (
-          <Card className="draggable-card" sx={{borderRadius: 20}} key={index} >
-            <CardContent
-            data-event={JSON.stringify(item)}
-            className={`draggable-item ${isSelected ? 'selected' : ''}`}
-            draggable={true}
-            onClick={(e) => handleItemClick(e, item)}
-            >
-              <Typography fontSize={14} sx={{fontWeight: 500}} component="div">
-                {item.title}
-              </Typography>
-            </CardContent>
-          </Card>
+          <Tooltip sx={{m: 0}} title={item?.classNames?.includes('past') ? "Reporter" : ''} TransitionComponent={Zoom} arrow>
+            <Card className="draggable-card" sx={{borderRadius: 20}} key={index} >
+              <CardContent
+              data-event={JSON.stringify(item)}
+              className={`draggable-item ${isSelected ? 'selected' : ''}`}
+              draggable={true}
+              onClick={(e) => handleItemClick(e, item)}
+              >
+                <Typography fontSize={14} sx={{fontWeight: 500}} component="div">
+                  {item.title}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Tooltip>
         );
       })}
     </ul>

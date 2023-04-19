@@ -102,7 +102,7 @@ export function DemoApp() {
 
   /* Remove event */
   const handleEventRemove = (id) => {
-    let calendarApi = calendar.current.getApi()
+    let calendarApi = calendar.current.getApi();
     let eventData = calendarApi.getEventById(id);
     setEventRemoved(eventData);
     removeEvents.mutate(eventData.id, {
@@ -166,7 +166,6 @@ export function DemoApp() {
   
  /* Update event drag and drop */
   const handleEventDrop = (event) => {
-    console.log(event.event.classNames.includes('duplicate'))
     setEventInfo(event.event.toPlainObject());
     setOldEventDrag(event.oldEvent.toPlainObject());
     setOpenDragForm(true);
@@ -255,7 +254,6 @@ export function DemoApp() {
     droppable: true,
     eventDrop: handleEventDrop,
     eventReceive: handleEventReceive,
-    //eventChange: handleChange,
     eventRemove: handleEventRemove,
     //save date
     select: function(info) {
