@@ -1,17 +1,18 @@
 {
   "events": [
     {
+      "allDay": false,
       "title": "Call Julia",
+      "start": "2023-04-19T12:15:00+01:00",
+      "end": "2023-04-19T13:15:00+01:00",
       "id": 1,
-      "start": "2023-04-19T12:15:00",
-      "end": "2023-04-19T13:15:00",
+      "backgroundColor": "#e3ab9a",
+      "borderColor": "#e3ab9a",
+      "classNames": "duplicate",
       "extendedProps": {
         "category": "Santé",
         "mandatory": true
-      },
-      "backgroundColor": "#e3ab9a",
-      "borderColor": "#e3ab9a",
-      "classNames": "waiting-list"
+      }
     },
     {
       "allDay": false,
@@ -192,8 +193,39 @@
       "id": "15",
       "backgroundColor": "#44936c",
       "borderColor": "#44936c",
+      "classNames": "duplicate",
       "extendedProps": {
         "category": "Vie",
+        "mandatory": true
+      }
+    },
+    {
+      "allDay": false,
+      "title": "Call Francisco",
+      "start": "2023-04-19T17:30:00+01:00",
+      "id": "15duplicate",
+      "backgroundColor": "#44936c",
+      "borderColor": "#44936c",
+      "classNames": [
+        "past"
+      ],
+      "extendedProps": {
+        "category": "Vie",
+        "mandatory": true
+      }
+    },
+    {
+      "allDay": false,
+      "title": "Call Julia",
+      "start": "2023-04-19T16:45:00+01:00",
+      "id": "1duplicate",
+      "backgroundColor": "#e3ab9a",
+      "borderColor": "#e3ab9a",
+      "classNames": [
+        "past"
+      ],
+      "extendedProps": {
+        "category": "Santé",
         "mandatory": true
       }
     }
@@ -222,19 +254,6 @@
         "category": "Vie",
         "mandatory": true
       }
-    },
-    {
-      "title": "Call Julia",
-      "id": 1,
-      "start": "2023-04-19T12:15:00",
-      "end": "2023-04-19T13:15:00",
-      "extendedProps": {
-        "category": "Santé",
-        "mandatory": true
-      },
-      "backgroundColor": "#e3ab9a",
-      "borderColor": "#e3ab9a",
-      "classNames": "past"
     },
     {
       "allDay": false,
@@ -275,6 +294,19 @@
         "category": "Santé",
         "mandatory": true
       },
+      "classNames": "past"
+    },
+    {
+      "title": "Call Zeca",
+      "id": 9,
+      "start": "2023-04-19T09:00:00.000Z",
+      "end": "2023-04-19T09:15:00.000Z",
+      "extendedProps": {
+        "category": "Vie",
+        "mandatory": true
+      },
+      "backgroundColor": "#44936c",
+      "borderColor": "#44936c",
       "classNames": "past"
     }
   ]

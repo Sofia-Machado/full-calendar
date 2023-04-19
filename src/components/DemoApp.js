@@ -91,24 +91,9 @@ export function DemoApp() {
           const dataString = eventEl.getAttribute('data-event');
           const data = JSON.parse(dataString);
           setDragId(data.id);
-          const title = data.title;
-          const category = data.extendedProps.category;
-          let backColor = '#3788d8';
-          if(category === 'Santé') {
-            backColor = '#e3ab9a'
-          } else if ((category === 'Vie')) {
-            backColor = '#44936c'
-          };
           return {
-            id: calendar.current.props.events.length + 1,
-            title: title,
-            duration: '00:15',
-            extendedProps: {
-              category: category,
-              mandatory: data.extendedProps.mandatory
-            },
-            backgroundColor: backColor,
-            borderColor: backColor
+            ...data,
+            id: data.id + 'duplicate'
           };
         }
       });
@@ -120,8 +105,7 @@ export function DemoApp() {
     let calendarApi = calendar.current.getApi()
     let eventData = calendarApi.getEventById(id);
     setEventRemoved(eventData);
-    
-  removeEvents.mutate(eventData.id, {
+    removeEvents.mutate(eventData.id, {
       onSuccess: () => {
         //eventData.remove();
         queryClient.invalidateQueries('events');
@@ -202,6 +186,13 @@ export function DemoApp() {
         queryClient.invalidateQueries('dragItems');
       }
     })
+    let calendarApi = calendar.current.getApi()
+    let eventData = calendarApi.getEventById(dragId).toPlainObject();
+    console.log(eventData)
+    updateExistingEvent({...eventData, classNames: 'duplicate'}, {
+      onSuccess: () => {
+      queryClient.invalidateQueries('events');
+    }})
   }
   
   /* Event content Render */ 
@@ -288,8 +279,6 @@ export function DemoApp() {
   if (isError) {
     return <h2>{error.message}</h2>
   }
-  
- 
 
   return (
     <div className='calendar-app'>
