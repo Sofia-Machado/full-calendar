@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import { useAddDragItem } from '../hooks/eventHook';
 import { Card, CardContent, Typography } from '@mui/material';
 
-const DraggableEvents = ({events, calendar, removeDraggableEvents, startDate, endDate, addNewEvent}) => {
+const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, updateExistingEvent}) => {
   const [selectedItemId, setSelectedItemId] = useState(null);
   const now = dayjs().format();
   
@@ -16,7 +16,7 @@ const DraggableEvents = ({events, calendar, removeDraggableEvents, startDate, en
   const queryClient = useQueryClient();
 
   /* fetch */
-  const { isLoading, data: draggableList, isError, error } = useQuery('dragItems', fecthDraggableItems, {})
+  const { isLoading, data: draggableList, isError, error } = useQuery('dragItems', fecthDraggableItems)
 
   useEffect(() => {
     if (draggableList) {
@@ -25,21 +25,16 @@ const DraggableEvents = ({events, calendar, removeDraggableEvents, startDate, en
           if (event?.extendedProps?.mandatory && now > event.end) {
             if (!event?.classNames?.includes('duplicate')) {
               addDragItem({
-                id: event.id,
-                title: event.title,
-                start: event.start,
-                end: event.end,
-                extendedProps : {
-                  category: event.extendedProps.category,
-                  mandatory: event.extendedProps.mandatory
-                },
-                backgroundColor: event.backgroundColor,
-                borderColor: event.borderColor,
+                ...event,
                 classNames: 'past'
               }, {
                 onSuccess: () => {
                   queryClient.invalidateQueries('dragItems');
                 }
+              });
+              updateExistingEvent({
+                ...event,
+                classNames: 'waiting-list'
               })
             }
           }

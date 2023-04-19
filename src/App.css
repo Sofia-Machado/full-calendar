@@ -282,6 +282,9 @@ a.fc-event {
 .duplicate {
   opacity: 0.5;
 }
+.waiting-list {
+  opacity: 0.5;
+}
 
 div[data-event*="classNames"][data-event*="past"] {
   background-color: #ffc107;

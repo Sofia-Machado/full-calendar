@@ -303,7 +303,13 @@ export function DemoApp() {
         />
         <div className='calendar-list-container'>
           <div className="draggables" ref={draggableRef}>
-            <DraggableEvents events={events} calendar={calendar} addNewEvent={addNewEvent} removeDraggableEvents={removeDraggableEvents} startDate={startDate} endDate={endDate} />
+            <DraggableEvents
+             events={events} calendar={calendar} 
+             updateExistingEvent={updateExistingEvent} 
+             addNewEvent={addNewEvent} 
+             removeDraggableEvents={removeDraggableEvents} 
+             startDate={startDate} endDate={endDate} 
+            />
           </div>
           <FullCalendar
             ref={calendar}
