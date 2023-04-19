@@ -23,6 +23,7 @@ export function DemoApp() {
   const [openCreateForm, setOpenCreateForm] = useState(false);
   const [eventInfo, setEventInfo] = useState({});
   const [eventRemoved, setEventRemoved] = useState({});
+  const [oldEventDrag, setOldEventDrag] = useState({});
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [dragId, setDragId] = useState(null);
@@ -187,11 +188,18 @@ export function DemoApp() {
   };
 
   
-  /* Update event drag and drop */
-  const handleDrop = (info) => {
+ /* Update event drag and drop */
+/*    const handleChange = (info) => {
     setEventInfo(info.event.toPlainObject());
     setOpenDragForm(true);
+  }  
+  */
+  const handleEventDrop = (event) => {
+    setOpenDragForm(true);
+    setEventInfo(event.event.toPlainObject());
+    setOldEventDrag(event.oldEvent.toPlainObject());
   }
+
   /* Update/add event on receive */
   const handleEventReceive = (info) => {
     const event = info.event.toPlainObject();
@@ -219,6 +227,7 @@ export function DemoApp() {
           {icon ? <i>{icon}</i> : null}
           <span className='title'>{eventInfo.event.title}</span>
           <em> - {eventInfo.event.extendedProps.category}</em>
+          
         </p>
       </div>
     )
@@ -253,11 +262,9 @@ export function DemoApp() {
     selectable: true,
     editable: true,
     droppable: true,
-    eventDragStart: (info) => {
-      setEventInfo(info.event.toPlainObject())
-    },
+    eventDrop: handleEventDrop,
     eventReceive: handleEventReceive,
-    eventChange: handleDrop,
+    //eventChange: handleChange,
     eventRemove: handleEventRemove,
     //onclick
     select: function(info) {
@@ -300,7 +307,6 @@ export function DemoApp() {
             eventContent={eventContent}
             eventClick={(e) => {
               setEventInfo(e.event);
-              handleOpenCreateForm()
             }}
             headerToolbar={{
               start: '',
@@ -312,6 +318,7 @@ export function DemoApp() {
       <DragOrDuplicateForm 
         openDragForm={openDragForm} setOpenDragForm={setOpenDragForm} 
         eventInfo={eventInfo} 
+        oldEventDrag={oldEventDrag}
         addNewEvent={addNewEvent}
         updateExistingEvent={updateExistingEvent}
       />

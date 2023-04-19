@@ -267,3 +267,7 @@ a.fc-event {
   display: flex;
   justify-content: space-around;
 }
+
+.duplicate {
+  opacity: 0.5;
+}

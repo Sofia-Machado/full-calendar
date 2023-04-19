@@ -1,5 +1,6 @@
 import { Box, Button, Modal} from '@mui/material';
 import Typography from '@mui/material/Typography';
+import { useQueryClient } from 'react-query';
 
 const style = {
   position: 'absolute',
@@ -13,12 +14,19 @@ const style = {
   p: 4,
 };
 
-export default function DragOrDuplicateForm({ addNewEvent, eventInfo, openDragForm, setOpenDragForm, updateExistingEvent }) {
-  const handleClose = () => setOpenDragForm(false);
+export default function DragOrDuplicateForm({ addNewEvent, eventInfo, oldEventDrag, openDragForm, setOpenDragForm, updateExistingEvent }) {
 
+  const queryClient = useQueryClient();
+  const handleClose = () => setOpenDragForm(false);
+ 
   const handleReplace = () => {
     if (eventInfo) {
-      updateExistingEvent(eventInfo)
+      updateExistingEvent({
+        ...eventInfo, 
+        editable: !eventInfo.extendedProps.mandatory,
+        startEditable: !eventInfo.extendedProps.mandatory,
+        durationEditable: !eventInfo.extendedProps.mandatory
+      })
     }
     setOpenDragForm(false)
   }
@@ -30,8 +38,26 @@ export default function DragOrDuplicateForm({ addNewEvent, eventInfo, openDragFo
         startEditable: !eventInfo.extendedProps.mandatory,
         durationEditable: !eventInfo.extendedProps.mandatory, 
         id: eventInfo.id + 'duplicate'
+      }, {
+        onSuccess: () => {
+          queryClient.invalidateQueries('events')
+        }
       })
     }
+    updateExistingEvent({...oldEventDrag, classNames: 'duplicate'}, {
+      onSuccess: () => {
+        queryClient.invalidateQueries('events')
+      }
+    });
+    setOpenDragForm(false)
+  }
+
+  const handleNo = () => {
+    updateExistingEvent(oldEventDrag, {
+      onSuccess: () => {
+        queryClient.invalidateQueries('events')
+      }
+    })
     setOpenDragForm(false)
   }
 
@@ -44,6 +70,25 @@ export default function DragOrDuplicateForm({ addNewEvent, eventInfo, openDragFo
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
+        {eventInfo?.extendedProps?.mandatory ? 
+        (
+        <>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+          Do you want to duplicate the event?
+          </Typography>
+          <div className='duplicate-drag-buttons'>
+            <Button onClick={handleAdd} sx={{ mt: 2 }}>
+              Yes 
+            </Button>
+            <Button onClick={handleNo} sx={{ mt: 2 }}>
+              No
+            </Button>
+          </div>
+        </>
+        )
+        :
+        (
+        <>
           <Typography id="modal-modal-title" variant="h6" component="h2">
           Do you want to duplicate the event or replace it?
           </Typography>
@@ -55,6 +100,10 @@ export default function DragOrDuplicateForm({ addNewEvent, eventInfo, openDragFo
               Replace
             </Button>
           </div>
+        </>
+        )
+        }
+          
         </Box>
       </Modal>
     </div>
