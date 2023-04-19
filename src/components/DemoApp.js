@@ -22,6 +22,7 @@ const fetchEvents = () => {
 export function DemoApp() {
   const [openCreateForm, setOpenCreateForm] = useState(false);
   const [eventInfo, setEventInfo] = useState({});
+  const [eventRemoved, setEventRemoved] = useState({});
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [dragId, setDragId] = useState(null);
@@ -121,9 +122,9 @@ export function DemoApp() {
   const handleEventRemove = (id) => {
     let calendarApi = calendar.current.getApi()
     let eventData = calendarApi.getEventById(id);
-    setEventInfo(eventData);
+    setEventRemoved(eventData);
     
-    removeEvents.mutate(eventData.id, {
+  removeEvents.mutate(eventData.id, {
       onSuccess: () => {
         //eventData.remove();
         queryClient.invalidateQueries('events');
@@ -133,29 +134,27 @@ export function DemoApp() {
     setSnackbarMessage(`Deleted ${eventData.title}`)
     setOpenSnackbar(true);
     setOpenCreateForm(false);
-    console.log('remove ', eventInfo)
-  };
+  }
   
   const handleUndoRemove = (e) => {
     e.preventDefault();
-    console.log('undo ', eventInfo)
     addNewEvent(calendar.current.calendar.addEvent({
-      id: eventInfo.id,
-      title: eventInfo.title,
-      start: eventInfo.start, 
-      end: eventInfo.end,
+      id: eventRemoved.id,
+      title: eventRemoved.title,
+      start: eventRemoved.start, 
+      end: eventRemoved.end,
       extendedProps: {
-        category: eventInfo.extendedProps.category,
-        mandatory: eventInfo.extendedProps.mandatory,
+        category: eventRemoved.extendedProps.category,
+        mandatory: eventRemoved.extendedProps.mandatory,
         resourceEditable: true,
       },
-      backgroundColor: eventInfo.backgroundColor,
-      borderColor: eventInfo.backgroundColor,
-      editable: !eventInfo.extendedProps.mandatory,
-      startEditable: !eventInfo.extendedProps.mandatory,
-      durationEditable: !eventInfo.extendedProps.mandatory
+      backgroundColor: eventRemoved.backgroundColor,
+      borderColor: eventRemoved.backgroundColor,
+      editable: !eventRemoved.extendedProps.mandatory,
+      startEditable: !eventRemoved.extendedProps.mandatory,
+      durationEditable: !eventRemoved.extendedProps.mandatory
   }));
-  setEventInfo(null)
+  setEventRemoved(null)
   setOpenSnackbar(false);
   }
 
@@ -249,7 +248,9 @@ export function DemoApp() {
     selectable: true,
     editable: true,
     droppable: true,
-    eventDragStart:
+    eventDragStart: (info) => {
+      setEventInfo(info.event.toPlainObject())
+    },
     eventReceive: handleEventReceive,
     eventChange: handleDrop,
     eventRemove: handleEventRemove,
