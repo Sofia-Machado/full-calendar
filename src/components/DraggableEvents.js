@@ -52,32 +52,26 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
       setSelectedItemId(item.id); // select item
     };
     if (e.detail === 2) {
-      const category = item.extendedProps.category;
-      const mandatory = item.extendedProps.mandatory;
-      let backColor = '#3788d8';
-      if(category === 'Santé') {
-        backColor = '#e3ab9a'
-      } else if ((category === 'Vie')) {
-        backColor = '#44936c'
-      };
       console.log(item);
-      addNewEvent(calendar.current.calendar.addEvent({
-          title: item.title,
-          start: now,
-          end: dayjs().add(15, 'minutes').format(),
-          extendedProps: {
-              category: category,
-              mandatory: mandatory
-          },
-          backgroundColor: backColor,
-          borderColor: backColor
-      }));
+      let calendarApi = calendar.current.getApi()
+      let eventData = calendarApi.getEventById(selectedItemId).toPlainObject();
+      console.log(eventData)
+      updateExistingEvent({...eventData, classNames: 'duplicate'});
       removeDraggableEvents.mutate(item.id, {
         onSuccess: () => {
           queryClient.invalidateQueries('dragItems');
         }
       })
-  }
+      addNewEvent(calendar.current.calendar.addEvent({
+        ...item,
+          id: item.id + 'duplicate',
+          start: now,
+          end: dayjs().add(15, 'minutes').format()
+      }), {
+        onSuccess: () => {
+        queryClient.invalidateQueries('events');
+      }});
+    }
   };
 
   if (isLoading) {

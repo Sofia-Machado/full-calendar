@@ -165,11 +165,6 @@ export function DemoApp() {
 
   
  /* Update event drag and drop */
-/*    const handleChange = (info) => {
-    setEventInfo(info.event.toPlainObject());
-    setOpenDragForm(true);
-  }  
-  */
   const handleEventDrop = (event) => {
     console.log(event.event.classNames.includes('duplicate'))
     setEventInfo(event.event.toPlainObject());
