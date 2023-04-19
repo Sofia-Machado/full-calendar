@@ -44,6 +44,29 @@ export default function DragOrDuplicateForm({ addNewEvent, eventInfo, oldEventDr
     setOpenDragForm(false)
   }
 
+  const handleYes = () => {
+    if (eventInfo) {
+      addNewEvent({
+        ...eventInfo,
+        id: eventInfo.id + 'duplicate'
+      }, {
+        onSuccess: () => {
+          queryClient.invalidateQueries('events')
+        }
+      })
+    }
+    updateExistingEvent({...oldEventDrag,
+      classNames: 'duplicate',
+      startEditable: !oldEventDrag.extendedProps.mandatory,
+      durationEditable: !oldEventDrag.extendedProps.mandatory,
+      editable: !oldEventDrag.extendedProps.mandatory,
+    }, {
+      onSuccess: () => {
+        queryClient.invalidateQueries('events')
+      }
+    });
+    setOpenDragForm(false)
+  }
   const handleNo = () => {
     updateExistingEvent(oldEventDrag, {
       onSuccess: () => {
@@ -69,7 +92,7 @@ export default function DragOrDuplicateForm({ addNewEvent, eventInfo, oldEventDr
           Do you want to duplicate the event?
           </Typography>
           <div className='duplicate-drag-buttons'>
-            <Button onClick={handleAdd} sx={{ mt: 2 }}>
+            <Button onClick={handleYes} sx={{ mt: 2 }}>
               Yes 
             </Button>
             <Button onClick={handleNo} sx={{ mt: 2 }}>

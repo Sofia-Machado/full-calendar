@@ -187,9 +187,9 @@ export function DemoApp() {
   */
   const handleEventDrop = (event) => {
     console.log(event.event.classNames.includes('duplicate'))
-    setOpenDragForm(true);
     setEventInfo(event.event.toPlainObject());
     setOldEventDrag(event.oldEvent.toPlainObject());
+    setOpenDragForm(true);
   }
 
   /* Update/add event on receive */
