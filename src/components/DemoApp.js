@@ -95,9 +95,9 @@ export function DemoApp() {
         eventData: function(eventEl) {
           const dataString = eventEl.getAttribute('data-event');
           const data = JSON.parse(dataString);
-          let color = data.extendedProps.category === 'Santé' ? '#e3ab9a' : '#44936c'
+          const color = data.extendedProps.category === 'Santé' ? '#e3ab9a' : '#44936c'
           setDragId(data.id);
-          const classValue = !data?.classNames?.includes('past') ? '' : 'duplicate';
+          let classValue = !data?.classNames?.includes('past') ? '' : 'duplicate';
           return {
             ...data,
             color,
@@ -123,7 +123,13 @@ export function DemoApp() {
     let calendarApi = calendar.current.getApi();
     let eventData = calendarApi.getEventById(dragId).toPlainObject();
     console.log(eventData)
-    updateExistingEvent({...eventData, classNames: 'duplicate'}, {
+    updateExistingEvent({
+      ...eventData, 
+      classNames: 'duplicate',
+      startEditable: !oldEventDrag?.extendedProps?.mandatory,
+      durationEditable: !oldEventDrag?.extendedProps?.mandatory,
+      editable: !oldEventDrag?.extendedProps?.mandatory,
+    }, {
       onSuccess: () => {
       queryClient.invalidateQueries('events');
     }})

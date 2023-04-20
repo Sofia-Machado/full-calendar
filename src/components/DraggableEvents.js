@@ -59,21 +59,31 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
       setSelectedItemId(item.id); // select item
     };
     if (e.detail === 2) {
-      let calendarApi = calendar.current.getApi()
-      let eventData = calendarApi.getEventById(selectedItemId).toPlainObject();
-      
+      const calendarApi = calendar.current.getApi();
+      let eventData;
+      let classValue;
+      if (item?.classNames?.includes('past') || item?.classNames?.includes('waiting-list')) {
+        classValue = 'duplicate';
+        eventData = calendarApi.getEventById(item.id).toPlainObject();
+      } else {
+        classValue = '';
+        eventData = calendarApi.getEventById(item.id);
+      }
+      const color = eventData?.extendedProps?.category === 'Santé' ? '#e3ab9a' : '#44936c';
+      console.log(item.id + classValue)
       removeDraggableEvents.mutate(item.id, {
         onSuccess: () => {
           queryClient.invalidateQueries('dragItems');
         }
       })
-      updateExistingEvent({...eventData, classNames: 'duplicate'}, {
-       });
+        updateExistingEvent({...eventData, classNames: 'duplicate'});
+      
       addNewEvent(calendar.current.calendar.addEvent({
         ...item,
-        id: item.id + 'duplicate',
+        id: item.id + classValue,
         start: now,
-        end: dayjs().add(15, 'minutes').format()
+        end: dayjs().add(15, 'minutes').format(),
+        color
       }), {
         onSuccess: () => {
           queryClient.invalidateQueries('events');
@@ -127,7 +137,7 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
           onClick={() => {
               setPage(prev => prev + 1)
           }}
-          disabled={draggableList.data.length < 8}
+          disabled={draggableList.data.length < 7}
           >
             <input hidden accept="image/*" type="file" />
             <KeyboardArrowRightRoundedIcon />
