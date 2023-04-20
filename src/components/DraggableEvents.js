@@ -89,6 +89,7 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
   return (
     <>
       <ul className="draggable-list">
+        <div>
         <Typography variant='title' component='h2' mb={2} sx={{textAlign: 'center', fontSize: 18, fontWeight: 400}}>Évènements à venir</Typography>
         {draggableList?.data.map((item, index) => {
           const isSelected = selectedItemId === item.id;
@@ -110,6 +111,7 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
             </Tooltip>
           );
         })}
+        </div>
         <div className='pagination-buttons'>
           <IconButton onClick={() =>
           {
@@ -123,12 +125,11 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
           onClick={() => {
               setPage(prev => prev + 1)
           }}
-          disabled={draggableList.data.length <= 7}
+          disabled={draggableList.data.length < 7}
           >
             <input hidden accept="image/*" type="file" />
             <KeyboardArrowRightRoundedIcon />
           </IconButton>
-          {isFetching ? <span> Loading...</span> : null}{' '}
         </div>
       </ul>
     </>
