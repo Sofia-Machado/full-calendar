@@ -4,7 +4,7 @@ import './App.css';
 import { DemoApp } from './components/DemoApp';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { ThemeProvider, createTheme } from '@mui/material';
-import ClientForm from './components/ClientForm';
+import ClientForm from './components/Forms and Alerts/ClientForm';
 
 const queryClient = new QueryClient();
 const theme = createTheme({ 

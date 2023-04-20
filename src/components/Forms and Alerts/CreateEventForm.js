@@ -7,7 +7,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import DeleteIcon from '@mui/icons-material/Delete';
 import dayjs from 'dayjs';
-import { useAddEvent, useUpdateEvent } from '../hooks/eventHook';
+import { useAddEvent, useUpdateEvent } from '../../hooks/eventHook';
 
 const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateForm, setOpenCreateForm, startDate, setStartDate, endDate, setEndDate}) => {
     const [title, setTitle] = useState('');
@@ -83,7 +83,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
         event.preventDefault();
         if (!eventInfo || eventInfo.title === '') {
             addNewEvent(calendar.current.calendar.addEvent({
-                id: calendar.current.props.events.length + 1,
+                //id: calendar.current.props.events.length + 1,
                 title,
                 start: startDate, 
                 end: endDate,
@@ -160,7 +160,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                     label="Insert Event"
                     placeholder="Insert event"
                     variant="standard"
-                    value={title ? title : ''}
+                    value={title}
                     onChange={handleChangeTitle}
                     sx={{ display: 'grid' }}
                 />
@@ -172,7 +172,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                         label="Choose category"
                         placeholder='Choose category'
                         onChange={handleChangeCategory}
-                        value={category ? category : ''}
+                        value={category}
                     >
                         {dataCategories.map(dataCategory => {
                             return <MenuItem key={dataCategory} value={dataCategory}>{dataCategory}</MenuItem>

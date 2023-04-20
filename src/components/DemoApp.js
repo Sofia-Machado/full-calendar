@@ -10,11 +10,12 @@ import { Button, Container, IconButton, Snackbar } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import dayjs from 'dayjs';
 import { useUpdateEvent, useAddEvent } from '../hooks/eventHook';
-import CreateEventForm from './CreateEventForm';
-import ClientForm from './ClientForm';
-import DragOrDuplicateForm from './DragOrDuplicateForm';
+import CreateEventForm from './Forms and Alerts/CreateEventForm';
+import ClientForm from './Forms and Alerts/ClientForm';
+import DragOrDuplicateForm from './Forms and Alerts/DragOrDuplicateForm';
 import DraggableEvents from './DraggableEvents';
 import OptionsHeader from './OptionsHeader';
+import Alert from './Forms and Alerts/Alert';
 
 /* Fetch and remove functions */
 const fetchEvents = () => {
@@ -36,12 +37,17 @@ export function DemoApp() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [openDragForm, setOpenDragForm] = useState(false);
-  const [popover, setPopover] = useState([])
+  const [openAlert, setOpenAlert] = useState(false);
   
   const calendar = useRef(null);
   const draggableRef = useRef(null);
   const queryClient = useQueryClient();
-  
+
+
+  const handleOpenAlert = () => {
+    setOpenAlert(true);
+  };
+
   const onSuccess = (response) => {
     console.log('success');
     const events = filterEvents(response.data, filters);
@@ -186,22 +192,6 @@ export function DemoApp() {
       </IconButton>
     </>
   );
-
-  /* Sort events on see more popover */
-  const handleSeeMorePopOver = (info) => {
-    info.allSegs.sort((a, b) => {
-        let result;
-      if (a?.event?.extendedProps?.mandatory && !b?.event.extendedProps?.mandatory){
-        result = -1;
-      }
-      else {
-        result = 1
-      }
-      return result;
-      });
-      setPopover(info.allSegs);
-      console.log('sorted ', info.allSegs)
-  }
   
   /* Event content Render */ 
   const eventContent = (eventInfo) => {
@@ -237,6 +227,7 @@ export function DemoApp() {
       </div>
     )
   }
+
   const now = dayjs().format();
   /* Calendar options */
   const options = {
@@ -293,9 +284,14 @@ export function DemoApp() {
       if (info.start && !info.event) {
         setEventInfo(null);
       }
-      setStartDate(info.startStr.slice(0 , 19));
       setEndDate(info.endStr.slice(0 , 19));
-      handleOpenCreateForm();
+      setStartDate(info.startStr.slice(0 , 19));
+      if (info.endStr < now) {
+        handleOpenAlert();
+      } 
+      if (info.endStr > now) {
+        handleOpenCreateForm();
+      }
     },
   }
   
@@ -370,6 +366,7 @@ export function DemoApp() {
         message={snackbarMessage}
         action={actionSnackbar}
       />
+      <Alert openAlert={openAlert} setOpenAlert={setOpenAlert} />
       </Container>
     </div>
   )
