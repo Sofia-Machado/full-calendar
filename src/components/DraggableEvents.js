@@ -7,7 +7,6 @@ import { Card, CardContent, IconButton, Tooltip, Typography } from '@mui/materia
 import Zoom from '@mui/material/Zoom';
 import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
 import KeyboardArrowLeftRoundedIcon from '@mui/icons-material/KeyboardArrowLeftRounded';
-import { previousDay } from 'date-fns';
 
 const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, updateExistingEvent}) => {
   const [page, setPage] = useState(1)
@@ -22,7 +21,7 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
 
 //https://tanstack.com/query/v4/docs/react/guides/paginated-queries
   /* fetch */
-  const { isLoading, isFetching, data: draggableList, isPreviousData, isError, error } = useQuery(
+  const { isLoading, isFetching, data: draggableList, isError, error } = useQuery(
     ['dragItems', page], 
   () => fecthDraggableItems(page),{
   keepPreviousData : true})

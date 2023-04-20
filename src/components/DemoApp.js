@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
+import { Link } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
@@ -23,7 +24,6 @@ const fetchEvents = () => {
 /* Component Demo App */
 export function DemoApp() {
   const [openCreateForm, setOpenCreateForm] = useState(false);
-  const [openClientForm, setOpenClientForm] = useState(false);
   const [eventInfo, setEventInfo] = useState({});
   const [eventRemoved, setEventRemoved] = useState({});
   const [oldEventDrag, setOldEventDrag] = useState({});
@@ -160,9 +160,8 @@ export function DemoApp() {
     </>
   );
 
-  /* Open forms */
+  /* Open form */
   const handleOpenCreateForm = () => setOpenCreateForm(true);
-  const handleOpenClientForm = () => setOpenClientForm(true);
   
  /* Update event drag and drop */
   const handleEventDrop = (event) => {
@@ -205,7 +204,12 @@ export function DemoApp() {
               handleOpenCreateForm();
             }
             }}>{eventInfo.timeText}</span>
-          <span className='event-title' onClick={handleOpenClientForm}>{icon ? <i>{icon}</i> : null}{eventInfo.event.title}</span>
+          <Link to={`/client/${eventInfo.event.id}`} target='_blank'
+          style={{ textDecoration: 'none', color: "inherit"}}>
+          <span className='event-title' 
+          //onClick={handleOpenClientForm}
+          >{icon ? <i>{icon}</i> : null}{eventInfo.event.title}</span>
+          </Link>
           <em> - {eventInfo.event.extendedProps.category}</em>
           {duplicate ?? 'duplicated'}
         </p>
@@ -323,11 +327,11 @@ export function DemoApp() {
         startDate={startDate} setStartDate={setStartDate} 
         endDate={endDate} setEndDate={setEndDate}
       />
-      <ClientForm 
+      {/* <ClientForm 
         eventInfo={eventInfo}
         openClientForm={openClientForm}
         setOpenClientForm={setOpenClientForm}
-      />
+      /> */}
       <Snackbar
         open={openSnackbar}
         autoHideDuration={6000}
