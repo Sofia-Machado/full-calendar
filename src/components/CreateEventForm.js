@@ -160,7 +160,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                     label="Insert Event"
                     placeholder="Insert event"
                     variant="standard"
-                    value={title}
+                    value={title ? title : ''}
                     onChange={handleChangeTitle}
                     sx={{ display: 'grid' }}
                 />
@@ -172,7 +172,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                         label="Choose category"
                         placeholder='Choose category'
                         onChange={handleChangeCategory}
-                        value={category}
+                        value={category ? category : ''}
                     >
                         {dataCategories.map(dataCategory => {
                             return <MenuItem key={dataCategory} value={dataCategory}>{dataCategory}</MenuItem>
