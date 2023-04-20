@@ -14,7 +14,9 @@ const style = {
   p: 4,
 };
 
-export default function DragOrDuplicateForm({ addNewEvent, eventInfo, oldEventDrag, openDragForm, setOpenDragForm, updateExistingEvent }) {
+export default function DragOrDuplicateForm({ 
+  addNewEvent, eventInfo, oldEventDrag, openDragForm, removeDraggableEvents, setOpenDragForm, updateExistingEvent 
+}) {
 
   const queryClient = useQueryClient();
  
@@ -47,10 +49,18 @@ export default function DragOrDuplicateForm({ addNewEvent, eventInfo, oldEventDr
     if (eventInfo) {
       addNewEvent({
         ...eventInfo,
+        classNames: 'past',
         id: eventInfo.id + 'duplicate'
       }, {
         onSuccess: () => {
           queryClient.invalidateQueries('events')
+        }
+      })
+    }
+    if (oldEventDrag.classNames.includes('waiting-list')) {
+      removeDraggableEvents.mutate(oldEventDrag.id, {
+        onSuccess: () => {
+          queryClient.invalidateQueries('dragItems');
         }
       })
     }

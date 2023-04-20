@@ -323,6 +323,7 @@ export function DemoApp() {
         oldEventDrag={oldEventDrag}
         addNewEvent={addNewEvent}
         updateExistingEvent={updateExistingEvent}
+        removeDraggableEvents={removeDraggableEvents}
       />
       <CreateEventForm 
         handleEventRemove={handleEventRemove} 
