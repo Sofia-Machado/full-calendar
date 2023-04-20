@@ -1,8 +1,8 @@
 import { useRef, useState, useEffect } from 'react';
-import FullCalendar from '@fullcalendar/react';
 import { Link } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
+import FullCalendar from '@fullcalendar/react';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -37,38 +37,29 @@ export function DemoApp() {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [openDragForm, setOpenDragForm] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
-  
+
+  //calendar reference
   const calendar = useRef(null);
-  const draggableRef = useRef(null);
-  const queryClient = useQueryClient();
+  
 
-
-  const handleOpenAlert = () => {
-    setOpenAlert(true);
-  };
-
+  /* Fetch and mutate data */
+  //OnSuccess
   const onSuccess = (response) => {
-    console.log('success');
     const events = filterEvents(response.data, filters);
     setVisibleEvents(events);
   }
-  const onError = () => {
-    console.log('error')
-  }
-  
-  /* Fetch and mutate data */
-  const { isLoading, data: events, isError, error } = useQuery('events', fetchEvents,
-    {
-      onSuccess,
-      onError
-    })
-    const { mutate:updateExistingEvent } = useUpdateEvent();
-    const { mutate:addNewEvent } = useAddEvent();
-    const removeEvents =  useMutation(async (id, options) => {
-      await axios.delete(`http://localhost:8080/events/${id}`, {options})  
-    })
-    const removeDraggableEvents = useMutation((id, options) => {
-      return axios.delete(`http://localhost:8080/dragItemList/${id}`, {options})})
+  //queryclient
+  const queryClient = useQueryClient();
+  //fetch
+  const { isLoading, data: events, isError, error } = useQuery('events', fetchEvents, { onSuccess })
+  const { mutate:updateExistingEvent } = useUpdateEvent();
+  const { mutate:addNewEvent } = useAddEvent();
+  const removeEvents =  useMutation(async (id, options) => {
+    await axios.delete(`http://localhost:8080/events/${id}`, {options})  
+  })
+  const removeDraggableEvents = useMutation((id, options) => {
+    return axios.delete(`http://localhost:8080/dragItemList/${id}`, {options})
+  })
 
   //Filter Events
   const filterEvents = (events, currentFilters) => {
@@ -90,10 +81,13 @@ export function DemoApp() {
     setVisibleEvents(newEvents);
   }
 
-  /* Open form */
+  /* Open forms */
   const handleOpenCreateForm = () => setOpenCreateForm(true);
+  //Open alert
+  const handleOpenAlert = () => setOpenAlert(true);
 
   /* Drag event data */
+  const draggableRef = useRef(null);
   useEffect(() => {
     if (draggableRef.current) {
       new Draggable(draggableRef.current, {
@@ -120,7 +114,7 @@ export function DemoApp() {
 
   /* Update/add event on receive */
   const handleEventReceive = (info) => {
-    const event = info.event.toPlainObject();
+    const event = info.event;
     addNewEvent(event);
     removeDraggableEvents.mutate(dragId, {
       onSuccess: () => {
@@ -128,7 +122,7 @@ export function DemoApp() {
       }
     })
     let calendarApi = calendar.current.getApi();
-    let eventData = calendarApi.getEventById(dragId).toPlainObject();
+    let eventData = calendarApi.getEventById(dragId);
     updateExistingEvent({...eventData, classNames: 'duplicate'}, {
       onSuccess: () => {
       queryClient.invalidateQueries('events');
