@@ -10,12 +10,12 @@ import KeyboardArrowLeftRoundedIcon from '@mui/icons-material/KeyboardArrowLeftR
 import { previousDay } from 'date-fns';
 
 const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, updateExistingEvent}) => {
-  const [page, setPage] = useState(0)
+  const [page, setPage] = useState(1)
   const [selectedItemId, setSelectedItemId] = useState(null);
   const now = dayjs().format();
   
   const fecthDraggableItems = () => {
-    return axios.get(`http://localhost:8080/dragItemList?_limit=7_page=${page}`)
+    return axios.get(`http://localhost:8080/dragItemList?_limit=7&_page=${page}`)
   }
   const { mutate: addDragItem } = useAddDragItem();
   const queryClient = useQueryClient();
@@ -123,13 +123,11 @@ console.log(isPreviousData, ' ', draggableList)
             <input hidden accept="image/*" type="file" />
             <KeyboardArrowLeftRoundedIcon />
           </IconButton>
-              <span>{page + 1}</span>
+              <span>{page}</span>
           <IconButton
           onClick={() => {
             console.log('click')
-            if (!isPreviousData && draggableList.data.length > 7) {
               setPage(prev => prev + 1)
-            }
           }}
           disabled={isPreviousData || !draggableList.data.length > 7}
           >
