@@ -36,6 +36,7 @@ export function DemoApp() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [openDragForm, setOpenDragForm] = useState(false);
+  const [popover, setPopover] = useState([])
   
   const calendar = useRef(null);
   const draggableRef = useRef(null);
@@ -84,7 +85,10 @@ export function DemoApp() {
     setVisibleEvents(newEvents);
   }
 
-  /* Drag event info */
+  /* Open form */
+  const handleOpenCreateForm = () => setOpenCreateForm(true);
+
+  /* Drag event data */
   useEffect(() => {
     if (draggableRef.current) {
       new Draggable(draggableRef.current, {
@@ -102,6 +106,30 @@ export function DemoApp() {
     }
   }, [isLoading])
 
+  /* Update event drag and drop */
+  const handleEventDrop = (event) => {
+    setEventInfo(event.event.toPlainObject());
+    setOldEventDrag(event.oldEvent.toPlainObject());
+    setOpenDragForm(true);
+  }
+
+  /* Update/add event on receive */
+  const handleEventReceive = (info) => {
+    const event = info.event.toPlainObject();
+    addNewEvent(event);
+    removeDraggableEvents.mutate(dragId, {
+      onSuccess: () => {
+        queryClient.invalidateQueries('dragItems');
+      }
+    })
+    let calendarApi = calendar.current.getApi();
+    let eventData = calendarApi.getEventById(dragId).toPlainObject();
+    updateExistingEvent({...eventData, classNames: 'duplicate'}, {
+      onSuccess: () => {
+      queryClient.invalidateQueries('events');
+    }})
+  }
+
   /* Remove event */
   const handleEventRemove = (id) => {
     let calendarApi = calendar.current.getApi();
@@ -118,7 +146,7 @@ export function DemoApp() {
     setOpenSnackbar(true);
     setOpenCreateForm(false);
   }
-  
+  //undo
   const handleUndoRemove = (e) => {
     e.preventDefault();
     addNewEvent(calendar.current.calendar.addEvent({
@@ -136,14 +164,13 @@ export function DemoApp() {
   setEventRemoved(null)
   setOpenSnackbar(false);
   }
-
+  //close undo alert
   const handleCloseSnackbar = (e, reason) => {
     if (reason === 'clickaway') {
       return;
     }
     setOpenSnackbar(false);
   };
-
   const actionSnackbar = (
     <>
       <Button color="secondary" size="small" onClick={(e) => handleUndoRemove(e)}>
@@ -160,31 +187,20 @@ export function DemoApp() {
     </>
   );
 
-  /* Open form */
-  const handleOpenCreateForm = () => setOpenCreateForm(true);
-  
- /* Update event drag and drop */
-  const handleEventDrop = (event) => {
-    setEventInfo(event.event.toPlainObject());
-    setOldEventDrag(event.oldEvent.toPlainObject());
-    setOpenDragForm(true);
-  }
-
-  /* Update/add event on receive */
-  const handleEventReceive = (info) => {
-    const event = info.event.toPlainObject();
-    addNewEvent(event);
-    removeDraggableEvents.mutate(dragId, {
-      onSuccess: () => {
-        queryClient.invalidateQueries('dragItems');
+  /* Sort events on see more popover */
+  const handleSeeMorePopOver = (info) => {
+    info.allSegs.sort((a, b) => {
+        let result;
+      if (a?.event?.extendedProps?.mandatory && !b?.event.extendedProps?.mandatory){
+        result = -1;
       }
-    })
-    let calendarApi = calendar.current.getApi()
-    let eventData = calendarApi.getEventById(dragId).toPlainObject();
-    updateExistingEvent({...eventData, classNames: 'duplicate'}, {
-      onSuccess: () => {
-      queryClient.invalidateQueries('events');
-    }})
+      else {
+        result = 1
+      }
+      return result;
+      });
+      setPopover(info.allSegs);
+      console.log('sorted ', info.allSegs)
   }
   
   /* Event content Render */ 
@@ -260,6 +276,15 @@ export function DemoApp() {
     selectable: true,
     editable: true,
     droppable: true,
+    eventOrder: ((a) => {
+    if (a.extendedProps.mandatory){
+      return -1;
+    }
+    if (a.start){
+      return 1;
+    }
+    return 0;
+    }),
     eventDrop: handleEventDrop,
     eventReceive: handleEventReceive,
     eventRemove: handleEventRemove,

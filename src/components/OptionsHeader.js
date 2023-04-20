@@ -9,10 +9,10 @@ const OptionsHeader = ({events, filters, handleOpenCreateForm, handleFilter, set
      /* Set category options on the search bar */
     const categoryOptions = Object.values(events.data).sort((a, b) => {
         let result;
-        if (a.extendedProps.category>b.extendedProps.category){
+        if (a.extendedProps.category > b.extendedProps.category){
         result = -1;
     } else {
-        if (a.extendedProps.category<b.extendedProps.category){
+        if (a.extendedProps.category < b.extendedProps.category){
             result = 1;
         } else {
             if (a.title > b.title) {
