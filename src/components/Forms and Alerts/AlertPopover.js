@@ -1,7 +1,6 @@
-import { Button, Popover, Typography } from '@mui/material';
-import { useState } from 'react';
+import { Popover, Alert } from '@mui/material';
 
-export default function Alert({ openAlert, setOpenAlert }) {
+export default function AlertPopover({ openAlert, setOpenAlert }) {
 
   const handleCloseAlert = () => {
     setOpenAlert(false);
@@ -16,7 +15,7 @@ export default function Alert({ openAlert, setOpenAlert }) {
           horizontal: 'center',
         }}
       >
-        <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>
+        <Alert variant="filled" severity="error" >Impossible d'insérer un événement avant l'heure actuelle</Alert>
       </Popover>
   );
 }

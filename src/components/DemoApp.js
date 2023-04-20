@@ -11,11 +11,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import dayjs from 'dayjs';
 import { useUpdateEvent, useAddEvent } from '../hooks/eventHook';
 import CreateEventForm from './Forms and Alerts/CreateEventForm';
-import ClientForm from './Forms and Alerts/ClientForm';
 import DragOrDuplicateForm from './Forms and Alerts/DragOrDuplicateForm';
 import DraggableEvents from './DraggableEvents';
 import OptionsHeader from './OptionsHeader';
-import Alert from './Forms and Alerts/Alert';
+import Alert from './Forms and Alerts/AlertPopover';
 
 /* Fetch and remove functions */
 const fetchEvents = () => {

@@ -21,7 +21,7 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
 
 //https://tanstack.com/query/v4/docs/react/guides/paginated-queries
   /* fetch */
-  const { isLoading, isFetching, data: draggableList, isError, error } = useQuery(
+  const { isLoading, data: draggableList, isError, error } = useQuery(
     ['dragItems', page], 
   () => fecthDraggableItems(page),{
   keepPreviousData : true})
