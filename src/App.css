@@ -284,10 +284,10 @@ a.fc-event {
 }
 
 .duplicate {
-  opacity: 0.5;
+  filter: brightness(80%) saturate(40%);
 }
 .waiting-list {
-  opacity: 0.5;
+  filter: brightness(80%) saturate(40%);
 }
 
 div[data-event*="classNames"][data-event*="past"] {

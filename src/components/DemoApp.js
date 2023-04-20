@@ -192,8 +192,12 @@ export function DemoApp() {
     const isMandatory = eventInfo.event.extendedProps.mandatory;
     const icon = isMandatory ? <i className="fa-solid fa-lock"></i> : null;
     let duplicate;
+    let waitingList;
     if (!eventInfo?.event?.classNames?.includes('duplicate')) {
       duplicate = true;
+    }
+    if (!eventInfo?.event?.classNames?.includes('waiting-list')) {
+      waitingList = true;
     }
     return (
       <div className="event-render">
@@ -212,6 +216,7 @@ export function DemoApp() {
           </Link>
           <em> - {eventInfo.event.extendedProps.category}</em>
           {duplicate ?? 'duplicated'}
+          {waitingList ?? 'waiting-list'}
         </p>
       </div>
     )
