@@ -10,6 +10,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import dayjs from 'dayjs';
 import { useUpdateEvent, useAddEvent } from '../hooks/eventHook';
 import CreateEventForm from './CreateEventForm';
+import ClientForm from './ClientForm';
 import DragOrDuplicateForm from './DragOrDuplicateForm';
 import DraggableEvents from './DraggableEvents';
 import OptionsHeader from './OptionsHeader';
@@ -22,6 +23,7 @@ const fetchEvents = () => {
 /* Component Demo App */
 export function DemoApp() {
   const [openCreateForm, setOpenCreateForm] = useState(false);
+  const [openClientForm, setOpenClientForm] = useState(false);
   const [eventInfo, setEventInfo] = useState({});
   const [eventRemoved, setEventRemoved] = useState({});
   const [oldEventDrag, setOldEventDrag] = useState({});
@@ -158,11 +160,9 @@ export function DemoApp() {
     </>
   );
 
-  /* Open form */
-  const handleOpenCreateForm = () => {
-    setOpenCreateForm(true);
-  };
-
+  /* Open forms */
+  const handleOpenCreateForm = () => setOpenCreateForm(true);
+  const handleOpenClientForm = () => setOpenClientForm(true);
   
  /* Update event drag and drop */
   const handleEventDrop = (event) => {
@@ -182,7 +182,6 @@ export function DemoApp() {
     })
     let calendarApi = calendar.current.getApi()
     let eventData = calendarApi.getEventById(dragId).toPlainObject();
-    console.log(eventData)
     updateExistingEvent({...eventData, classNames: 'duplicate'}, {
       onSuccess: () => {
       queryClient.invalidateQueries('events');
@@ -206,7 +205,7 @@ export function DemoApp() {
               handleOpenCreateForm();
             }
             }}>{eventInfo.timeText}</span>
-          <span className='event-title'>{icon ? <i>{icon}</i> : null}{eventInfo.event.title}</span>
+          <span className='event-title' onClick={handleOpenClientForm}>{icon ? <i>{icon}</i> : null}{eventInfo.event.title}</span>
           <em> - {eventInfo.event.extendedProps.category}</em>
           {duplicate ?? 'duplicated'}
         </p>
@@ -323,6 +322,11 @@ export function DemoApp() {
         openCreateForm={openCreateForm} setOpenCreateForm={setOpenCreateForm} 
         startDate={startDate} setStartDate={setStartDate} 
         endDate={endDate} setEndDate={setEndDate}
+      />
+      <ClientForm 
+        eventInfo={eventInfo}
+        openClientForm={openClientForm}
+        setOpenClientForm={setOpenClientForm}
       />
       <Snackbar
         open={openSnackbar}

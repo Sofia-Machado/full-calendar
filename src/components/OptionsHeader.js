@@ -49,8 +49,7 @@ const OptionsHeader = ({events, filters, handleOpenCreateForm, handleFilter, set
             groupBy={(option) => option.extendedProps.category}
             getOptionLabel={(option) => option.title}
             sx={{ width: 300 }}
-            onChange={(e, value) => {
-              console.log(value)
+            onChange={(value) => {
               setEventInfo(value);
               handleOpenCreateForm()
             }}

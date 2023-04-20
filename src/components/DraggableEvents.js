@@ -61,10 +61,8 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
       setSelectedItemId(item.id); // select item
     };
     if (e.detail === 2) {
-      console.log(item);
       let calendarApi = calendar.current.getApi()
       let eventData = calendarApi.getEventById(selectedItemId).toPlainObject();
-      console.log(eventData)
       updateExistingEvent({...eventData, classNames: 'duplicate'});
       removeDraggableEvents.mutate(item.id, {
         onSuccess: () => {
@@ -89,7 +87,6 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
   if (isError) {
     return <h2>{error.message}</h2>
   }
-console.log(isPreviousData, ' ', draggableList)
   return (
     <>
       <ul className="draggable-list">
@@ -117,19 +114,17 @@ console.log(isPreviousData, ' ', draggableList)
         <div className='pagination-buttons'>
           <IconButton onClick={() =>
           {
-            console.log('click')
-            setPage(old => Math.max(old - 1, 0))}}
-            disabled={page === 0}>
+            setPage(old => Math.max(old - 1, 1))}}
+            disabled={page === 1}>
             <input hidden accept="image/*" type="file" />
             <KeyboardArrowLeftRoundedIcon />
           </IconButton>
               <span>{page}</span>
           <IconButton
           onClick={() => {
-            console.log('click')
               setPage(prev => prev + 1)
           }}
-          disabled={isPreviousData || !draggableList.data.length > 7}
+          disabled={draggableList.data.length < 7}
           >
             <input hidden accept="image/*" type="file" />
             <KeyboardArrowRightRoundedIcon />
