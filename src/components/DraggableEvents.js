@@ -19,7 +19,6 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
   const { mutate: addDragItem } = useAddDragItem();
   const queryClient = useQueryClient();
 
-//https://tanstack.com/query/v4/docs/react/guides/paginated-queries
   /* fetch */
   const { isLoading, data: draggableList, isError, error } = useQuery(
     ['dragItems', page], 
@@ -62,22 +61,25 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
     if (e.detail === 2) {
       let calendarApi = calendar.current.getApi()
       let eventData = calendarApi.getEventById(selectedItemId).toPlainObject();
-      updateExistingEvent({...eventData, classNames: 'duplicate'});
+      
       removeDraggableEvents.mutate(item.id, {
         onSuccess: () => {
           queryClient.invalidateQueries('dragItems');
         }
       })
+      updateExistingEvent({...eventData, classNames: 'duplicate'}, {
+       });
       addNewEvent(calendar.current.calendar.addEvent({
         ...item,
-          id: item.id + 'duplicate',
-          start: now,
-          end: dayjs().add(15, 'minutes').format()
+        id: item.id + 'duplicate',
+        start: now,
+        end: dayjs().add(15, 'minutes').format()
       }), {
         onSuccess: () => {
-        queryClient.invalidateQueries('events');
-      }});
-    }
+          queryClient.invalidateQueries('events');
+        }
+      });
+      }
   };
 
   if (isLoading) {

@@ -95,10 +95,13 @@ export function DemoApp() {
         eventData: function(eventEl) {
           const dataString = eventEl.getAttribute('data-event');
           const data = JSON.parse(dataString);
+          let color = data.extendedProps.category === 'Santé' ? '#e3ab9a' : '#44936c'
           setDragId(data.id);
+          const classValue = !data?.classNames?.includes('past') ? '' : 'duplicate';
           return {
             ...data,
-            id: data.id + 'duplicate'
+            color,
+            id: data.id + classValue,
           };
         }
       });
@@ -111,22 +114,25 @@ export function DemoApp() {
     setOldEventDrag(event.oldEvent.toPlainObject());
     setOpenDragForm(true);
   }
-
+  
   /* Update/add event on receive */
   const handleEventReceive = (info) => {
     const event = info.event;
+    console.log(event)
     addNewEvent(event);
+    let calendarApi = calendar.current.getApi();
+    let eventData = calendarApi.getEventById(dragId).toPlainObject();
+    console.log(eventData)
+    updateExistingEvent({...eventData, classNames: 'duplicate'}, {
+      onSuccess: () => {
+      queryClient.invalidateQueries('events');
+    }})
     removeDraggableEvents.mutate(dragId, {
       onSuccess: () => {
         queryClient.invalidateQueries('dragItems');
       }
     })
-    let calendarApi = calendar.current.getApi();
-    let eventData = calendarApi.getEventById(dragId);
-    updateExistingEvent({...eventData, classNames: 'duplicate'}, {
-      onSuccess: () => {
-      queryClient.invalidateQueries('events');
-    }})
+    console.log('dragid ', eventData.id)
   }
 
   /* Remove event */

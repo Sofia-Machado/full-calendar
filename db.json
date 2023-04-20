@@ -8,6 +8,7 @@
       "id": 1,
       "backgroundColor": "#e3ab9a",
       "borderColor": "#e3ab9a",
+      "classNames": "duplicate",
       "extendedProps": {
         "category": "Santé",
         "mandatory": true
@@ -156,6 +157,21 @@
       "extendedProps": {
         "category": "Vie",
         "mandatory": false
+      }
+    },
+    {
+      "allDay": false,
+      "title": "Call Julia",
+      "start": "2023-04-20T18:00:00+01:00",
+      "id": "1duplicate",
+      "backgroundColor": "#e3ab9a",
+      "borderColor": "#e3ab9a",
+      "classNames": [
+        "past"
+      ],
+      "extendedProps": {
+        "category": "Santé",
+        "mandatory": true
       }
     }
   ],
