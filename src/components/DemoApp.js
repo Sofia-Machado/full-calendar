@@ -130,9 +130,7 @@ export function DemoApp() {
       updateExistingEvent({
         ...eventData, 
         classNames: 'duplicate',
-        startEditable: !oldEventDrag?.extendedProps?.mandatory,
-        durationEditable: !oldEventDrag?.extendedProps?.mandatory,
-        editable: !oldEventDrag?.extendedProps?.mandatory,
+        //editable props aren't being added
       }, {
         onSuccess: () => {
         queryClient.invalidateQueries('events');
