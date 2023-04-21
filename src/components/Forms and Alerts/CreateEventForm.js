@@ -15,6 +15,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const [mandatory, setMandatory] = useState(false);
     const [backColor, setBackColor] = useState('#3788d8');
     const [timeoutFunc, setTimeoutFunc] = useState(null);    
+    const [currentError, setCurrentError] = useState(null);
 
     const dataCategories = ['Santé', 'Vie'];
    
@@ -230,6 +231,19 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                         ampm={false}
                         minTime={dayjs().set('hour', 7)}
                         maxTime={dayjs().set('hour', 18)}
+                        onError={(reason, value) => {
+                            console.log(reason);
+                            if (reason) {
+                              // reason is the error , which it will be displayed as
+                              // default error message ,you can also  pass your own error
+                              // message depending on the error
+                              setCurrentError(reason)
+                            } else {
+                              setCurrentError(null);
+                            }
+                          }}
+                        error={currentError}
+                        disablePast
                         />
                         <DateTimePicker
                         label="End Date"
@@ -242,6 +256,20 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                         ampm={false}
                         minTime={dayjs(startDate)}
                         maxTime={dayjs().set('hour', 18)}
+                        error={currentError}
+                        onError={(reason, value) => {
+                            if (reason) {
+                              // reason is the error , which it will be displayed as
+                              // default error message ,you can also  pass your own error
+                              // message depending on the error
+                            
+                              setCurrentError(reason);
+                            } else {
+                              setCurrentError(null);
+                            }
+                          }}
+                        helperText={currentError === 'disablePast' ? 'Insert valid date' : ''}
+                        disablePast
                         />
                     </DemoContainer>
                 </LocalizationProvider>
