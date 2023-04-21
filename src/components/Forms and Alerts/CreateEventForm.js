@@ -234,9 +234,6 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                         onError={(reason, value) => {
                             console.log(reason);
                             if (reason) {
-                              // reason is the error , which it will be displayed as
-                              // default error message ,you can also  pass your own error
-                              // message depending on the error
                               setCurrentError(reason)
                             } else {
                               setCurrentError(null);
@@ -259,10 +256,6 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                         error={currentError}
                         onError={(reason, value) => {
                             if (reason) {
-                              // reason is the error , which it will be displayed as
-                              // default error message ,you can also  pass your own error
-                              // message depending on the error
-                            
                               setCurrentError(reason);
                             } else {
                               setCurrentError(null);
