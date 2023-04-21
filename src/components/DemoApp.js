@@ -119,26 +119,30 @@ export function DemoApp() {
   const handleEventReceive = (info) => {
     const event = info.event;
     console.log(event)
-    addNewEvent(event);
-    let calendarApi = calendar.current.getApi();
-    let eventData = calendarApi.getEventById(dragId).toPlainObject();
-    console.log(eventData)
-    updateExistingEvent({
-      ...eventData, 
-      classNames: 'duplicate',
-      startEditable: !oldEventDrag?.extendedProps?.mandatory,
-      durationEditable: !oldEventDrag?.extendedProps?.mandatory,
-      editable: !oldEventDrag?.extendedProps?.mandatory,
-    }, {
+    addNewEvent(event, {
       onSuccess: () => {
       queryClient.invalidateQueries('events');
-    }})
+    }});
+    if (event?.includes?.className('past') || event?.includes?.className('waiting-list')) {
+      let calendarApi = calendar.current.getApi();
+      let eventData = calendarApi.getEventById(dragId).toPlainObject();
+      console.log(eventData)
+      updateExistingEvent({
+        ...eventData, 
+        classNames: 'duplicate',
+        startEditable: !oldEventDrag?.extendedProps?.mandatory,
+        durationEditable: !oldEventDrag?.extendedProps?.mandatory,
+        editable: !oldEventDrag?.extendedProps?.mandatory,
+      }, {
+        onSuccess: () => {
+        queryClient.invalidateQueries('events');
+      }})
+    }
     removeDraggableEvents.mutate(dragId, {
       onSuccess: () => {
         queryClient.invalidateQueries('dragItems');
       }
     })
-    console.log('dragid ', eventData.id)
   }
 
   /* Remove event */

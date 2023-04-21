@@ -76,7 +76,8 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
           queryClient.invalidateQueries('dragItems');
         }
       })
-        updateExistingEvent({...eventData, classNames: 'duplicate'});
+
+      updateExistingEvent({...eventData, classNames: 'duplicate'});
       
       addNewEvent(calendar.current.calendar.addEvent({
         ...item,

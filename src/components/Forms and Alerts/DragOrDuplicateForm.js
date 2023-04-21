@@ -57,7 +57,7 @@ export default function DragOrDuplicateForm({
         }
       })
     }
-    if (oldEventDrag.classNames.includes('waiting-list')) {
+    if (oldEventDrag?.classNames?.includes('waiting-list')) {
       removeDraggableEvents.mutate(oldEventDrag.id, {
         onSuccess: () => {
           queryClient.invalidateQueries('dragItems');
