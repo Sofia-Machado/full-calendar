@@ -81,6 +81,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     /* Submit Event */
     const handleSubmit = (event) => {
         event.preventDefault();
+        console.log(event.nativeEvent.submitter.name)
         if (!eventInfo || eventInfo.title === '') {
             addNewEvent(calendar.current.calendar.addEvent({
                 //id: calendar.current.props.events.length + 1,
@@ -93,31 +94,65 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                 },
                 backgroundColor: backColor,
                 borderColor: backColor
-            }));
-            handleCloseCreateForm()
-            setTitle('');
-            setCategory('');
-            setMandatory(false);
-        }
-        else {
-            updateExistingEvent({ 
-                title,
-                id: eventInfo.id,
-                start: startDate,
-                end: endDate,
-                extendedProps: {
-                    category,
-                    mandatory,
-                },
-                backgroundColor: backColor,
-                borderColor: backColor
-            }, {
-                onSuccess: () => {
-                    queryClient.invalidateQueries('events')
-                }
             })
-            handleCloseCreateForm()
+        )} else {
+            if (event.nativeEvent.submitter.name === 'replace') {
+                updateExistingEvent({ 
+                    title,
+                    id: eventInfo.id,
+                    start: startDate,
+                    end: endDate,
+                    extendedProps: {
+                        category,
+                        mandatory,
+                    },
+                    backgroundColor: backColor,
+                    borderColor: backColor
+                }, {
+                    onSuccess: () => {
+                        queryClient.invalidateQueries('events')
+                    }
+                })
+            } 
+            if (event.nativeEvent.submitter.name === 'duplicate') {
+                console.log(eventInfo)
+                updateExistingEvent({
+                    id: eventInfo.id,
+                    title,
+                    start: eventInfo.start,
+                    end: eventInfo.end,
+                    extendedProps: {
+                        category,
+                        mandatory,
+                    },
+                    classNames: 'duplicate',
+                    backgroundColor: backColor,
+                    borderColor: backColor
+                })
+                addNewEvent({
+                    id: eventInfo.id + 'duplicate',
+                    title,
+                    start: startDate, 
+                    end: endDate,
+                    extendedProps: {
+                        category,
+                        mandatory
+                    },
+                    backgroundColor: backColor,
+                    borderColor: backColor
+                    
+                }, {
+                    onSuccess: () => {
+                        queryClient.invalidateQueries('events')
+                    }
+                });
+                
+            }  
         }
+        handleCloseCreateForm()
+        setTitle('');
+        setCategory('');
+        setMandatory(false);
     }
 
     /* Delete Event */
@@ -210,10 +245,13 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                         />
                     </DemoContainer>
                 </LocalizationProvider>
-                <Button type="submit" variant="outlined" sx={{mt: 3}}>Submit</Button>
+                {!eventInfo && <Button type="submit" variant="outlined" sx={{mt: 3}}>Submit</Button>}
                 {eventInfo &&
+               (<>
+                <Button type="submit" variant="outlined" name='replace' value='replace' sx={{mt: 3, mr: 1}}>Replace</Button>
+                <Button type="submit" variant="outlined" name='duplicate' value='duplicate' sx={{mt: 3}}>Duplicate</Button>
                 <Button onClick={handleDelete} sx={{mt: 3}}><DeleteIcon /></Button>
-                }
+               </>)}
             </Box>
             </Modal>
         </form> 
