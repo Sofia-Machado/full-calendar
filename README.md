@@ -5,10 +5,16 @@ This is a calendar/agenda created with the [Full Calendar API](https://fullcalen
 ## Purpose
 
 This calendar interface is directed to a call center worker.
-- In here, the user can insert multiple tasks with different attributes, on different time slots.
-- The user can drag and resize the event or change the date manually.
+- In here, the user can insert multiple events with different attributes, on different time slots (always after the time indicator).
+- The user can drag and resize the event or change the date manually, for not mandatory events. For mandatory events, the user is able to drag and drop the event to duplicate it.
 - There is a list with new events to insert in the calendar, they can be inserted simply by dragging and dropping them in the calendar container. In this list there are also past but incomplete and mandatory events that are meant to be added again to the calendar.
-- Clicking on an event gives the user the possibility to change the event's attributes or delete them.
+- Clicking on an unblocked event gives the user the possibility to change the event's attributes by replacing them, duplicate the event or delete it.
+- It is possible to search an event by name, sorted by categories.
+- The agenda can be filtered by mandatory and categories.
+
+When an event is duplicated or is dragged automatically to the waiting list , there is a text in the original event with that description and the background color changes.
+When there are multiple events on a cell, they are sorted by mandatory first.
+When in the waiting list, the past but incomplete mandatory event has a different color and a tooltip saying to reschedule the event.
 
 ### Requirements
 
