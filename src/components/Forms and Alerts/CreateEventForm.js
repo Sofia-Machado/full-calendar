@@ -14,20 +14,24 @@ import { useAddEvent, useUpdateEvent } from '../../hooks/eventHook';
 const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateForm, setOpenCreateForm, startDate, setStartDate, endDate, setEndDate}) => {
     const [timeoutFunc, setTimeoutFunc] = useState(null);    
     const [currentError, setCurrentError] = useState(null);
-    const values = eventInfo.toPlainObject();
-    console.log(eventInfo.toPlainObject())
+    
+    const defaultValues = {
+        title: eventInfo?.title || '',
+        extendedProps: {
+            category: eventInfo?.extendedProps?.category || '',
+            mandatory: eventInfo?.extendedProps?.mandatory || false,
+        },
+        color: eventInfo?.color || '',
+        start: dayjs(eventInfo?.start) || dayjs(startDate),
+        end: dayjs(eventInfo?.end) || dayjs(endDate),
+    };
+    console.log('default value ', defaultValues)
 
     const form = useForm({
-        defaultValues: {
-            title: '',
-            extendedProps: {
-                category: '',
-                mandatory: false,
-            }, 
-            color: '',
-        },
-        values
+        defaultValues,
     });
+
+
     const { register, control, handleSubmit, formState, reset, setValue } = form;
     const { errors, touchedFields, dirtyFields } = formState;
     
@@ -35,22 +39,6 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const { mutate:updateExistingEvent } = useUpdateEvent();
     const queryClient = useQueryClient();
   
-    /* Set states */
-   /*  useEffect(() => {
-        if (eventInfo) {
-            setTitle(eventInfo.title);
-            setCategory(eventInfo?.extendedProps?.category || '')
-            setMandatory(eventInfo?.extendedProps?.mandatory)
-            setStartDate(dayjs(eventInfo.start));
-            setEndDate(dayjs(eventInfo.end));
-            setBackColor(eventInfo.backgroundColor);
-        } else {
-            setTitle('')
-            setCategory('')
-        }
-    }, [eventInfo]); */
-
-
     /* Close Form */
     const handleCloseCreateForm = () => {
         setOpenCreateForm(false);
@@ -183,7 +171,6 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                             <DateTimePicker
                             label="Start Date"
                             name={name}
-                            defaultValue={dayjs(startDate)}
                             value={dayjs(startDate)}
                             rules={{ required: true }}
                             onChange={(date) => {
@@ -228,7 +215,6 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                             <DateTimePicker
                             label="End Date"
                             name={name}
-                            defaultValue={dayjs(endDate)}
                             value={dayjs(endDate)}
                             rules={{ required: true }}
                             onChange={(date) => {
