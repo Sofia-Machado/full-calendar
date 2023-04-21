@@ -37,6 +37,7 @@
   }
 }
 
+
 .calendar-app {
   margin-bottom: 40px;
   font-family: 'Montserrat', Verdana, Geneva, Tahoma, sans-serif;
@@ -137,8 +138,11 @@ td.fc-day.fc-day-mon.fc-day-today.fc-daygrid-day:hover {
 }
 td.fc-day.fc-day-mon.fc-day-today.fc-daygrid-day,
 td {
-  background-color: rgb(255, 255, 255);
+  /* background-color: rgb(255, 255, 255); */
+  background-color: rgb(87, 86, 86);
+  
 }
+
 tr {
   height: 50px;
 }

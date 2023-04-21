@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useQueryClient } from 'react-query';
+import { useForm, Controller } from 'react-hook-form';
+import { DevTool } from '@hookform/devtools';
 import { Box, Button, FormControl, FormControlLabel, FormGroup, InputLabel, MenuItem, Modal, Select, Switch, TextField } from '@mui/material';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -17,8 +19,20 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const [timeoutFunc, setTimeoutFunc] = useState(null);    
     const [currentError, setCurrentError] = useState(null);
 
+    const form = useForm({
+        defaultValues: {
+            title: '',
+            extendedProps: {
+                category: '',
+                mandatory: false,
+            }
+        }
+    });
+    const { register, control, handleSubmit, formState, watch, getValues, setValue } = form;
+    const { errors, touchedFields, dirtyFields } = formState;
+
     const dataCategories = ['Santé', 'Vie'];
-   
+    
     const { mutate:addNewEvent } = useAddEvent();
     const { mutate:updateExistingEvent } = useUpdateEvent();
     const queryClient = useQueryClient();
@@ -39,9 +53,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     }, [eventInfo]);
 
     /* Handle States */
-    const handleChangeTitle = (event) => {
-        setTitle(event.target.value);
-    };
+    
     const handleChangeCategory = (event) => {
         setCategory(event.target.value);
         if (event.target.value === 'Santé') {
@@ -52,13 +64,11 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             setBackColor('#3788d8');
         }
     };
-    const handleChangeType = () => {
-        setMandatory(prevState => !prevState);
-    };
+
     const handleChangeStartDate = (date) => {
         let isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
         dayjs.extend(isSameOrAfter);
-        setStartDate(dayjs(date));
+        setStartDate(date);
         // Check if start date is after end date
         if (dayjs(date).isSameOrAfter(endDate)) {
           setEndDate(dayjs(date).add(15, 'minutes')); 
@@ -67,7 +77,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const handleChangeEndDate = (date) => {
     let isSameOrBefore = require('dayjs/plugin/isSameOrBefore');
     dayjs.extend(isSameOrBefore);
-    setEndDate(dayjs(date));
+    setEndDate(date);
         // Check if end date is before start date
         if (dayjs(date).isSameOrBefore(startDate)) {
             setStartDate(dayjs(date).subtract(15, 'minutes'));
@@ -78,9 +88,13 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const handleCloseCreateForm = () => {
         setOpenCreateForm(false);
     };
+
+    const onSubmit = (data) => {
+        console.log('form submitted', data)
+    }
     
     /* Submit Event */
-    const handleSubmit = (event) => {
+   /*  const handleSubmit = (event) => {
         event.preventDefault();
         console.log(event.nativeEvent.submitter.name)
         if (!eventInfo || eventInfo.title === '') {
@@ -154,7 +168,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
         setTitle('');
         setCategory('');
         setMandatory(false);
-    }
+    } */
 
     /* Delete Event */
     const handleDelete = () => {
@@ -178,7 +192,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     };
     
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <Modal
             open={openCreateForm}
             onClose={handleCloseCreateForm}
@@ -191,81 +205,145 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             >
                 <h2 id="create-event-title">{eventInfo ? 'Update Event' : 'Create Event'}</h2>
                 <TextField
-                    required
                     id="create-event-title-textfield"
                     label="Insert Event"
                     placeholder="Insert event"
                     variant="standard"
-                    value={title}
-                    onChange={handleChangeTitle}
+                    //react form track state
+                    {...register('title', {
+                        required: 'Username is required',
+                        validate: {
+                            notBlank: (fieldValue) => {
+                            return (
+                                fieldValue !== ' ' || 
+                                'Enter a valid title'
+                                );
+                            },}
+                    })}
+                    helperText={errors  && errors.title?.message}
                     sx={{ display: 'grid' }}
-                />
-                <FormControl variant="standard" sx={{ display: 'grid', mt: 2 }}>
-                    <InputLabel id="create-event-category">Category</InputLabel>
-                    <Select
-                        required
-                        id="create-event-category-select"
-                        label="Choose category"
-                        placeholder='Choose category'
-                        onChange={handleChangeCategory}
-                        value={category}
-                    >
+                /> 
+                <Controller
+                name='extendedProps.category'
+                control={control}
+                render={
+                    ({ field: { onChange, value, name } }) =>
+                    <FormControl variant="standard" sx={{ display: 'grid', mt: 2 }}>
+                        <InputLabel id="create-event-category">Category</InputLabel>
+                        <Select
+                            required
+                            id="create-event-category-select"
+                            label="Choose category"
+                            placeholder='Choose category'
+                            onChange={onChange}
+                            value={value}
+                        >
                         {dataCategories.map(dataCategory => {
                             return <MenuItem key={dataCategory} value={dataCategory}>{dataCategory}</MenuItem>
                         })}
-                    </Select>
-                </FormControl>
+                        </Select>
+                    </FormControl>
+                }/>
+                <Controller
+                name='extendedProps.mandatory'
+                control={control}
+                render={
+                    ({ field: { onChange, value, name } }) =>
                 <FormGroup sx={{mt: 2}}>
-                    <FormControlLabel control={<Switch color='error' checked={mandatory} onChange={handleChangeType} />} label="Obligatoire" />
+                    <FormControlLabel control={<Switch color='error' checked={value} onChange={onChange} />} label="Obligatoire" />
                 </FormGroup>
-                <LocalizationProvider dateAdapter={AdapterDayjs}  >
-                    <DemoContainer components={['DateTimePicker', 'DateTimePicker']} >
-                        <DateTimePicker
-                        label="Start Date"
-                        value={dayjs(startDate)}
-                        onChange={(e) => {
-                            clearTimeout(timeoutFunc);
-                            const newTimeout = setTimeout(() => handleChangeStartDate(e), 300);
+                }/>
+                <Controller
+                name="start"
+                control={control}
+                render={
+                    ({ field: { onChange, value, name } }) =>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}  >
+                        <DemoContainer components={['DateTimePicker']} >
+                            <DateTimePicker
+                            label="Start Date"
+                            name={name}
+                            defaultValue={dayjs(startDate)}
+                            value={dayjs(startDate)}
+                            rules={{ required: true }}
+                            onChange={(date) => {
+                                clearTimeout(timeoutFunc);
+                                const newTimeout = setTimeout(() => {
+                                    let isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
+                                    dayjs.extend(isSameOrAfter);
+                                    setStartDate(date);
+                                    // Check if start date is after end date
+                                    if (dayjs(date).isSameOrAfter(endDate)) {
+                                        setEndDate(dayjs(date).add(15, 'minutes'));
+                                        setValue('end', dayjs(date).add(15, 'minutes'))
+                                    } 
+                                    onChange(date);
+                                }, 300);
                             setTimeoutFunc(newTimeout);
-                        }}
-                        ampm={false}
-                        minTime={dayjs().set('hour', 7)}
-                        maxTime={dayjs().set('hour', 18)}
-                        onError={(reason, value) => {
-                            console.log(reason);
-                            if (reason) {
-                              setCurrentError(reason)
-                            } else {
-                              setCurrentError(null);
-                            }
-                          }}
-                        error={currentError}
-                        disablePast
-                        />
-                        <DateTimePicker
-                        label="End Date"
-                        value={dayjs(endDate)}
-                        onChange={(e) => {
-                            clearTimeout(timeoutFunc);
-                            const newTimeout = setTimeout(() => handleChangeEndDate(e), 300);
+                            }}
+                            ampm={false}
+                            minTime={dayjs().set('hour', 7)}
+                            maxTime={dayjs().set('hour', 18)}
+                            onError={(reason, value) => {
+                                if (reason) {
+                                setCurrentError(reason)
+                                } else {
+                                setCurrentError(null);
+                                }
+                            }}
+                            error={currentError}
+                            disablePast
+                            />
+                        </DemoContainer>
+                    </LocalizationProvider>
+                }
+                /> 
+                <Controller
+                name="end"
+                control={control}
+                render={
+                    ({ field: { onChange, value, name } }) =>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}  >
+                        <DemoContainer components={['DateTimePicker']} >
+                            <DateTimePicker
+                            label="End Date"
+                            name={name}
+                            defaultValue={dayjs(endDate)}
+                            value={dayjs(endDate)}
+                            rules={{ required: true }}
+                            onChange={(date) => {
+                                clearTimeout(timeoutFunc);
+                                const newTimeout = setTimeout(() => {
+                                    let isSameOrBefore = require('dayjs/plugin/isSameOrBefore');
+                                    dayjs.extend(isSameOrBefore);
+                                    setEndDate(date);
+                                        // Check if end date is before start date
+                                        if (dayjs(date).isSameOrBefore(startDate)) {
+                                            setStartDate(dayjs(date).subtract(15, 'minutes'));
+                                            setValue('start', dayjs(date).subtract(15, 'minutes'))
+                                        }
+                                    onChange(date);
+                                }, 300);
                             setTimeoutFunc(newTimeout);
-                        }}
-                        ampm={false}
-                        minTime={dayjs(startDate)}
-                        maxTime={dayjs().set('hour', 18)}
-                        error={currentError}
-                        onError={(reason, value) => {
-                            if (reason) {
-                              setCurrentError(reason);
-                            } else {
-                              setCurrentError(null);
-                            }
-                          }}
-                        helperText={currentError === 'disablePast' ? 'Insert valid date' : ''}
-                        disablePast
-                        />
-                    </DemoContainer>
-                </LocalizationProvider>
+                            }}
+                            ampm={false}
+                            minTime={dayjs(startDate)}
+                            maxTime={dayjs().set('hour', 18)}
+                            error={currentError}
+                            onError={(reason, value) => {
+                                if (reason) {
+                                setCurrentError(reason);
+                                } else {
+                                setCurrentError(null);
+                                }
+                            }}
+                            helperText={currentError === 'disablePast' ? 'Insert valid date' : ''}
+                            disablePast
+                            />
+                        </DemoContainer>
+                    </LocalizationProvider>
+                    }
+                /> 
                 {!eventInfo && <Button type="submit" variant="outlined" sx={{mt: 3}}>Submit</Button>}
                 {eventInfo &&
                (<>
@@ -275,6 +353,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                </>)}
             </Box>
             </Modal>
+            <DevTool control={control} className='devTool' />
         </form> 
      );
 }

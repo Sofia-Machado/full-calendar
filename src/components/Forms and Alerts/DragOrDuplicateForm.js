@@ -14,9 +14,8 @@ const style = {
   p: 4,
 };
 
-export default function DragOrDuplicateForm({ 
-  addNewEvent, eventInfo, oldEventDrag, openDragForm, removeDraggableEvents, setOpenDragForm, updateExistingEvent 
-}) {
+export default function DragOrDuplicateForm ({ addNewEvent, eventInfo, oldEventDrag, openDragForm, 
+  removeDraggableEvents, setOpenDragForm, updateExistingEvent }) {
 
   const queryClient = useQueryClient();
  
