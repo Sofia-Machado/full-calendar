@@ -12,10 +12,6 @@ import dayjs from 'dayjs';
 import { useAddEvent, useUpdateEvent } from '../../hooks/eventHook';
 
 const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateForm, setOpenCreateForm, startDate, setStartDate, endDate, setEndDate}) => {
-    const [title, setTitle] = useState('');
-    const [category, setCategory] = useState('');
-    const [mandatory, setMandatory] = useState(false);
-    const [backColor, setBackColor] = useState('#3788d8');
     const [timeoutFunc, setTimeoutFunc] = useState(null);    
     const [currentError, setCurrentError] = useState(null);
 
@@ -25,20 +21,19 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             extendedProps: {
                 category: '',
                 mandatory: false,
-            }
+            }, 
+            color: '',
         }
     });
-    const { register, control, handleSubmit, formState, watch, getValues, setValue } = form;
+    const { register, control, handleSubmit, formState, reset, setValue } = form;
     const { errors, touchedFields, dirtyFields } = formState;
-
-    const dataCategories = ['Santé', 'Vie'];
     
     const { mutate:addNewEvent } = useAddEvent();
     const { mutate:updateExistingEvent } = useUpdateEvent();
     const queryClient = useQueryClient();
   
     /* Set states */
-    useEffect(() => {
+   /*  useEffect(() => {
         if (eventInfo) {
             setTitle(eventInfo.title);
             setCategory(eventInfo?.extendedProps?.category || '')
@@ -50,132 +45,53 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             setTitle('')
             setCategory('')
         }
-    }, [eventInfo]);
+    }, [eventInfo]); */
 
-    /* Handle States */
-    
-    const handleChangeCategory = (event) => {
-        setCategory(event.target.value);
-        if (event.target.value === 'Santé') {
-            setBackColor('#e3ab9a');
-        } else if ((event.target.value === 'Vie')) {
-            setBackColor('#44936c');
-        } else {
-            setBackColor('#3788d8');
-        }
-    };
-
-    const handleChangeStartDate = (date) => {
-        let isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
-        dayjs.extend(isSameOrAfter);
-        setStartDate(date);
-        // Check if start date is after end date
-        if (dayjs(date).isSameOrAfter(endDate)) {
-          setEndDate(dayjs(date).add(15, 'minutes')); 
-        }
-    };
-    const handleChangeEndDate = (date) => {
-    let isSameOrBefore = require('dayjs/plugin/isSameOrBefore');
-    dayjs.extend(isSameOrBefore);
-    setEndDate(date);
-        // Check if end date is before start date
-        if (dayjs(date).isSameOrBefore(startDate)) {
-            setStartDate(dayjs(date).subtract(15, 'minutes'));
-        }
-    };
 
     /* Close Form */
     const handleCloseCreateForm = () => {
         setOpenCreateForm(false);
     };
 
-    const onSubmit = (data) => {
-        console.log('form submitted', data)
-    }
-    
-    /* Submit Event */
-   /*  const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log(event.nativeEvent.submitter.name)
+    const onSubmit = (data, e) => {
+        data.start = dayjs(startDate).toDate();
+        data.end = dayjs(endDate).toDate();
         if (!eventInfo || eventInfo.title === '') {
-            addNewEvent(calendar.current.calendar.addEvent({
-                //id: calendar.current.props.events.length + 1,
-                title,
-                start: startDate, 
-                end: endDate,
-                extendedProps: {
-                    category,
-                    mandatory
-                },
-                backgroundColor: backColor,
-                borderColor: backColor
-            })
-        )} else {
-            if (event.nativeEvent.submitter.name === 'replace') {
-                updateExistingEvent({ 
-                    title,
-                    id: eventInfo.id,
-                    start: startDate,
-                    end: endDate,
-                    extendedProps: {
-                        category,
-                        mandatory,
-                    },
-                    backgroundColor: backColor,
-                    borderColor: backColor
+            addNewEvent(calendar.current.calendar.addEvent(data))
+        } else {
+            if (e.nativeEvent.submitter.name === 'replace') {
+                updateExistingEvent({
+                    ...data,
+                    id: eventInfo.id
                 }, {
                     onSuccess: () => {
                         queryClient.invalidateQueries('events')
                     }
                 })
             } 
-            if (event.nativeEvent.submitter.name === 'duplicate') {
+            if (e.nativeEvent.submitter.name === 'duplicate') {
                 console.log(eventInfo)
                 updateExistingEvent({
                     id: eventInfo.id,
-                    title,
-                    start: eventInfo.start,
-                    end: eventInfo.end,
-                    extendedProps: {
-                        category,
-                        mandatory,
-                    },
-                    classNames: 'duplicate',
-                    backgroundColor: backColor,
-                    borderColor: backColor
+                    ...data,
+                    classNames: 'duplicate'
                 })
-                addNewEvent({
+                addNewEvent(calendar.current.calendar.addEvent({
                     id: eventInfo.id + 'duplicate',
-                    title,
-                    start: startDate, 
-                    end: endDate,
-                    extendedProps: {
-                        category,
-                        mandatory
-                    },
-                    backgroundColor: backColor,
-                    borderColor: backColor
-                    
-                }, {
-                    onSuccess: () => {
-                        queryClient.invalidateQueries('events')
-                    }
-                });
+                    ...data
+                }));
                 
             }  
         }
-        handleCloseCreateForm()
-        setTitle('');
-        setCategory('');
-        setMandatory(false);
-    } */
-
+        handleCloseCreateForm();
+        reset();
+    }
+    
     /* Delete Event */
     const handleDelete = () => {
         handleEventRemove(eventInfo.id);
         handleCloseCreateForm();
-      };
-
+    };
 
     /* Box Style */
     const style = {
@@ -237,10 +153,11 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                             placeholder='Choose category'
                             onChange={onChange}
                             value={value}
+                            name={name}
                         >
-                        {dataCategories.map(dataCategory => {
-                            return <MenuItem key={dataCategory} value={dataCategory}>{dataCategory}</MenuItem>
-                        })}
+                             <MenuItem key={'sante'} value={'Santé'} onChange={setValue('color', '#e3ab9a')}>Santé</MenuItem>
+                             <MenuItem key={'vie'} value={'Vie'} onChange={setValue('color', '#44936c')}>Vie</MenuItem>
+                        
                         </Select>
                     </FormControl>
                 }/>
@@ -250,7 +167,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                 render={
                     ({ field: { onChange, value, name } }) =>
                 <FormGroup sx={{mt: 2}}>
-                    <FormControlLabel control={<Switch color='error' checked={value} onChange={onChange} />} label="Obligatoire" />
+                    <FormControlLabel control={<Switch color='error' checked={value} name={name} onChange={onChange} />} label="Obligatoire" />
                 </FormGroup>
                 }/>
                 <Controller
@@ -268,10 +185,10 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                             rules={{ required: true }}
                             onChange={(date) => {
                                 clearTimeout(timeoutFunc);
+                                setStartDate(date);
                                 const newTimeout = setTimeout(() => {
                                     let isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
                                     dayjs.extend(isSameOrAfter);
-                                    setStartDate(date);
                                     // Check if start date is after end date
                                     if (dayjs(date).isSameOrAfter(endDate)) {
                                         setEndDate(dayjs(date).add(15, 'minutes'));
@@ -313,10 +230,10 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                             rules={{ required: true }}
                             onChange={(date) => {
                                 clearTimeout(timeoutFunc);
+                                setEndDate(date);
                                 const newTimeout = setTimeout(() => {
                                     let isSameOrBefore = require('dayjs/plugin/isSameOrBefore');
                                     dayjs.extend(isSameOrBefore);
-                                    setEndDate(date);
                                         // Check if end date is before start date
                                         if (dayjs(date).isSameOrBefore(startDate)) {
                                             setStartDate(dayjs(date).subtract(15, 'minutes'));
