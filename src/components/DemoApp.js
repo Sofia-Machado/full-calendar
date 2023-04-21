@@ -276,6 +276,14 @@ export function DemoApp() {
     selectable: true,
     editable: true,
     droppable: true,
+    headerToolbar: {
+      start: '',
+      center: '',
+      end: 'title today prev,next',
+    },
+    eventClick: (e) => setEventInfo(e.event),
+    //render event
+    eventContent: eventContent,
     eventOrder: ((a) => {
     if (a.extendedProps.mandatory){
       return -1;
@@ -335,16 +343,6 @@ export function DemoApp() {
             ref={calendar}
             {...options}
             events={visibleEvents}
-            eventContent={eventContent}
-            eventClick={(e) => {
-              setEventInfo(e.event);
-              //handleOpenCreateForm();
-            }}
-            headerToolbar={{
-              start: '',
-              center: '',
-              end: 'title today prev,next',
-            }}
           />
         </div>
       <DragOrDuplicateForm 

@@ -8,23 +8,23 @@ const OptionsHeader = ({events, filters, handleOpenCreateForm, handleFilter, set
 
      /* Set category options on the search bar */
     const categoryOptions = Object.values(events.data).sort((a, b) => {
-        let result;
-        if (a.extendedProps.category > b.extendedProps.category){
+      let result;
+      if (a.extendedProps.category > b.extendedProps.category){
         result = -1;
-    } else {
+      } else {
         if (a.extendedProps.category < b.extendedProps.category){
             result = 1;
         } else {
             if (a.title > b.title) {
-            result = 1
+              result = 1
             } else {
-            if (a.title < b.title) {
-                result = -1
-            }
+              if (a.title < b.title) {
+                  result = -1
+              }
             }
         }
-        }
-        return result;
+      }
+      return result;
     });
 
     /* Menu filter */ 
@@ -49,8 +49,9 @@ const OptionsHeader = ({events, filters, handleOpenCreateForm, handleFilter, set
             groupBy={(option) => option.extendedProps.category}
             getOptionLabel={(option) => option.title}
             sx={{ width: 300 }}
-            onChange={(value) => {
+            onChange={(e, value) => {
               setEventInfo(value);
+              console.log(value);
               handleOpenCreateForm()
             }}
             renderInput={(params) => <TextField {...params}
@@ -81,7 +82,6 @@ const OptionsHeader = ({events, filters, handleOpenCreateForm, handleFilter, set
                   ))}
                 </Box>
               )}
-              //MenuProps={MenuProps}
             >            
               {filtersList.map((filter) => (
                 <MenuItem

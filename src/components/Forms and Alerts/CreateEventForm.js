@@ -153,7 +153,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             autoComplete="off"
             sx={{ ...style, width: 400 }}
             >
-                <h2 id="create-event-title">CreateEvent</h2>
+                <h2 id="create-event-title">{eventInfo ? 'Update Event' : 'Create Event'}</h2>
                 <TextField
                     required
                     id="create-event-title-textfield"
