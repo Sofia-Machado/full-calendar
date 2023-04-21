@@ -14,6 +14,8 @@ import { useAddEvent, useUpdateEvent } from '../../hooks/eventHook';
 const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateForm, setOpenCreateForm, startDate, setStartDate, endDate, setEndDate}) => {
     const [timeoutFunc, setTimeoutFunc] = useState(null);    
     const [currentError, setCurrentError] = useState(null);
+    const values = eventInfo.toPlainObject();
+    console.log(eventInfo.toPlainObject())
 
     const form = useForm({
         defaultValues: {
@@ -23,7 +25,8 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                 mandatory: false,
             }, 
             color: '',
-        }
+        },
+        values
     });
     const { register, control, handleSubmit, formState, reset, setValue } = form;
     const { errors, touchedFields, dirtyFields } = formState;
