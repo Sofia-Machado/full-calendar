@@ -37,7 +37,9 @@ export default function DragOrDuplicateForm({
         }
       })
     }
-    updateExistingEvent({...oldEventDrag, classNames: 'duplicate'}, {
+    updateExistingEvent({...oldEventDrag, classNames: 'duplicate',  startEditable: !oldEventDrag?.extendedProps?.mandatory,
+    durationEditable: !oldEventDrag?.extendedProps?.mandatory,
+    editable: !oldEventDrag?.extendedProps?.mandatory}, {
       onSuccess: () => {
         queryClient.invalidateQueries('events')
       }

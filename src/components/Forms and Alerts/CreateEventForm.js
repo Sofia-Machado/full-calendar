@@ -87,8 +87,8 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             addNewEvent(calendar.current.calendar.addEvent({
                 //id: calendar.current.props.events.length + 1,
                 title,
-                start: startDate, 
-                end: endDate,
+                start: startDate.format(), 
+                end: endDate.format(),
                 extendedProps: {
                     category,
                     mandatory
@@ -101,8 +101,8 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                 updateExistingEvent({ 
                     title,
                     id: eventInfo.id,
-                    start: startDate,
-                    end: endDate,
+                    start: startDate.format(),
+                    end: endDate.format(),
                     extendedProps: {
                         category,
                         mandatory,
@@ -128,13 +128,16 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                     },
                     classNames: 'duplicate',
                     backgroundColor: backColor,
-                    borderColor: backColor
+                    borderColor: backColor,
+                    startEditable: !eventInfo?.extendedProps?.mandatory,
+                    durationEditable: !eventInfo?.extendedProps?.mandatory,
+                    editable: !eventInfo?.extendedProps?.mandatory
                 })
                 addNewEvent({
                     id: eventInfo.id + 'duplicate',
                     title,
-                    start: startDate, 
-                    end: endDate,
+                    start: startDate.format(), 
+                    end: endDate.format(),
                     extendedProps: {
                         category,
                         mandatory
@@ -222,7 +225,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                     <DemoContainer components={['DateTimePicker', 'DateTimePicker']} >
                         <DateTimePicker
                         label="Start Date"
-                        value={dayjs(startDate)}
+                        value={startDate}
                         onChange={(e) => {
                             clearTimeout(timeoutFunc);
                             const newTimeout = setTimeout(() => handleChangeStartDate(e), 300);
@@ -244,14 +247,14 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                         />
                         <DateTimePicker
                         label="End Date"
-                        value={dayjs(endDate)}
+                        value={endDate}
                         onChange={(e) => {
                             clearTimeout(timeoutFunc);
                             const newTimeout = setTimeout(() => handleChangeEndDate(e), 300);
                             setTimeoutFunc(newTimeout);
                         }}
                         ampm={false}
-                        minTime={dayjs(startDate)}
+                        minTime={startDate}
                         maxTime={dayjs().set('hour', 18)}
                         error={currentError}
                         onError={(reason, value) => {

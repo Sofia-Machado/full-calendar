@@ -27,8 +27,8 @@ export function DemoApp() {
   const [eventInfo, setEventInfo] = useState({});
   const [eventRemoved, setEventRemoved] = useState({});
   const [oldEventDrag, setOldEventDrag] = useState({});
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(dayjs());
+  const [endDate, setEndDate] = useState(dayjs());
   const [dragId, setDragId] = useState(null);
   const [slotDuration, setSlotDuration] = useState("00:15:00");
   const [filters, setFilters] = useState([]);
@@ -118,18 +118,21 @@ export function DemoApp() {
   /* Update/add event on receive */
   const handleEventReceive = (info) => {
     const event = info.event;
-    console.log(event)
     addNewEvent(event, {
       onSuccess: () => {
-      queryClient.invalidateQueries('events');
-    }});
-    if (event?.includes?.className('past') || event?.includes?.className('waiting-list')) {
-      let calendarApi = calendar.current.getApi();
-      let eventData = calendarApi.getEventById(dragId).toPlainObject();
+        queryClient.invalidateQueries('events');
+      }});
+    let calendarApi = calendar.current.getApi();
+    let eventData = calendarApi.getEventById(dragId).toPlainObject();
+    console.log('includes past ', eventData.classNames.includes('waiting-list'))
+    if (eventData.classNames.includes('past') || eventData.classNames.includes('waiting-list')) {
       console.log(eventData)
       updateExistingEvent({
         ...eventData, 
         classNames: 'duplicate',
+        editable: !eventData.extendedProps.mandatory,
+        startEditable: !eventData.extendedProps.mandatory,
+        durationEditable: !eventData.extendedProps.mandatory,
         //editable props aren't being added
       }, {
         onSuccess: () => {
@@ -235,7 +238,7 @@ export function DemoApp() {
     )
   }
 
-  const now = dayjs().format();
+  const now = dayjs();
   /* Calendar options */
   const options = {
     plugins: [
@@ -296,15 +299,18 @@ export function DemoApp() {
     eventRemove: handleEventRemove,
     //save date
     select: function(info) {
+      let isSameOrBefore = require('dayjs/plugin/isSameOrBefore');
+      dayjs.extend(isSameOrBefore);
       if (info.start && !info.event) {
         setEventInfo(null);
       }
-      setEndDate(info.endStr.slice(0 , 19));
-      setStartDate(info.startStr.slice(0 , 19));
-      if (info.endStr < now) {
+      console.log(info)
+      setEndDate(dayjs(info.end));
+      setStartDate(dayjs(info.start));
+      if (dayjs(info.end).isSameOrBefore(now)) {
         handleOpenAlert();
       } 
-      if (info.endStr > now) {
+      if (now.isSameOrBefore(dayjs(info.end))) {
         handleOpenCreateForm();
       }
     },
