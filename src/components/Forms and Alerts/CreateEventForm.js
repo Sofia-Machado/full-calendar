@@ -65,7 +65,10 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                 updateExistingEvent({
                     id: eventInfo.id,
                     ...data,
-                    classNames: 'duplicate'
+                    classNames: 'duplicate',
+                    startEditable: !eventInfo?.extendedProps?.mandatory,
+                    durationEditable: !eventInfo?.extendedProps?.mandatory,
+                    editable: !eventInfo?.extendedProps?.mandatory
                 })
                 addNewEvent(calendar.current.calendar.addEvent({
                     id: eventInfo.id + 'duplicate',
@@ -171,7 +174,8 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                             <DateTimePicker
                             label="Start Date"
                             name={name}
-                            value={dayjs(startDate)}
+                            value={startDate}
+                            //value={dayjs(startDate)}
                             rules={{ required: true }}
                             onChange={(date) => {
                                 clearTimeout(timeoutFunc);
@@ -215,7 +219,8 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                             <DateTimePicker
                             label="End Date"
                             name={name}
-                            value={dayjs(endDate)}
+                            value={endDate}
+                            //value={dayjs(endDate)}
                             rules={{ required: true }}
                             onChange={(date) => {
                                 clearTimeout(timeoutFunc);
@@ -233,7 +238,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                             setTimeoutFunc(newTimeout);
                             }}
                             ampm={false}
-                            minTime={dayjs(startDate)}
+                            minTime={startDate}
                             maxTime={dayjs().set('hour', 18)}
                             error={currentError}
                             onError={(reason, value) => {

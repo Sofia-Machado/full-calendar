@@ -11,7 +11,6 @@ import KeyboardArrowLeftRoundedIcon from '@mui/icons-material/KeyboardArrowLeftR
 const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, updateExistingEvent}) => {
   const [page, setPage] = useState(1)
   const [selectedItemId, setSelectedItemId] = useState(null);
-  const now = dayjs().format();
   
   const fecthDraggableItems = () => {
     return axios.get(`http://localhost:8080/dragItemList?_limit=7&_page=${page}`)
@@ -26,6 +25,7 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
   keepPreviousData : true})
 
   useEffect(() => {
+    const now = dayjs();
     if (draggableList) {
       events.data.forEach(event => {
         if (!draggableList.data.some(item => item.id === event.id)) {
@@ -77,12 +77,15 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
         }
       })
 
-      updateExistingEvent({...eventData, classNames: 'duplicate'});
+      updateExistingEvent({...eventData, classNames: 'duplicate',
+      startEditable: !eventData?.extendedProps?.mandatory,
+      durationEditable: !eventData?.extendedProps?.mandatory,
+      editable: !eventData?.extendedProps?.mandatory,});
       
       addNewEvent(calendar.current.calendar.addEvent({
         ...item,
         id: item.id + classValue,
-        start: now,
+        start: dayjs().format(),
         end: dayjs().add(15, 'minutes').format(),
         color
       }), {

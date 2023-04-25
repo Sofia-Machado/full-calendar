@@ -14,6 +14,15 @@
   }
 }
 
+@-moz-document url-prefix() {
+  .fc-col-header-cell.fc-day.fc-day-tue.fc-day-today,
+  .fc-col-header-cell.fc-day.fc-day-past,
+  .fc-col-header-cell.fc-day.fc-day-future {
+    height: 50px
+  }
+}
+
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -36,7 +45,6 @@
     transform: rotate(360deg);
   }
 }
-
 
 .calendar-app {
   margin-bottom: 40px;
@@ -105,6 +113,12 @@
   box-shadow: none;
 }
 
+@-moz-document url-prefix() {
+  .fc-liquid-hack td {
+    position: static;
+  }
+}
+
 table {
 border-radius: 10px;
 }
@@ -118,6 +132,7 @@ td.fc-day.fc-day-mon.fc-day-today.fc-daygrid-day:focus {
 .fc-timegrid-slot.fc-timegrid-slot-lane:hover {
   background-color: rgb(230, 230, 230);
 }
+
 
 th.fc-col-header-cell.fc-day {
   display: flex;
@@ -140,9 +155,7 @@ td.fc-day.fc-day-mon.fc-day-today.fc-daygrid-day,
 td {
   /* background-color: rgb(255, 255, 255); */
   background-color: rgb(87, 86, 86);
-  
 }
-
 tr {
   height: 50px;
 }
