@@ -190,7 +190,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             >
             <Box component='form' 
             autoComplete="off"
-            sx={{ ...style, width: 400 }}
+            sx={{ ...style, width: 400, borderRadius: 5, onFocusVisible: { border: 'none'} }}
             >
                 <h2 id="create-event-title">{eventInfo ? 'Update Event' : 'Create Event'}</h2>
                 <TextField
