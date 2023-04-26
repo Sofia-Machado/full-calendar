@@ -7,6 +7,7 @@ import { Card, CardContent, IconButton, Tooltip, Typography } from '@mui/materia
 import Zoom from '@mui/material/Zoom';
 import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
 import KeyboardArrowLeftRoundedIcon from '@mui/icons-material/KeyboardArrowLeftRounded';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, updateExistingEvent}) => {
   const [page, setPage] = useState(1)
@@ -102,31 +103,45 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
   if (isError) {
     return <h2>{error.message}</h2>
   }
+
   return (
     <>
       <ul className="draggable-list">
         <div>
         <Typography variant='title' component='h2' mb={2} sx={{textAlign: 'center', fontSize: 18, fontWeight: 400}}>Évènements à venir</Typography>
+        <AnimatePresence mode="popLayout">
         {draggableList?.data.map((item, index) => {
           const isSelected = selectedItemId === item.id;
           return (
-            <Tooltip sx={{m: 0}} title={item?.classNames?.includes('past') ? "Reporter" : ''}
-            TransitionComponent={Zoom} placement='left' arrow key={index}>
-              <Card className="draggable-card" sx={{borderRadius: 20}} >
-                <CardContent
-                data-event={JSON.stringify(item)}
-                className={`draggable-item ${isSelected ? 'selected' : ''}`}
-                draggable={true}
-                onClick={(e) => handleItemClick(e, item)}
+              <Tooltip sx={{m: 0}} title={item?.classNames?.includes('past') ? "Reporter" : ''}
+              TransitionComponent={Zoom} placement='left' arrow key={index}
+              >
+                <Card className="draggable-card" sx={{borderRadius: 20}}
+                component={motion.div}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                layout
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                key={index}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  <Typography fontSize={14} sx={{fontWeight: 500}} component="div">
-                    {item.title}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Tooltip>
-          );
-        })}
+                  <CardContent
+                  data-event={JSON.stringify(item)}
+                  className={`draggable-item ${isSelected ? 'selected' : ''}`}
+                  draggable={true}
+                  onClick={(e) => handleItemClick(e, item)}
+                  >
+                    <Typography fontSize={14} sx={{fontWeight: 500}} component="div">
+                      {item.title}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Tooltip>
+
+            );
+          })}
+        </AnimatePresence>
         </div>
         <div className='pagination-buttons'>
           <IconButton onClick={() =>

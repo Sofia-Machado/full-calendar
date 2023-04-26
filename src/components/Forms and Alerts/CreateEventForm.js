@@ -45,10 +45,10 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     };
 
     const onSubmit = (data, e) => {
-        /* data.start = dayjs(startDate).toDate();
-        data.end = dayjs(endDate).toDate(); */
-        console.log(data)
         if (!eventInfo || eventInfo.title === '') {
+            data.start = dayjs(startDate).toDate();
+            data.end = dayjs(endDate).toDate();
+            console.log(data)
             addNewEvent(calendar.current.calendar.addEvent(data))
         } else {
             if (e.nativeEvent.submitter.name === 'replace') {

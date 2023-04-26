@@ -15,6 +15,7 @@ import DragOrDuplicateForm from './Forms and Alerts/DragOrDuplicateForm';
 import DraggableEvents from './DraggableEvents';
 import OptionsHeader from './OptionsHeader';
 import Alert from './Forms and Alerts/AlertPopover';
+import { motion } from 'framer-motion';
 
 /* Fetch and remove functions */
 const fetchEvents = () => {
@@ -100,6 +101,7 @@ export function DemoApp() {
           let classValue = !data?.classNames?.includes('past') ? '' : 'duplicate';
           return {
             ...data,
+
             color,
             id: data.id + classValue,
           };
@@ -235,7 +237,7 @@ export function DemoApp() {
     )
   }
 
-  const now = dayjs();
+  const now = dayjs().format();
   /* Calendar options */
   const options = {
     plugins: [
@@ -243,6 +245,7 @@ export function DemoApp() {
       timeGridPlugin, 
       interactionPlugin 
     ],
+    defaultTimedEventDuration: '00:15',
     allDaySlot: false,
     eventMaxStack: 4,
     dayPopoverFormat:{
@@ -303,10 +306,10 @@ export function DemoApp() {
       }
       setEndDate(dayjs(info.end));
       setStartDate(dayjs(info.start));
-      if (dayjs(info.end).isSameOrBefore(now)) {
+      if (dayjs(info.end).isSameOrBefore(dayjs())) {
         handleOpenAlert();
       } 
-      if (now.isSameOrBefore(dayjs(info.end))) {
+      if (dayjs().isSameOrBefore(dayjs(info.end))) {
         handleOpenCreateForm();
       }
     },
