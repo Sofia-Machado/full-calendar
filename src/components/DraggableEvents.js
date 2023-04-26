@@ -17,16 +17,16 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
   }
   const { mutate: addDragItem } = useAddDragItem();
   const queryClient = useQueryClient();
-
+  
   /* fetch */
   const { isLoading, data: draggableList, isError, error } = useQuery(
     ['dragItems', page], 
-  () => fecthDraggableItems(page),{
-  keepPreviousData : true})
-
-  useEffect(() => {
-    const now = dayjs();
-    if (draggableList) {
+    () => fecthDraggableItems(page),{
+      keepPreviousData : true})
+      
+    useEffect(() => {
+      const now = dayjs();
+      if (draggableList) {
       events.data.forEach(event => {
         if (!draggableList.data.some(item => item.id === event.id)) {
           if (event?.extendedProps?.mandatory && now > event.end) {
@@ -48,7 +48,7 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
         }
       })
     }
-  }, [events])
+  }, [addDragItem, draggableList, events, queryClient, updateExistingEvent])
  
   const handleItemClick = (e, item) => {
     e.preventDefault();
@@ -76,7 +76,7 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
         }
       })
 
-      updateExistingEvent({...eventData, classNames: 'duplicate',
+      updateExistingEvent({...eventData, classNames: 'duplicate', 
       startEditable: !eventData?.extendedProps?.mandatory,
       durationEditable: !eventData?.extendedProps?.mandatory,
       editable: !eventData?.extendedProps?.mandatory,});
@@ -140,7 +140,7 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
           onClick={() => {
               setPage(prev => prev + 1)
           }}
-          disabled={draggableList.data.length < 7}
+          disabled={draggableList.data.length <= 7}
           >
             <input hidden accept="image/*" type="file" />
             <KeyboardArrowRightRoundedIcon />
