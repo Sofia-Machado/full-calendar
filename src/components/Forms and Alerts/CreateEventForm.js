@@ -33,11 +33,11 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
               category: eventInfo?.extendedProps?.category || '',
               mandatory: eventInfo?.extendedProps?.mandatory || false,
             },
-            color: eventInfo?.color || '',
+            color: eventInfo?.extendedProps?.category === 'Santé' ? '#e3ab9a' : '#44936c',
             start: eventInfo?.start || startDate,
             end: eventInfo?.end || endDate,
           });
-        }, [reset, eventInfo]);
+        }, [reset, eventInfo, openCreateForm]);
 
     /* Close Form */
     const handleCloseCreateForm = () => {
@@ -45,8 +45,9 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     };
 
     const onSubmit = (data, e) => {
-        data.start = dayjs(startDate).toDate();
-        data.end = dayjs(endDate).toDate();
+        /* data.start = dayjs(startDate).toDate();
+        data.end = dayjs(endDate).toDate(); */
+        console.log(data)
         if (!eventInfo || eventInfo.title === '') {
             addNewEvent(calendar.current.calendar.addEvent(data))
         } else {
@@ -148,12 +149,18 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                             id="create-event-category-select"
                             label="Choose category"
                             placeholder='Choose category'
-                            onChange={(e) => onChange(e.target.value)}
+                            onChange={(e) => {
+                                if (e.target.value === 'Santé') {
+                                    setValue('color', '#e3ab9a')
+                                } else {
+                                    setValue('color', '#44936c')
+                                }
+                                onChange(e.target.value)}}
                             value={value}
                             name={name}
                         >
-                             <MenuItem key='sante' value='Santé' onChange={setValue('color', '#e3ab9a')}>Santé</MenuItem>
-                             <MenuItem key='vie' value='Vie' onChange={setValue('color', '#44936c')}>Vie</MenuItem>
+                             <MenuItem key='sante' value='Santé'>Santé</MenuItem>
+                             <MenuItem key='vie' value='Vie'>Vie</MenuItem>
                         
                         </Select>
                     </FormControl>
@@ -181,7 +188,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                             rules={{ required: true }}
                             onChange={(date) => {
                                 clearTimeout(timeoutFunc);
-                                setStartDate(date);
+                                setStartDate(dayjs(date));
                                 const newTimeout = setTimeout(() => {
                                     let isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
                                     dayjs.extend(isSameOrAfter);
@@ -190,7 +197,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                                         setEndDate(dayjs(date).add(15, 'minutes'));
                                         setValue('end', dayjs(date).add(15, 'minutes'))
                                     } 
-                                    onChange(date);
+                                    onChange(dayjs(date));
                                 }, 300);
                             setTimeoutFunc(newTimeout);
                             }}
@@ -226,7 +233,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                             rules={{ required: true }}
                             onChange={(date) => {
                                 clearTimeout(timeoutFunc);
-                                setEndDate(date);
+                                setEndDate(dayjs(date));
                                 const newTimeout = setTimeout(() => {
                                     let isSameOrBefore = require('dayjs/plugin/isSameOrBefore');
                                     dayjs.extend(isSameOrBefore);
@@ -235,7 +242,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                                             setStartDate(dayjs(date).subtract(15, 'minutes'));
                                             setValue('start', dayjs(date).subtract(15, 'minutes'))
                                         }
-                                    onChange(date);
+                                    onChange(dayjs(date));
                                 }, 300);
                             setTimeoutFunc(newTimeout);
                             }}
