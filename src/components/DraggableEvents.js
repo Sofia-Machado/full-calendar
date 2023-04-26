@@ -25,7 +25,7 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
       keepPreviousData : true})
       
     useEffect(() => {
-      const now = dayjs();
+      const now = dayjs().format;
       if (draggableList) {
       events.data.forEach(event => {
         if (!draggableList.data.some(item => item.id === event.id)) {
@@ -140,7 +140,7 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
           onClick={() => {
               setPage(prev => prev + 1)
           }}
-          disabled={draggableList.data.length <= 7}
+          disabled={draggableList.data.length < 7}
           >
             <input hidden accept="image/*" type="file" />
             <KeyboardArrowRightRoundedIcon />
