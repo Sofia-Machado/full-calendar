@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useParams } from 'react-router';
 import { useQuery } from 'react-query';
 import axios from 'axios';
-import { Box, Modal, Typography } from '@mui/material';
+import { Box, IconButton, Modal, Typography } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 const style = {
   position: 'absolute',
@@ -22,7 +23,13 @@ const style = {
 export default function ClientForm() {
     const params = useParams()
     const [openClientForm, setOpenClientForm] = useState(true);
-    const handleCloseClientForm = () => setOpenClientForm(false);
+    const handleCloseClientForm = () => {
+      setOpenClientForm(false)
+      setTimeout(() => {
+        window.open('', '_self');
+        window.close();
+      }, 200)
+    };
     const id = parseInt(params.id, 10)
     console.log(id)
     const fetchEvents = () => {
@@ -50,11 +57,13 @@ export default function ClientForm() {
     return (
         <Modal
             open={openClientForm}
-            onClose={handleCloseClientForm}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
             <Box sx={style}>
+              <IconButton aria-label="close-modal" sx={{display: 'flex'}}>
+              <CloseIcon />
+            </IconButton>
             <Typography id="modal-modal-title" variant="h6" component="h2">
                 Client: {data.data.title}
             </Typography>
