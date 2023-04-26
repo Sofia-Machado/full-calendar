@@ -135,7 +135,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                                 );
                             },}
                     })}
-                    helperText={errors  && errors.title?.message}
+                    helperText={errors && errors.title?.message}
                     sx={{ display: 'grid' }}
                 /> 
                 <Controller
@@ -159,6 +159,10 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                                 onChange(e.target.value)}}
                             value={value}
                             name={name}
+                            rules={{
+                                required: 'Category is required'
+                            }}
+                            helperText={errors && errors.extendedProps?.category?.message}
                         >
                              <MenuItem key='sante' value='Santé'>Santé</MenuItem>
                              <MenuItem key='vie' value='Vie'>Vie</MenuItem>
@@ -213,6 +217,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                                 }
                             }}
                             error={currentError}
+                            helperText={errors && currentError === 'disablePast' ? 'Insert a future date' : 'Insert valid date'}
                             disablePast
                             />
                         </DemoContainer>
@@ -258,7 +263,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                                 setCurrentError(null);
                                 }
                             }}
-                            helperText={currentError === 'disablePast' ? 'Insert valid date' : ''}
+                            helperText={currentError === 'disablePast' ? 'Insert a future date' : 'Insert valid date'}
                             disablePast
                             />
                         </DemoContainer>

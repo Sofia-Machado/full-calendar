@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useParams } from 'react-router';
 import { useQuery } from 'react-query';
 import axios from 'axios';
-import { Box, Modal, Typography } from '@mui/material';
+import { Box, IconButton, Modal, Typography } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 const style = {
   position: 'absolute',
@@ -14,13 +15,20 @@ const style = {
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
+  borderRadius: 5,
 };
 
 
 export default function ClientForm() {
     const params = useParams()
     const [openClientForm, setOpenClientForm] = useState(true);
-    const handleCloseClientForm = () => setOpenClientForm(false);
+    const handleCloseClientForm = () => {
+      setTimeout(() => {
+        setOpenClientForm(false)
+        window.open('', '_self');
+        window.close();
+      }, 200)
+    };
     const id = parseInt(params.id, 10)
     const fetchEvents = () => {
         return axios.get(`http://localhost:8080/events/${id}`)
@@ -47,11 +55,15 @@ export default function ClientForm() {
     return (
         <Modal
             open={openClientForm}
-            onClose={handleCloseClientForm}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
             <Box sx={style}>
+              <Box sx={{textAlign: 'right'}}>
+            <IconButton aria-label="close-modal" onClick={handleCloseClientForm} >
+              <CloseIcon />
+            </IconButton>
+              </Box>
             <Typography id="modal-modal-title" variant="h6" component="h2">
                 Client: {data.data.title}
             </Typography>

@@ -118,9 +118,9 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
               >
                 <Card className="draggable-card" sx={{borderRadius: 20}}
                 component={motion.div}
+                layout
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                layout
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.8, opacity: 0 }}
                 key={index}

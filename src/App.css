@@ -45,6 +45,13 @@
     transform: rotate(360deg);
   }
 }
+.MuiFormHelperText-root {
+  color: #d43434 !important;
+}
+
+.Modal:focus-visible {
+  outline: none
+}
 
 .calendar-app {
   margin-bottom: 40px;

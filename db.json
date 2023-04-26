@@ -8,11 +8,11 @@
       "id": 1,
       "backgroundColor": "#e3ab9a",
       "borderColor": "#e3ab9a",
+      "classNames": "waiting-list",
       "extendedProps": {
         "category": "Santé",
         "mandatory": true
-      },
-      "classNames": "waiting-list"
+      }
     },
     {
       "allDay": false,
@@ -41,15 +41,17 @@
       "classNames": "waiting-list"
     },
     {
+      "allDay": false,
       "title": "Call Beatriz",
+      "start": "2023-04-26T17:45:00+01:00",
+      "end": "2023-04-26T18:00:00+01:00",
+      "id": 5,
+      "backgroundColor": "#44936c",
+      "borderColor": "#44936c",
       "extendedProps": {
         "category": "Vie",
         "mandatory": false
-      },
-      "color": "#44936c",
-      "start": "2023-04-26T09:45:00.000Z",
-      "end": "2023-04-26T10:00:00.000Z",
-      "id": 5
+      }
     },
     {
       "allDay": false,
@@ -62,7 +64,11 @@
       "extendedProps": {
         "category": "Vie",
         "mandatory": false
-      }
+      },
+      "classNames": "duplicate",
+      "startEditable": true,
+      "durationEditable": true,
+      "editable": true
     },
     {
       "allDay": false,
@@ -180,7 +186,21 @@
         "category": "Santé",
         "mandatory": true
       },
-      "id": 15
+      "id": 15,
+      "classNames": "waiting-list"
+    },
+    {
+      "allDay": false,
+      "title": "Call Ana",
+      "start": "2023-04-26T17:45:00+01:00",
+      "end": "2023-04-26T18:00:00+01:00",
+      "id": "6duplicate",
+      "backgroundColor": "#44936c",
+      "borderColor": "#44936c",
+      "extendedProps": {
+        "category": "Vie",
+        "mandatory": false
+      }
     }
   ],
   "dragItemList": [
@@ -273,6 +293,20 @@
       "start": "2023-04-26T09:45:00.000Z",
       "end": "2023-04-26T10:00:00.000Z",
       "id": 4,
+      "classNames": "past"
+    },
+    {
+      "allDay": false,
+      "title": "sdfd",
+      "start": "2023-04-26T17:00:00+01:00",
+      "end": "2023-04-26T17:15:00+01:00",
+      "backgroundColor": "#44936c",
+      "borderColor": "#44936c",
+      "extendedProps": {
+        "category": "Santé",
+        "mandatory": true
+      },
+      "id": 15,
       "classNames": "past"
     }
   ]
