@@ -70,7 +70,6 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
         eventData = calendarApi.getEventById(item.id);
       }
       const color = eventData?.extendedProps?.category === 'Santé' ? '#e3ab9a' : '#44936c';
-      console.log(item.id + classValue)
       removeDraggableEvents.mutate(item.id, {
         onSuccess: () => {
           queryClient.invalidateQueries('dragItems');

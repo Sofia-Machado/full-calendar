@@ -14,21 +14,8 @@ import { useAddEvent, useUpdateEvent } from '../../hooks/eventHook';
 const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateForm, setOpenCreateForm, startDate, setStartDate, endDate, setEndDate}) => {
     const [timeoutFunc, setTimeoutFunc] = useState(null);    
     const [currentError, setCurrentError] = useState(null);
-    
-    const defaultValues = {
-        title: eventInfo?.title || '',
-        extendedProps: {
-            category: eventInfo?.extendedProps?.category || '',
-            mandatory: eventInfo?.extendedProps?.mandatory || false,
-        },
-        color: eventInfo?.color || '',
-        start: dayjs(eventInfo?.start) || dayjs(startDate),
-        end: dayjs(eventInfo?.end) || dayjs(endDate),
-    };
-    console.log('default value ', defaultValues)
 
     const form = useForm({
-        defaultValues,
     });
 
 
@@ -39,6 +26,20 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const { mutate:updateExistingEvent } = useUpdateEvent();
     const queryClient = useQueryClient();
   
+    useEffect(() => {
+        console.log(eventInfo)
+        reset({
+            title: eventInfo?.title || '',
+            extendedProps: {
+              category: eventInfo?.extendedProps?.category || '',
+              mandatory: eventInfo?.extendedProps?.mandatory || false,
+            },
+            color: eventInfo?.color || '',
+            start: eventInfo?.start || startDate,
+            end: eventInfo?.end || endDate,
+          });
+        }, [reset, eventInfo, startDate, endDate]);
+
     /* Close Form */
     const handleCloseCreateForm = () => {
         setOpenCreateForm(false);
@@ -145,12 +146,12 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                             id="create-event-category-select"
                             label="Choose category"
                             placeholder='Choose category'
-                            onChange={onChange}
+                            onChange={(e) => onChange(e.target.value)}
                             value={value}
                             name={name}
                         >
-                             <MenuItem key={'sante'} value={'Santé'} onChange={setValue('color', '#e3ab9a')}>Santé</MenuItem>
-                             <MenuItem key={'vie'} value={'Vie'} onChange={setValue('color', '#44936c')}>Vie</MenuItem>
+                             <MenuItem key='sante' value='Santé' onChange={setValue('color', '#e3ab9a')}>Santé</MenuItem>
+                             <MenuItem key='vie' value='Vie' onChange={setValue('color', '#44936c')}>Vie</MenuItem>
                         
                         </Select>
                     </FormControl>
@@ -174,8 +175,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                             <DateTimePicker
                             label="Start Date"
                             name={name}
-                            value={startDate}
-                            //value={dayjs(startDate)}
+                            value={dayjs(value)}
                             rules={{ required: true }}
                             onChange={(date) => {
                                 clearTimeout(timeoutFunc);
@@ -219,7 +219,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                             <DateTimePicker
                             label="End Date"
                             name={name}
-                            value={endDate}
+                            value={dayjs(value)}
                             //value={dayjs(endDate)}
                             rules={{ required: true }}
                             onChange={(date) => {

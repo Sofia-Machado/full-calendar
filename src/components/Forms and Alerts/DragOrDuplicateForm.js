@@ -21,7 +21,11 @@ export default function DragOrDuplicateForm ({ addNewEvent, eventInfo, oldEventD
  
   const handleReplace = () => {
     if (eventInfo) {
-      updateExistingEvent(eventInfo)
+      updateExistingEvent(eventInfo, {
+        onSuccess: () => {
+          queryClient.invalidateQueries('events');
+        }
+      })
     }
     setOpenDragForm(false)
   }

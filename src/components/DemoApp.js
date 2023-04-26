@@ -118,16 +118,13 @@ export function DemoApp() {
   /* Update/add event on receive */
   const handleEventReceive = (info) => {
     const event = info.event;
-    console.log(event)
     addNewEvent(event, {
       onSuccess: () => {
         queryClient.invalidateQueries('events');
       }});
     let calendarApi = calendar.current.getApi();
     let eventData = calendarApi.getEventById(dragId).toPlainObject();
-    console.log('includes past ', eventData.classNames.includes('waiting-list'))
     if (eventData.classNames.includes('past') || eventData.classNames.includes('waiting-list')) {
-      console.log(eventData)
       updateExistingEvent({
         ...eventData, 
         classNames: 'duplicate',

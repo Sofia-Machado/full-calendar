@@ -51,7 +51,6 @@ const OptionsHeader = ({events, filters, handleOpenCreateForm, handleFilter, set
             sx={{ width: 300 }}
             onChange={(e, value) => {
               setEventInfo(value);
-              console.log(value);
               handleOpenCreateForm()
             }}
             renderInput={(params) => <TextField {...params}

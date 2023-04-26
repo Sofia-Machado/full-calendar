@@ -22,7 +22,6 @@ export default function ClientForm() {
     const [openClientForm, setOpenClientForm] = useState(true);
     const handleCloseClientForm = () => setOpenClientForm(false);
     const id = parseInt(params.id, 10)
-    console.log(id)
     const fetchEvents = () => {
         return axios.get(`http://localhost:8080/events/${id}`)
     }  
