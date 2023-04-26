@@ -76,7 +76,7 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
           queryClient.invalidateQueries('dragItems');
         }
       })
-
+      
       updateExistingEvent({...eventData, classNames: 'duplicate', 
       startEditable: !eventData?.extendedProps?.mandatory,
       durationEditable: !eventData?.extendedProps?.mandatory,
@@ -141,7 +141,7 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
           onClick={() => {
               setPage(prev => prev + 1)
           }}
-          disabled={draggableList.data.length <= 7}
+          disabled={draggableList.data.length < 7}
           >
             <input hidden accept="image/*" type="file" />
             <KeyboardArrowRightRoundedIcon />
