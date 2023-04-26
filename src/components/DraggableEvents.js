@@ -12,9 +12,10 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
   const [page, setPage] = useState(1)
   const [selectedItemId, setSelectedItemId] = useState(null);
   
-  const fecthDraggableItems = () => {
+  const fecthDraggableItems = (page) => {
     return axios.get(`http://localhost:8080/dragItemList?_limit=7&_page=${page}`)
   }
+  
   const { mutate: addDragItem } = useAddDragItem();
   const queryClient = useQueryClient();
   
@@ -24,31 +25,31 @@ const DraggableEvents = ({addNewEvent, events, calendar, removeDraggableEvents, 
     () => fecthDraggableItems(page),{
       keepPreviousData : true})
       
-    useEffect(() => {
-      const now = dayjs();
-      if (draggableList) {
-      events.data.forEach(event => {
-        if (!draggableList.data.some(item => item.id === event.id)) {
-          if (event?.extendedProps?.mandatory && now > event.end) {
-            if (!event?.classNames?.includes('duplicate')) {
-              addDragItem({
-                ...event,
-                classNames: 'past'
-              }, {
-                onSuccess: () => {
-                  queryClient.invalidateQueries('dragItems');
-                }
-              });
-              updateExistingEvent({
-                ...event,
-                classNames: 'waiting-list'
-              })
+      useEffect(() => {
+        const now = dayjs().format();
+        if (draggableList) {
+        events.data.forEach(event => {
+          if (!draggableList.data.some(item => item.id === event.id)) {
+            if (event?.extendedProps?.mandatory && now > event.end) {
+              if (!event?.classNames?.includes('duplicate')) {
+                addDragItem({
+                  ...event,
+                  classNames: 'past'
+                }, {
+                  onSuccess: () => {
+                    queryClient.invalidateQueries('dragItems');
+                  }
+                });
+                updateExistingEvent({
+                  ...event,
+                  classNames: 'waiting-list'
+                })
+              }
             }
           }
-        }
-      })
-    }
-  }, [addDragItem, draggableList, events, queryClient, updateExistingEvent])
+        })
+      }
+    }, [events])
  
   const handleItemClick = (e, item) => {
     e.preventDefault();
