@@ -4,6 +4,7 @@ import { useQuery } from 'react-query';
 import axios from 'axios';
 import { Box, IconButton, Modal, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const style = {
   position: 'absolute',
@@ -23,11 +24,11 @@ export default function ClientForm() {
     const params = useParams()
     const [openClientForm, setOpenClientForm] = useState(true);
     const handleCloseClientForm = () => {
+      setOpenClientForm(false)
       setTimeout(() => {
-        setOpenClientForm(false)
         window.open('', '_self');
         window.close();
-      }, 200)
+      }, 300)
     };
     const id = parseInt(params.id, 10)
     const fetchEvents = () => {
@@ -53,24 +54,31 @@ export default function ClientForm() {
       }
     
     return (
+      <AnimatePresence>
         <Modal
-            open={openClientForm}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
+          component={motion.div}
+          initial={{ x: 300, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: -300, opacity: 0 }}
+          open={openClientForm}
+          key="modal"
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
         >
-            <Box sx={style}>
-              <Box sx={{textAlign: 'right'}}>
-            <IconButton aria-label="close-modal" onClick={handleCloseClientForm} >
-              <CloseIcon />
-            </IconButton>
-              </Box>
+          <Box sx={style}>
+            <Box sx={{textAlign: 'right'}}>
+              <IconButton aria-label="close-modal" onClick={handleCloseClientForm} >
+                <CloseIcon />
+              </IconButton>
+            </Box>
             <Typography id="modal-modal-title" variant="h6" component="h2">
                 Client: {data.data.title}
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                call Log:
+                Call Log:
             </Typography>
-            </Box>
+          </Box>
         </Modal>
+      </AnimatePresence>
     );
 }
