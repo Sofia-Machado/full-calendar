@@ -27,7 +27,6 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
     const queryClient = useQueryClient();
   
     useEffect(() => {
-        console.log(eventInfo)
         reset({
             title: eventInfo?.title || '',
             extendedProps: {
@@ -38,7 +37,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
             start: eventInfo?.start || startDate,
             end: eventInfo?.end || endDate,
           });
-        }, [reset, eventInfo, startDate, endDate]);
+        }, [reset, eventInfo]);
 
     /* Close Form */
     const handleCloseCreateForm = () => {
@@ -62,7 +61,6 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                 })
             } 
             if (e.nativeEvent.submitter.name === 'duplicate') {
-                console.log(eventInfo)
                 updateExistingEvent({
                     id: eventInfo.id,
                     ...data,
@@ -74,6 +72,10 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
                 addNewEvent(calendar.current.calendar.addEvent({
                     id: eventInfo.id + 'duplicate',
                     ...data
+                }, {
+                    onSuccess: () => {
+                        queryClient.invalidateQueries('events')
+                    }
                 }));
                 
             }  
