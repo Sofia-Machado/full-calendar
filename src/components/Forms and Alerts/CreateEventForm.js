@@ -20,7 +20,7 @@ const CreateEventForm = ({ calendar, eventInfo, handleEventRemove, openCreateFor
 
 
     const { register, control, handleSubmit, formState, reset, setValue } = form;
-    const { errors, touchedFields, dirtyFields } = formState;
+    const { errors } = formState;
     
     const { mutate:addNewEvent } = useAddEvent();
     const { mutate:updateExistingEvent } = useUpdateEvent();
