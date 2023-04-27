@@ -238,7 +238,7 @@ export function DemoApp() {
     )
   }
 
-  const now = dayjs();
+  const now = dayjs().format();
   /* Calendar options */
   const options = {
     plugins: [
@@ -254,6 +254,7 @@ export function DemoApp() {
       minute: 'numeric',
       hour12: false
     },
+    defaultTimedEventDuration: '00:15',
     initialView: 'timeGridDay',
     weekends: false,
     slotMinTime: "09:00:00", 
@@ -307,10 +308,10 @@ export function DemoApp() {
       console.log(info)
       setEndDate(dayjs(info.end));
       setStartDate(dayjs(info.start));
-      if (dayjs(info.end).isSameOrBefore(now)) {
+      if (dayjs(info.end).isSameOrBefore(dayjs())) {
         handleOpenAlert();
       } 
-      if (now.isSameOrBefore(dayjs(info.end))) {
+      if (dayjs().isSameOrBefore(dayjs(info.end))) {
         handleOpenCreateForm();
       }
     },
