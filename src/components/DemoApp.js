@@ -244,6 +244,7 @@ export function DemoApp() {
       interactionPlugin 
     ],
     defaultTimedEventDuration: '00:15',
+    forceEventDuration: true,
     allDaySlot: false,
     eventMaxStack: 4,
     dayPopoverFormat:{
