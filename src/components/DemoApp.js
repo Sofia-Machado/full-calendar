@@ -124,7 +124,7 @@ export function DemoApp() {
       }});
     let calendarApi = calendar.current.getApi();
     let eventData = calendarApi.getEventById(dragId).toPlainObject();
-    if (eventData.classNames.includes('past') || eventData.classNames.includes('waiting-list')) {
+    if (eventData?.classNames?.includes('past') || eventData?.classNames?.includes('waiting-list')) {
       updateExistingEvent({
         ...eventData, 
         classNames: 'duplicate',
