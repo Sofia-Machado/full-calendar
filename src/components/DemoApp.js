@@ -124,16 +124,13 @@ export function DemoApp() {
       }});
     let calendarApi = calendar.current.getApi();
     let eventData = calendarApi.getEventById(dragId).toPlainObject();
-    console.log('includes past ', eventData.classNames.includes('waiting-list'))
-    if (eventData.classNames.includes('past') || eventData.classNames.includes('waiting-list')) {
-      console.log(eventData)
+    if (eventData?.classNames?.includes('past') || eventData?.classNames?.includes('waiting-list')) {
       updateExistingEvent({
         ...eventData, 
         classNames: 'duplicate',
         editable: !eventData.extendedProps.mandatory,
         startEditable: !eventData.extendedProps.mandatory,
         durationEditable: !eventData.extendedProps.mandatory,
-        //editable props aren't being added
       }, {
         onSuccess: () => {
         queryClient.invalidateQueries('events');
@@ -246,6 +243,7 @@ export function DemoApp() {
       timeGridPlugin, 
       interactionPlugin 
     ],
+    defaultTimedEventDuration: '00:15',
     allDaySlot: false,
     eventMaxStack: 4,
     dayPopoverFormat:{
@@ -254,7 +252,6 @@ export function DemoApp() {
       minute: 'numeric',
       hour12: false
     },
-    defaultTimedEventDuration: '00:15',
     initialView: 'timeGridDay',
     weekends: false,
     slotMinTime: "09:00:00", 
@@ -305,7 +302,6 @@ export function DemoApp() {
       if (info.start && !info.event) {
         setEventInfo(null);
       }
-      console.log(info)
       setEndDate(dayjs(info.end));
       setStartDate(dayjs(info.start));
       if (dayjs(info.end).isSameOrBefore(dayjs())) {
