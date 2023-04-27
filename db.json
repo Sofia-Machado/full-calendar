@@ -3,8 +3,8 @@
     {
       "allDay": false,
       "title": "Call Julia",
-      "start": "2023-04-26T12:15:00+01:00",
-      "end": "2023-04-26T13:15:00+01:00",
+      "start": "2023-04-27T12:15:00+01:00",
+      "end": "2023-04-27T13:15:00+01:00",
       "id": 1,
       "backgroundColor": "#e3ab9a",
       "borderColor": "#e3ab9a",
@@ -17,8 +17,8 @@
     {
       "allDay": false,
       "title": "Call Sandra",
-      "start": "2023-04-26T11:15:00+01:00",
-      "end": "2023-04-26T11:20:00+01:00",
+      "start": "2023-04-27T11:15:00+01:00",
+      "end": "2023-04-27T11:20:00+01:00",
       "id": 2,
       "backgroundColor": "#e3ab9a",
       "borderColor": "#e3ab9a",
@@ -35,16 +35,16 @@
         "mandatory": true
       },
       "color": "#44936c",
-      "start": "2023-04-26T09:45:00.000Z",
-      "end": "2023-04-26T10:00:00.000Z",
+      "start": "2023-04-27T09:45:00.000Z",
+      "end": "2023-04-27T10:00:00.000Z",
       "id": 4,
       "classNames": "waiting-list"
     },
     {
       "allDay": false,
       "title": "Call Beatriz",
-      "start": "2023-04-26T17:45:00+01:00",
-      "end": "2023-04-26T18:00:00+01:00",
+      "start": "2023-04-27T17:45:00+01:00",
+      "end": "2023-04-27T18:00:00+01:00",
       "id": 5,
       "backgroundColor": "#44936c",
       "borderColor": "#44936c",
@@ -56,8 +56,8 @@
     {
       "allDay": false,
       "title": "Call Ana",
-      "start": "2023-04-26T10:45:00+01:00",
-      "end": "2023-04-26T11:00:00+01:00",
+      "start": "2023-04-27T10:45:00+01:00",
+      "end": "2023-04-27T11:00:00+01:00",
       "id": 6,
       "backgroundColor": "#44936c",
       "borderColor": "#44936c",
@@ -73,8 +73,8 @@
     {
       "allDay": false,
       "title": "Call Adriana",
-      "start": "2023-04-26T10:45:00+01:00",
-      "end": "2023-04-26T11:00:00+01:00",
+      "start": "2023-04-27T10:45:00+01:00",
+      "end": "2023-04-27T11:00:00+01:00",
       "id": 7,
       "backgroundColor": "#e3ab9a",
       "borderColor": "#e3ab9a",
@@ -86,8 +86,8 @@
     {
       "allDay": false,
       "title": "Call Mariana",
-      "start": "2023-04-26T10:45:00+01:00",
-      "end": "2023-04-26T11:00:00+01:00",
+      "start": "2023-04-27T10:45:00+01:00",
+      "end": "2023-04-27T11:00:00+01:00",
       "id": 8,
       "backgroundColor": "#44936c",
       "borderColor": "#44936c",
@@ -99,8 +99,8 @@
     {
       "title": "Call Carlos",
       "id": 9,
-      "start": "2023-04-26T09:00:00+01:00",
-      "end": "2023-04-26T09:15:00+01:00",
+      "start": "2023-04-27T09:00:00+01:00",
+      "end": "2023-04-27T09:15:00+01:00",
       "extendedProps": {
         "category": "Vie",
         "mandatory": true
@@ -112,8 +112,8 @@
     {
       "allDay": false,
       "title": "Call António",
-      "start": "2023-04-26T10:45:00+01:00",
-      "end": "2023-04-26T11:00:00+01:00",
+      "start": "2023-04-27T10:45:00+01:00",
+      "end": "2023-04-27T11:00:00+01:00",
       "id": 10,
       "backgroundColor": "#44936c",
       "borderColor": "#44936c",
@@ -125,8 +125,8 @@
     {
       "allDay": false,
       "title": "Call Francisco",
-      "start": "2023-04-26T09:00:00+01:00",
-      "end": "2023-04-26T09:15:00+01:00",
+      "start": "2023-04-27T09:00:00+01:00",
+      "end": "2023-04-27T09:15:00+01:00",
       "id": 3,
       "backgroundColor": "#44936c",
       "borderColor": "#44936c",
@@ -139,8 +139,8 @@
     {
       "allDay": false,
       "title": "Call Pedro",
-      "start": "2023-04-26T10:45:00+01:00",
-      "end": "2023-04-26T11:00:00+01:00",
+      "start": "2023-04-27T10:45:00+01:00",
+      "end": "2023-04-27T11:00:00+01:00",
       "id": 11,
       "backgroundColor": "#44936c",
       "borderColor": "#44936c",
@@ -152,8 +152,8 @@
     {
       "allDay": false,
       "title": "Call Luís",
-      "start": "2023-04-26T10:45:00+01:00",
-      "end": "2023-04-26T11:00:00+01:00",
+      "start": "2023-04-27T10:45:00+01:00",
+      "end": "2023-04-27T11:00:00+01:00",
       "id": 13,
       "backgroundColor": "#44936c",
       "borderColor": "#44936c",
@@ -178,8 +178,8 @@
     {
       "allDay": false,
       "title": "sdfd",
-      "start": "2023-04-26T17:00:00+01:00",
-      "end": "2023-04-26T17:15:00+01:00",
+      "start": "2023-04-27T17:00:00+01:00",
+      "end": "2023-04-27T17:15:00+01:00",
       "backgroundColor": "#44936c",
       "borderColor": "#44936c",
       "extendedProps": {
@@ -192,8 +192,8 @@
     {
       "allDay": false,
       "title": "Call Ana",
-      "start": "2023-04-26T17:45:00+01:00",
-      "end": "2023-04-26T18:00:00+01:00",
+      "start": "2023-04-27T17:45:00+01:00",
+      "end": "2023-04-27T18:00:00+01:00",
       "id": "6duplicate",
       "backgroundColor": "#44936c",
       "borderColor": "#44936c",
@@ -231,8 +231,8 @@
     {
       "allDay": false,
       "title": "Call Julia",
-      "start": "2023-04-26T12:15:00+01:00",
-      "end": "2023-04-26T13:15:00+01:00",
+      "start": "2023-04-27T12:15:00+01:00",
+      "end": "2023-04-27T13:15:00+01:00",
       "id": 1,
       "backgroundColor": "#e3ab9a",
       "borderColor": "#e3ab9a",
@@ -245,8 +245,8 @@
     {
       "title": "Call Carlos",
       "id": 9,
-      "start": "2023-04-26T09:00:00+01:00",
-      "end": "2023-04-26T09:15:00+01:00",
+      "start": "2023-04-27T09:00:00+01:00",
+      "end": "2023-04-27T09:15:00+01:00",
       "extendedProps": {
         "category": "Vie",
         "mandatory": true
@@ -258,8 +258,8 @@
     {
       "allDay": false,
       "title": "Call Sandra",
-      "start": "2023-04-26T11:15:00+01:00",
-      "end": "2023-04-26T11:20:00+01:00",
+      "start": "2023-04-27T11:15:00+01:00",
+      "end": "2023-04-27T11:20:00+01:00",
       "id": 2,
       "backgroundColor": "#e3ab9a",
       "borderColor": "#e3ab9a",
@@ -272,8 +272,8 @@
     {
       "allDay": false,
       "title": "Call Francisco",
-      "start": "2023-04-26T09:00:00+01:00",
-      "end": "2023-04-26T09:15:00+01:00",
+      "start": "2023-04-27T09:00:00+01:00",
+      "end": "2023-04-27T09:15:00+01:00",
       "id": 3,
       "backgroundColor": "#44936c",
       "borderColor": "#44936c",
@@ -290,16 +290,16 @@
         "mandatory": true
       },
       "color": "#44936c",
-      "start": "2023-04-26T09:45:00.000Z",
-      "end": "2023-04-26T10:00:00.000Z",
+      "start": "2023-04-27T09:45:00.000Z",
+      "end": "2023-04-27T10:00:00.000Z",
       "id": 4,
       "classNames": "past"
     },
     {
       "allDay": false,
       "title": "sdfd",
-      "start": "2023-04-26T17:00:00+01:00",
-      "end": "2023-04-26T17:15:00+01:00",
+      "start": "2023-04-27T17:00:00+01:00",
+      "end": "2023-04-27T17:15:00+01:00",
       "backgroundColor": "#44936c",
       "borderColor": "#44936c",
       "extendedProps": {

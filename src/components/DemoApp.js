@@ -15,7 +15,6 @@ import DragOrDuplicateForm from './Forms and Alerts/DragOrDuplicateForm';
 import DraggableEvents from './DraggableEvents';
 import OptionsHeader from './OptionsHeader';
 import Alert from './Forms and Alerts/AlertPopover';
-import { motion } from 'framer-motion';
 
 /* Fetch and remove functions */
 const fetchEvents = () => {
@@ -101,7 +100,6 @@ export function DemoApp() {
           let classValue = !data?.classNames?.includes('past') ? '' : 'duplicate';
           return {
             ...data,
-
             color,
             id: data.id + classValue,
           };
@@ -126,7 +124,7 @@ export function DemoApp() {
       }});
     let calendarApi = calendar.current.getApi();
     let eventData = calendarApi.getEventById(dragId).toPlainObject();
-    if (eventData.classNames.includes('past') || eventData.classNames.includes('waiting-list')) {
+    if (eventData?.classNames?.includes('past') || eventData?.classNames?.includes('waiting-list')) {
       updateExistingEvent({
         ...eventData, 
         classNames: 'duplicate',
