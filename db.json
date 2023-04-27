@@ -33,10 +33,9 @@
         "mandatory": true
       },
       "color": "#44936c",
-      "start": "2023-04-26T09:45:00.000Z",
-      "end": "2023-04-26T10:00:00.000Z",
-      "id": 4,
-      "classNames": "waiting-list"
+      "start": "2023-04-27T09:45:00.000Z",
+      "end": "2023-04-27T10:00:00.000Z",
+      "id": 4
     },
     {
       "title": "Call Beatriz",
@@ -152,18 +151,6 @@
         "category": "Vie",
         "mandatory": false
       }
-    },
-    {
-      "title": "hjb",
-      "id": 14,
-      "start": "2023-04-27T11:00:00+01:00",
-      "end": "2023-04-27T11:15:00+01:00",
-      "extendedProps": {
-        "category": "Santé",
-        "mandatory": true
-      },
-      "backgroundColor": "#e3ab9a",
-      "borderColor": "#e3ab9a"
     }
   ],
   "dragItemList": [
@@ -190,32 +177,6 @@
         "category": "Vie",
         "mandatory": true
       }
-    },
-    {
-      "title": "Call Zeca",
-      "extendedProps": {
-        "category": "Vie",
-        "mandatory": true
-      },
-      "color": "#44936c",
-      "start": "2023-04-26T09:45:00.000Z",
-      "end": "2023-04-26T10:00:00.000Z",
-      "id": 4,
-      "classNames": "past"
-    },
-    {
-      "allDay": false,
-      "title": "sdfd",
-      "start": "2023-04-26T17:00:00+01:00",
-      "end": "2023-04-26T17:15:00+01:00",
-      "backgroundColor": "#44936c",
-      "borderColor": "#44936c",
-      "extendedProps": {
-        "category": "Santé",
-        "mandatory": true
-      },
-      "id": 15,
-      "classNames": "past"
     }
   ]
 }
